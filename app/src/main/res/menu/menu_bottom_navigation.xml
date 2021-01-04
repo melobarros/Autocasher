@@ -1,22 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:id="@+id/ic_home"
+
+    <item android:id="@+id/ic_abastecimento"
+        android:icon="@drawable/ic_local_gas_station_black_24dp"
+        android:title="Abastecimentos"/>
+
+    <item android:id="@+id/ic_manutencao"
+        android:icon="@drawable/ic_build_black_24dp"
+        android:title="Manutencao"/>
+
+    <item android:id="@+id/ic_historico"
         android:icon="@drawable/ic_list_black_24dp"
         android:title="Historico"/>
 
-    <item android:id="@+id/ic_home"
-        android:icon="@drawable/ic_list_black_24dp"
-        android:title="Gastos"/>
-
-    <item android:id="@+id/ic_home"
-        android:icon="@drawable/ic_list_black_24dp"
-        android:title="Abastecimentos"/>
-
-    <item android:id="@+id/ic_home"
-        android:icon="@drawable/ic_list_black_24dp"
+    <item android:id="@+id/ic_lembrete"
+        android:icon="@drawable/ic_access_alarm_black_24dp"
         android:title="Lembretes"/>
 
-    <item android:id="@+id/ic_home"
-        android:icon="@drawable/ic_list_black_24dp"
-        android:title="Manutencao"/>
+    <item android:id="@+id/ic_gasto"
+        android:icon="@drawable/ic_attach_money_black_24dp"
+        android:title="Gastos"/>
 </menu>
