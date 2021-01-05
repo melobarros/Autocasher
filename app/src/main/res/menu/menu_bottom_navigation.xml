@@ -3,7 +3,7 @@
 
     <item android:id="@+id/ic_abastecimento"
         android:icon="@drawable/ic_local_gas_station_black_24dp"
-        android:title="Abastecimentos"/>
+        android:title="Abastecimento"/>
 
     <item android:id="@+id/ic_manutencao"
         android:icon="@drawable/ic_build_black_24dp"
@@ -15,9 +15,9 @@
 
     <item android:id="@+id/ic_lembrete"
         android:icon="@drawable/ic_access_alarm_black_24dp"
-        android:title="Lembretes"/>
+        android:title="Lembrete"/>
 
     <item android:id="@+id/ic_gasto"
         android:icon="@drawable/ic_attach_money_black_24dp"
-        android:title="Gastos"/>
+        android:title="Gasto"/>
 </menu>

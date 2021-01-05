@@ -21,9 +21,9 @@ public class MainActivity extends AppCompatActivity {
     private void configuraBottomNavigationView(){
         BottomNavigationViewEx bottomNavigationViewEx = findViewById(R.id.bottomNavigation);
 
-        bottomNavigationViewEx.enableAnimation(false);
-        bottomNavigationViewEx.enableItemShiftingMode(false);
-        bottomNavigationViewEx.enableShiftingMode(false);
-        bottomNavigationViewEx.setTextVisibility(false);
+        bottomNavigationViewEx.enableAnimation(true);
+        //bottomNavigationViewEx.enableItemShiftingMode(true);
+        //bottomNavigationViewEx.enableShiftingMode(false);
+        //bottomNavigationViewEx.setTextVisibility(true);
     }
 }
