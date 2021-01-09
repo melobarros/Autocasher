@@ -32,6 +32,8 @@ public class MainActivity extends AppCompatActivity {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.viewPager, new HistoricoFragment()).commit();
+
+        // TO DO
     }
 
     private void configuraBottomNavigationView(){
