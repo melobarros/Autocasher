@@ -34,6 +34,9 @@ public class MainActivity extends AppCompatActivity {
         fragmentTransaction.replace(R.id.viewPager, new HistoricoFragment()).commit();
 
         // TO DO
+        // Fragments - CRUD - 5 tabs
+        // Filtering endpoints
+        // Dashboards
     }
 
     private void configuraBottomNavigationView(){
