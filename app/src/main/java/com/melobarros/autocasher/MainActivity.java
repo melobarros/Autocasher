@@ -33,10 +33,20 @@ public class MainActivity extends AppCompatActivity {
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.viewPager, new HistoricoFragment()).commit();
 
-        // TO DO
-        // Fragments - CRUD - 5 tabs
-        // Filtering endpoints
-        // Dashboards
+        /*
+        - TO DO
+            - Retrofit para buscar/inserir dados
+            - Converter JSON em objetos dos Models
+                    - Exibir objetos na RecyclerView
+                    - Expandir/Diminuir RecyclerView items
+            - Tela para criacao de objeto
+            - Tela para edicao
+            - Botao para deletar
+            - Endpoints para filtrar
+            - Modificar fragment de busca para filtrar
+            - Dashboards
+
+         */
     }
 
     private void configuraBottomNavigationView(){
