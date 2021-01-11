@@ -35,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
 
         /*
         - TO DO
+            - COMECAR POR GASTO
             - Retrofit para buscar/inserir dados
             - Converter JSON em objetos dos Models
                     - Exibir objetos na RecyclerView
