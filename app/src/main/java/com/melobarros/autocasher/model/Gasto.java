@@ -5,6 +5,16 @@ public class Gasto extends Registro {
     private String motivo;
     private float valorTotal;
 
+    private boolean expanded;
+
+    public boolean isExpanded() {
+        return expanded;
+    }
+
+    public void setExpanded(boolean expanded) {
+        this.expanded = expanded;
+    }
+
     public float getOdometro() {
         return odometro;
     }

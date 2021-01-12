@@ -23,7 +23,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="0"
             android:orientation="vertical"
             android:paddingLeft="10dp">
@@ -33,8 +33,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:paddingLeft="10"
                 android:text="Tipo Registro"
-                android:textAlignment="center"
+                android:textAlignment="textStart"
                 android:textAllCaps="true"
                 android:textSize="18sp"
                 android:textStyle="bold" />
@@ -67,6 +68,63 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Data" />
+
+            <LinearLayout
+                android:id="@+id/sub_item"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/motivo_textView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Motivo" />
+
+                    <TextView
+                        android:id="@+id/local_textView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Local" />
+
+                    <TextView
+                        android:id="@+id/odometro_textView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Odometro" />
+
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/edit_imageView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    app:srcCompat="@android:drawable/ic_menu_edit" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/delete_imageView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:layout_weight="0"
+                    app:srcCompat="@android:drawable/ic_menu_delete" />
+
+            </LinearLayout>
 
         </LinearLayout>
 
