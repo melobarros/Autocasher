@@ -41,6 +41,9 @@ public class AdapterGasto extends RecyclerView.Adapter<AdapterGasto.GastoViewHol
         holder.dateTime.setText(gasto.getDateTime());
         holder.observacao.setText(gasto.getObservacao());
         holder.valorTotal.setText(String.valueOf(gasto.getValorTotal()));
+        holder.odometro.setText(String.valueOf(gasto.getOdometro()));
+        holder.motivo.setText(gasto.getMotivo());
+        holder.local.setText(gasto.getLocal());
 
         boolean isExpanded = listaGasto.get(position).isExpanded();
         holder.subItem.setVisibility(isExpanded ? View.VISIBLE : View.GONE);
@@ -73,6 +76,9 @@ public class AdapterGasto extends RecyclerView.Adapter<AdapterGasto.GastoViewHol
             dateTime = itemView.findViewById(R.id.data_textView);
             subItem = itemView.findViewById(R.id.sub_item);
             gastoCard = itemView.findViewById(R.id.gastoCard);
+            local = itemView.findViewById(R.id.local_textView);
+            motivo = itemView.findViewById(R.id.motivo_textView);
+            odometro = itemView.findViewById(R.id.odometro_textView);
 
             gastoCard.setOnClickListener(new View.OnClickListener() {
                 @Override
