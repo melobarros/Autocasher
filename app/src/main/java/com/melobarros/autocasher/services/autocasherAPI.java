@@ -18,90 +18,90 @@ import retrofit2.http.Path;
 
 public interface autocasherAPI {
 
-    public static final String BASE_URL = "https://autocasher.herokuapp.com/api";
+    public static final String BASE_URL = "https://autocasher.herokuapp.com/api/";
 
-    @GET("/registros")
+    @GET("registros")
     Call<List<Registro>> getRegistros();
 
-    @GET("/registro/{id}")
+    @GET("registro/{id}")
     Call<Registro> getRegistroById(@Path("id") int id);
 
-    @POST("/registro")
+    @POST("registro")
     Call<String> insertRegistro(@Body Registro registro);
 
-    @PUT("/registro")
+    @PUT("registro")
     Call<String> updateRegistro(@Body Registro registro);
 
-    @DELETE("/registro")
+    @DELETE("registro")
     Call<String> deleteRegistro(@Body Registro registro);
 
     //------------------------------------------------------
 
-    @GET("/registro/gastos")
+    @GET("registros/gastos")
     Call<List<Gasto>> getGastos();
 
-    @GET("/registro/gasto/{id}")
+    @GET("registro/gasto/{id}")
     Call<Gasto> getGastoById(@Path("id") int id);
 
-    @POST("/registro/gasto")
+    @POST("registro/gasto")
     Call<String> insertGasto(@Body Gasto gasto);
 
-    @PUT("/registro/gasto")
+    @PUT("registro/gasto")
     Call<String> updateGasto(@Body Gasto gasto);
 
-    @DELETE("/registro/gasto")
+    @DELETE("registro/gasto")
     Call<String> deleteGasto(@Body Gasto gasto);
 
 
     //------------------------------------------------------
 
-    @GET("/registro/abastecimentos")
+    @GET("registros/abastecimentos")
     Call<List<Abastecimento>> getAbastecimentos();
 
-    @GET("/registro/abastecimento/{id}")
+    @GET("registro/abastecimento/{id}")
     Call<Abastecimento> getAbastecimentoById(@Path("id") int id);
 
-    @POST("/registro/abastecimento")
+    @POST("registro/abastecimento")
     Call<String> insertAbastecimento(@Body Abastecimento abastecimento);
 
-    @PUT("/registro/abastecimento")
+    @PUT("registro/abastecimento")
     Call<String> updateAbastecimento(@Body Abastecimento abastecimento);
 
-    @DELETE("/registro/abastecimento")
+    @DELETE("registro/abastecimento")
     Call<String> deleteAbastecimento(@Body Abastecimento abastecimento);
 
     //------------------------------------------------------
 
-    @GET("/registro/lembretes")
+    @GET("registros/lembretes")
     Call<List<Lembrete>> getLembretes();
 
-    @GET("/registro/lembrete/{id}")
+    @GET("registro/lembrete/{id}")
     Call<Lembrete> getLembreteById(@Path("id") int id);
 
-    @POST("/registro/lembrete")
+    @POST("registro/lembrete")
     Call<String> insertLembrete(@Body Lembrete lembrete);
 
-    @PUT("/registro/lembrete")
+    @PUT("registro/lembrete")
     Call<String> updateLembrete(@Body Lembrete lembrete);
 
-    @DELETE("/registro/lembrete")
+    @DELETE("registro/lembrete")
     Call<String> deleteLembrete(@Body Lembrete lembrete);
 
     //------------------------------------------------------
 
-    @GET("/registro/manutencoes")
+    @GET("registros/manutencoes")
     Call<List<Manutencao>> getManutencoes();
 
-    @GET("/registro/manutencao/{id}")
+    @GET("registro/manutencao/{id}")
     Call<Manutencao> getManutencaoById(@Path("id") int id);
 
-    @POST("/registro/manutencao")
+    @POST("registro/manutencao")
     Call<String> insertManutencao(@Body Manutencao manutencao);
 
-    @PUT("/registro/manutencao")
+    @PUT("registro/manutencao")
     Call<String> updateManutencao(@Body Manutencao manutencao);
 
-    @DELETE("/registro/manutencao")
+    @DELETE("registro/manutencao")
     Call<String> deleteManutencao(@Body Manutencao manutencao);
 
 }
