@@ -60,24 +60,9 @@ public class GastoFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        /*
         Gson gson = new GsonBuilder()
                 .setLenient()
                 .create();
-        */
-
-        Gson gson = null;
-
-            gson = new GsonBuilder().registerTypeAdapter(LocalDateTime.class, new JsonDeserializer<LocalDateTime>() {
-                @RequiresApi(api = Build.VERSION_CODES.O)
-                @Override
-                public LocalDateTime deserialize(JsonElement json, Type type, JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
-                    Instant instant = null;
-                    instant = Instant.ofEpochMilli(json.getAsJsonPrimitive().getAsLong());
-                    return LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
-                }
-            }).create();
-
 
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor(new HttpLoggingInterceptor.Logger() {
             @Override public void log(String message) {

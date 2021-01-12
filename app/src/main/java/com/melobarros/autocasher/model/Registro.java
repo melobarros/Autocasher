@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 
 public abstract class Registro{
     private long id;
-    private LocalDateTime dateTime;
+    private String dateTime;
     private String observacao;
     private String local;
     private String tipo = this.getClass().getSimpleName();
@@ -18,11 +18,11 @@ public abstract class Registro{
         this.id = id;
     }
 
-    public LocalDateTime getDateTime() {
+    public String getDateTime() {
         return dateTime;
     }
 
-    public void setDateTime(LocalDateTime dateTime) {
+    public void setDateTime(String dateTime) {
         this.dateTime = dateTime;
     }
 
