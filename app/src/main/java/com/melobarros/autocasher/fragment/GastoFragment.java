@@ -6,6 +6,8 @@ import android.os.Bundle;
 
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -21,6 +23,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
 import com.melobarros.autocasher.MainActivity;
 import com.melobarros.autocasher.R;
+import com.melobarros.autocasher.adapter.AdapterGasto;
 import com.melobarros.autocasher.model.Gasto;
 import com.melobarros.autocasher.services.autocasherAPI;
 
@@ -49,6 +52,9 @@ public class GastoFragment extends Fragment {
 
     Retrofit retrofit;
     autocasherAPI autocasherAPI;
+
+    private RecyclerView recyclerGasto;
+    private AdapterGasto adapterGasto;
 
 
     public GastoFragment() {
@@ -82,11 +88,14 @@ public class GastoFragment extends Fragment {
         autocasherAPI = retrofit.create(com.melobarros.autocasher.services.autocasherAPI.class);
 
         Log.d(TAG, "onCreateView: started.");
+        View view = inflater.inflate(R.layout.fragment_gasto, container, false);
 
+        recyclerGasto = view.findViewById(R.id.recyclerGastos);
         initGastos();
 
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_gasto, container, false);
+
+
+        return view;
     }
 
     private void initGastos(){
@@ -110,9 +119,14 @@ public class GastoFragment extends Fragment {
                     Log.d(TAG, "Setting variable list");
                     gastos = response.body();
 
-                    Gasto g = gastos.get(0);
+                    recyclerGasto.setHasFixedSize(true);
+                    recyclerGasto.setLayoutManager(new LinearLayoutManager(getActivity()));
+                    adapterGasto = new AdapterGasto(gastos, getActivity());
+                    recyclerGasto.setAdapter(adapterGasto);
+                    adapterGasto.notifyDataSetChanged();
 
-                    Toast.makeText(getActivity(), String.valueOf(g.getId()), Toast.LENGTH_SHORT).show();
+                    //Gasto g = gastos.get(0);
+                    //Toast.makeText(getActivity(), String.valueOf(gastos.get(0).getId()), Toast.LENGTH_SHORT).show();
                 }
             }
 
