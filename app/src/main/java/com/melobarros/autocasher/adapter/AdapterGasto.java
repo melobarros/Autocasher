@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -28,6 +29,7 @@ public class AdapterGasto extends RecyclerView.Adapter<AdapterGasto.GastoViewHol
     @Override
     public GastoViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemLista = LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_gasto, parent, false);
+
         return new GastoViewHolder(itemLista);
     }
 
@@ -39,6 +41,9 @@ public class AdapterGasto extends RecyclerView.Adapter<AdapterGasto.GastoViewHol
         holder.dateTime.setText(gasto.getDateTime());
         holder.observacao.setText(gasto.getObservacao());
         holder.valorTotal.setText(String.valueOf(gasto.getValorTotal()));
+
+        boolean isExpanded = listaGasto.get(position).isExpanded();
+        holder.subItem.setVisibility(isExpanded ? View.VISIBLE : View.GONE);
     }
 
     @Override
@@ -55,6 +60,8 @@ public class AdapterGasto extends RecyclerView.Adapter<AdapterGasto.GastoViewHol
         TextView tipo;
         TextView id;
         TextView odometro;
+        LinearLayout subItem;
+        LinearLayout gastoCard;
 
 
         public GastoViewHolder(@NonNull View itemView) {
@@ -64,6 +71,17 @@ public class AdapterGasto extends RecyclerView.Adapter<AdapterGasto.GastoViewHol
             valorTotal = itemView.findViewById(R.id.valor_textView);
             tipo = itemView.findViewById(R.id.tipoRegistro_textView);
             dateTime = itemView.findViewById(R.id.data_textView);
+            subItem = itemView.findViewById(R.id.sub_item);
+            gastoCard = itemView.findViewById(R.id.gastoCard);
+
+            gastoCard.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Gasto gasto = listaGasto.get(getAdapterPosition());
+                    gasto.setExpanded(!gasto.isExpanded());
+                    notifyItemChanged(getAdapterPosition());
+                }
+            });
         }
     }
 }

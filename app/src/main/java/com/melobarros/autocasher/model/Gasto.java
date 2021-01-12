@@ -4,8 +4,14 @@ public class Gasto extends Registro {
     private float odometro;
     private String motivo;
     private float valorTotal;
-
     private boolean expanded;
+
+    public Gasto(float odometro, String motivo, float valorTotal) {
+        this.odometro = odometro;
+        this.motivo = motivo;
+        this.valorTotal = valorTotal;
+        this.expanded = false;
+    }
 
     public boolean isExpanded() {
         return expanded;

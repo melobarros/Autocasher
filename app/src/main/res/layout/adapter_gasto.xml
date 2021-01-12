@@ -10,6 +10,7 @@
     android:paddingBottom="8dp">
 
     <LinearLayout
+        android:id="@+id/gastoCard"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal">
@@ -33,7 +34,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:paddingLeft="10"
+                android:paddingLeft="10dp"
                 android:text="Tipo Registro"
                 android:textAlignment="textStart"
                 android:textAllCaps="true"
