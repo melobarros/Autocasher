@@ -1,7 +1,13 @@
 package com.melobarros.autocasher.model;
 
-import java.time.LocalDateTime;
+import android.os.Build;
 
+import androidx.annotation.RequiresApi;
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
+@RequiresApi(api = Build.VERSION_CODES.O)
 public abstract class Registro{
     private long id;
     private String dateTime;
@@ -9,6 +15,10 @@ public abstract class Registro{
     private String local;
     private String tipo = this.getClass().getSimpleName();
 
+
+    public LocalDateTime getLocalDateTime() {
+        return LocalDateTime.parse(this.dateTime);
+    }
 
     public long getId() {
         return id;

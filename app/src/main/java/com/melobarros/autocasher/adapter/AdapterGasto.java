@@ -1,6 +1,7 @@
 package com.melobarros.autocasher.adapter;
 
 import android.content.Context;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,17 +9,22 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.melobarros.autocasher.R;
 import com.melobarros.autocasher.model.Gasto;
 
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
+@RequiresApi(api = Build.VERSION_CODES.O)
 public class AdapterGasto extends RecyclerView.Adapter<AdapterGasto.GastoViewHolder> {
 
     private List<Gasto> listaGasto;
     private Context context;
+
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
 
     public AdapterGasto(List<Gasto> l, Context c) {
         this.listaGasto = l;
@@ -33,12 +39,17 @@ public class AdapterGasto extends RecyclerView.Adapter<AdapterGasto.GastoViewHol
         return new GastoViewHolder(itemLista);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onBindViewHolder(@NonNull GastoViewHolder holder, int position) {
         Gasto gasto = listaGasto.get(position);
 
         holder.tipo.setText(gasto.getTipo());
-        holder.dateTime.setText(gasto.getDateTime());
+        //holder.dateTime.setText(gasto.getDateTime());
+
+        holder.dateTime.setText(gasto.getLocalDateTime().format(formatter));
+
+
         holder.observacao.setText(gasto.getObservacao());
         holder.valorTotal.setText(String.valueOf(gasto.getValorTotal()));
         holder.odometro.setText(String.valueOf(gasto.getOdometro()));
