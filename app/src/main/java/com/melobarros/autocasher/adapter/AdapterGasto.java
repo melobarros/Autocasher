@@ -24,7 +24,7 @@ public class AdapterGasto extends RecyclerView.Adapter<AdapterGasto.GastoViewHol
     private List<Gasto> listaGasto;
     private Context context;
 
-    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MMM/yyyy HH:mm:ss");
 
     public AdapterGasto(List<Gasto> l, Context c) {
         this.listaGasto = l;
