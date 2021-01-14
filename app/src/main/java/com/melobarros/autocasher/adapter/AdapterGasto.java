@@ -5,8 +5,10 @@ import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -45,11 +47,7 @@ public class AdapterGasto extends RecyclerView.Adapter<AdapterGasto.GastoViewHol
         Gasto gasto = listaGasto.get(position);
 
         holder.tipo.setText(gasto.getTipo());
-        //holder.dateTime.setText(gasto.getDateTime());
-
         holder.dateTime.setText(gasto.getLocalDateTime().format(formatter));
-
-
         holder.observacao.setText(gasto.getObservacao());
         holder.valorTotal.setText(String.valueOf(gasto.getValorTotal()));
         holder.odometro.setText(String.valueOf(gasto.getOdometro()));
@@ -58,6 +56,20 @@ public class AdapterGasto extends RecyclerView.Adapter<AdapterGasto.GastoViewHol
 
         boolean isExpanded = listaGasto.get(position).isExpanded();
         holder.subItem.setVisibility(isExpanded ? View.VISIBLE : View.GONE);
+
+        holder.btn_delete.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                Toast.makeText(context, "Delete Clicked!", Toast.LENGTH_LONG).show();
+            }
+        });
+
+        holder.btn_edit.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                Toast.makeText(context, "Edit Clicked!", Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
     @Override
@@ -76,6 +88,8 @@ public class AdapterGasto extends RecyclerView.Adapter<AdapterGasto.GastoViewHol
         TextView odometro;
         LinearLayout subItem;
         LinearLayout gastoCard;
+        ImageButton btn_edit;
+        ImageButton btn_delete;
 
 
         public GastoViewHolder(@NonNull View itemView) {
@@ -90,6 +104,8 @@ public class AdapterGasto extends RecyclerView.Adapter<AdapterGasto.GastoViewHol
             local = itemView.findViewById(R.id.local_textView);
             motivo = itemView.findViewById(R.id.motivo_textView);
             odometro = itemView.findViewById(R.id.odometro_textView);
+            btn_edit = itemView.findViewById(R.id.edit_imageView);
+            btn_delete = itemView.findViewById(R.id.delete_imageView);
 
             gastoCard.setOnClickListener(new View.OnClickListener() {
                 @Override
