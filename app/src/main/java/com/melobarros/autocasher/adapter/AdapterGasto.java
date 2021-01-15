@@ -1,6 +1,7 @@
 package com.melobarros.autocasher.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +16,7 @@ import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.melobarros.autocasher.R;
+import com.melobarros.autocasher.activity.EditarGastoActivity;
 import com.melobarros.autocasher.model.Gasto;
 
 import java.time.format.DateTimeFormatter;
@@ -57,6 +59,7 @@ public class AdapterGasto extends RecyclerView.Adapter<AdapterGasto.GastoViewHol
         boolean isExpanded = listaGasto.get(position).isExpanded();
         holder.subItem.setVisibility(isExpanded ? View.VISIBLE : View.GONE);
 
+        /*
         holder.btn_delete.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
@@ -68,8 +71,11 @@ public class AdapterGasto extends RecyclerView.Adapter<AdapterGasto.GastoViewHol
             @Override
             public void onClick(View v){
                 Toast.makeText(context, "Edit Clicked!", Toast.LENGTH_LONG).show();
+                //Intent i = new Intent(context., EditarGastoActivity.class);
+
             }
         });
+        */
     }
 
     @Override
@@ -113,6 +119,22 @@ public class AdapterGasto extends RecyclerView.Adapter<AdapterGasto.GastoViewHol
                     Gasto gasto = listaGasto.get(getAdapterPosition());
                     gasto.setExpanded(!gasto.isExpanded());
                     notifyItemChanged(getAdapterPosition());
+                }
+            });
+
+            btn_delete.setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View v){
+                    Toast.makeText(context, "Delete Clicked!", Toast.LENGTH_LONG).show();
+                }
+            });
+
+            btn_edit.setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View v){
+                    Toast.makeText(context, "Edit Clicked!", Toast.LENGTH_LONG).show();
+                    Intent i = new Intent(v.getContext(), EditarGastoActivity.class);
+                    v.getContext().startActivity(i);
                 }
             });
         }
