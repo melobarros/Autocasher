@@ -25,5 +25,8 @@ public class EditarGastoActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         //to do - fields, connect api
+        // 4 other screens
+        // dashboards
+        // maybe filtering
     }
 }
