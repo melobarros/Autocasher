@@ -23,5 +23,7 @@ public class EditarGastoActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        //to do - fields, connect api
     }
 }
