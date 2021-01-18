@@ -7,6 +7,7 @@ import androidx.appcompat.widget.Toolbar;
 import android.annotation.SuppressLint;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -47,6 +48,13 @@ public class EditarGastoActivity extends AppCompatActivity {
         infoAdicionalGasto.setText(gasto.getMotivo());
         odometroGasto.setText(String.valueOf(gasto.getOdometro()));
 
+        btnDescartar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
         //to do - fields, connect api
         // 4 other screens
         // dashboards
@@ -60,5 +68,7 @@ public class EditarGastoActivity extends AppCompatActivity {
         localGasto = findViewById(R.id.localGasto_input);
         infoAdicionalGasto = findViewById(R.id.infoAdicionalGasto_input);
         odometroGasto = findViewById(R.id.odometro_input);
+        btnDescartar = findViewById(R.id.descartarGasto_button);
+        btnSalvar = findViewById(R.id.salvarGasto_button);
     }
 }
