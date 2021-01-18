@@ -1,8 +1,9 @@
 package com.melobarros.autocasher.model;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
-public class Gasto extends Registro {
+public class Gasto extends Registro implements Serializable {
     private float odometro;
     private String motivo;
     private float valorTotal;

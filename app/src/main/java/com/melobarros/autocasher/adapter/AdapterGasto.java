@@ -46,7 +46,7 @@ public class AdapterGasto extends RecyclerView.Adapter<AdapterGasto.GastoViewHol
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onBindViewHolder(@NonNull GastoViewHolder holder, int position) {
-        Gasto gasto = listaGasto.get(position);
+        final Gasto gasto = listaGasto.get(position);
 
         holder.tipo.setText(gasto.getTipo());
         holder.dateTime.setText(gasto.getLocalDateTime().format(formatter));
@@ -59,7 +59,6 @@ public class AdapterGasto extends RecyclerView.Adapter<AdapterGasto.GastoViewHol
         boolean isExpanded = listaGasto.get(position).isExpanded();
         holder.subItem.setVisibility(isExpanded ? View.VISIBLE : View.GONE);
 
-        /*
         holder.btn_delete.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
@@ -70,12 +69,12 @@ public class AdapterGasto extends RecyclerView.Adapter<AdapterGasto.GastoViewHol
         holder.btn_edit.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-                Toast.makeText(context, "Edit Clicked!", Toast.LENGTH_LONG).show();
-                //Intent i = new Intent(context., EditarGastoActivity.class);
-
+                Intent i = new Intent(v.getContext(), EditarGastoActivity.class);
+                //Toast.makeText(context, "Observacao: " + gasto.getObservacao(), Toast.LENGTH_LONG).show();
+                i.putExtra("Gasto", gasto);
+                v.getContext().startActivity(i);
             }
         });
-        */
     }
 
     @Override
@@ -122,21 +121,7 @@ public class AdapterGasto extends RecyclerView.Adapter<AdapterGasto.GastoViewHol
                 }
             });
 
-            btn_delete.setOnClickListener(new View.OnClickListener(){
-                @Override
-                public void onClick(View v){
-                    Toast.makeText(context, "Delete Clicked!", Toast.LENGTH_LONG).show();
-                }
-            });
 
-            btn_edit.setOnClickListener(new View.OnClickListener(){
-                @Override
-                public void onClick(View v){
-                    Toast.makeText(context, "Edit Clicked!", Toast.LENGTH_LONG).show();
-                    Intent i = new Intent(v.getContext(), EditarGastoActivity.class);
-                    v.getContext().startActivity(i);
-                }
-            });
         }
     }
 }
