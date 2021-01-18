@@ -4,11 +4,12 @@ import android.os.Build;
 
 import androidx.annotation.RequiresApi;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 @RequiresApi(api = Build.VERSION_CODES.O)
-public abstract class Registro{
+public abstract class Registro implements Serializable {
     private long id;
     private String dateTime;
     private String observacao;

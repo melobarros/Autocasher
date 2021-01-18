@@ -38,6 +38,7 @@ public class EditarGastoActivity extends AppCompatActivity {
         initComponentes();
 
         Gasto gasto = (Gasto)getIntent().getSerializableExtra("Gasto");
+
         tipoGasto.setText(gasto.getObservacao());
         //Toast.makeText(getApplicationContext(), "Observacao: " + gasto.getObservacao(), Toast.LENGTH_LONG).show();
         valorGasto.setText(String.valueOf(gasto.getValorTotal()));
