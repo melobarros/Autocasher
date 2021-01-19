@@ -27,6 +27,7 @@ import com.melobarros.autocasher.model.Gasto;
 import com.melobarros.autocasher.services.autocasherAPI;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
@@ -146,7 +147,7 @@ public class EditarGastoActivity extends AppCompatActivity implements DatePicker
 
     private void updateGasto(){
         Gasto g = (Gasto)getIntent().getSerializableExtra("Gasto");
-        LocalDateTime dt = LocalDateTime.parse(dataGasto.getText().toString(), formatter);
+        LocalDateTime dt = LocalDate.parse(dataGasto.getText().toString(), formatter).atStartOfDay();
 
         g.setObservacao(tipoGasto.getText().toString());
         g.setValorTotal(Float.valueOf(valorGasto.getText().toString()));
@@ -154,6 +155,7 @@ public class EditarGastoActivity extends AppCompatActivity implements DatePicker
         g.setLocal(localGasto.getText().toString());
         g.setMotivo(infoAdicionalGasto.getText().toString());
         g.setOdometro(Float.valueOf(odometroGasto.getText().toString()));
+        g.setTipo("gasto");
 
         Call<String> requestUpdate = autocasherAPI.updateGasto(g);
 
@@ -164,6 +166,8 @@ public class EditarGastoActivity extends AppCompatActivity implements DatePicker
                     Log.e(TAG, "Erro: " + response.code());
                     return;
                 } else{
+                    Toast.makeText(EditarGastoActivity.this, "Toast",Toast.LENGTH_SHORT).show();
+
                     if (response.body().equals("OK")) {
                         Toast.makeText(EditarGastoActivity.this, "GASTO ATUALIZADO COM SUCESSO",Toast.LENGTH_SHORT).show();
                     } else{
