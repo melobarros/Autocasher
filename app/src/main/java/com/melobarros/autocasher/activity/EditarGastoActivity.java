@@ -10,6 +10,7 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -18,20 +19,37 @@ import android.widget.Toast;
 
 
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.melobarros.autocasher.R;
 import com.melobarros.autocasher.fragment.DatePickerFragment;
 import com.melobarros.autocasher.model.Gasto;
+import com.melobarros.autocasher.services.autocasherAPI;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
+import java.util.List;
+
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 @RequiresApi(api = Build.VERSION_CODES.O)
 public class EditarGastoActivity extends AppCompatActivity implements DatePickerFragment.TheListener{
+    private static final String TAG = "EditarGastoActivity";
 
     public TextInputEditText tipoGasto, valorGasto, dataGasto, localGasto, infoAdicionalGasto, odometroGasto;
     public Button btnSalvar, btnDescartar;
     public ImageButton btnDataPicker;
+
+    Retrofit retrofit;
+    autocasherAPI autocasherAPI;
 
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MMM/yyyy");
 
@@ -42,6 +60,29 @@ public class EditarGastoActivity extends AppCompatActivity implements DatePicker
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_editar_gasto);
+
+
+        Gson gson = new GsonBuilder()
+                .setLenient()
+                .create();
+
+        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor(new HttpLoggingInterceptor.Logger() {
+            @Override public void log(String message) {
+                Log.d(TAG, "OkHttp: " + message);
+            }
+        });
+        interceptor.level(HttpLoggingInterceptor.Level.BODY);
+        OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptor).build();
+
+
+        retrofit = new Retrofit.Builder()
+                .baseUrl(autocasherAPI.BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .client(client)
+                .build();
+
+
+        autocasherAPI = retrofit.create(com.melobarros.autocasher.services.autocasherAPI.class);
 
         Toolbar toolbar = findViewById(R.id.EditarGasto_toolbar);
         toolbar.setTitle("Editar Gasto");
@@ -72,7 +113,7 @@ public class EditarGastoActivity extends AppCompatActivity implements DatePicker
         btnSalvar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TO DO
+                updateGasto();
             }
         });
     }
@@ -101,5 +142,42 @@ public class EditarGastoActivity extends AppCompatActivity implements DatePicker
     @Override
     public void returnDate(String date) {
         dataGasto.setText(date);
+    }
+
+    private void updateGasto(){
+        Gasto g = (Gasto)getIntent().getSerializableExtra("Gasto");
+        LocalDateTime dt = LocalDateTime.parse(dataGasto.getText().toString(), formatter);
+
+        g.setObservacao(tipoGasto.getText().toString());
+        g.setValorTotal(Float.valueOf(valorGasto.getText().toString()));
+        g.setDateTime(dt.toString());
+        g.setLocal(localGasto.getText().toString());
+        g.setMotivo(infoAdicionalGasto.getText().toString());
+        g.setOdometro(Float.valueOf(odometroGasto.getText().toString()));
+
+        Call<String> requestUpdate = autocasherAPI.updateGasto(g);
+
+        requestUpdate.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                if(!response.isSuccessful()){
+                    Log.e(TAG, "Erro: " + response.code());
+                    return;
+                } else{
+                    if (response.body().equals("OK")) {
+                        Toast.makeText(EditarGastoActivity.this, "GASTO ATUALIZADO COM SUCESSO",Toast.LENGTH_SHORT).show();
+                    } else{
+                        Toast.makeText(EditarGastoActivity.this, "FALHA AO ATUALIZAR GASTO",Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                Log.e(TAG, "Erro Failure: " + t.getMessage());
+            }
+        });
+
+        //finish();
     }
 }
