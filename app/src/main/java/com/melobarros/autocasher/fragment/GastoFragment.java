@@ -26,6 +26,7 @@ import com.melobarros.autocasher.R;
 import com.melobarros.autocasher.adapter.AdapterGasto;
 import com.melobarros.autocasher.model.Gasto;
 import com.melobarros.autocasher.services.autocasherAPI;
+import com.melobarros.autocasher.utils.SpacingDecorator_Gasto;
 
 import java.lang.reflect.Type;
 import java.time.Instant;
@@ -115,6 +116,7 @@ public class GastoFragment extends Fragment {
         Call<List<Gasto>> requestGastos = autocasherAPI.getGastos();
         requestGastos.enqueue(new Callback<List<Gasto>>(){
 
+            @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onResponse(Call<List<Gasto>> call, Response<List<Gasto>> response) {
                 if(!response.isSuccessful()){
@@ -132,6 +134,8 @@ public class GastoFragment extends Fragment {
 
                     recyclerGasto.setHasFixedSize(true);
                     recyclerGasto.setLayoutManager(new LinearLayoutManager(getActivity()));
+                    SpacingDecorator_Gasto decorator_gasto = new SpacingDecorator_Gasto(5);
+                    recyclerGasto.addItemDecoration(decorator_gasto);
                     adapterGasto = new AdapterGasto(gastos, getActivity());
                     recyclerGasto.setAdapter(adapterGasto);
                     adapterGasto.notifyDataSetChanged();

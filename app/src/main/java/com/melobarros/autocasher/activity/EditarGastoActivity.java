@@ -134,6 +134,7 @@ public class EditarGastoActivity extends AppCompatActivity implements DatePicker
         tipoGasto = findViewById(R.id.tipoGasto_input);
         valorGasto = findViewById(R.id.valorGasto_input);
         dataGasto = findViewById(R.id.dataGasto_input);
+        dataGasto.setFocusable(false);
         localGasto = findViewById(R.id.localGasto_input);
         infoAdicionalGasto = findViewById(R.id.infoAdicionalGasto_input);
         odometroGasto = findViewById(R.id.odometro_input);
