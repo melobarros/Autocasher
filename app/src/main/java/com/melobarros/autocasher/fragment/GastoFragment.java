@@ -134,8 +134,8 @@ public class GastoFragment extends Fragment {
 
                     recyclerGasto.setHasFixedSize(true);
                     recyclerGasto.setLayoutManager(new LinearLayoutManager(getActivity()));
-                    SpacingDecorator_Gasto decorator_gasto = new SpacingDecorator_Gasto(5);
-                    recyclerGasto.addItemDecoration(decorator_gasto);
+                    //SpacingDecorator_Gasto decorator_gasto = new SpacingDecorator_Gasto(1);
+                    //recyclerGasto.addItemDecoration(decorator_gasto);
                     adapterGasto = new AdapterGasto(gastos, getActivity());
                     recyclerGasto.setAdapter(adapterGasto);
                     adapterGasto.notifyDataSetChanged();

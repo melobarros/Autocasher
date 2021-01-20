@@ -6,8 +6,8 @@
     android:orientation="vertical"
     android:paddingLeft="16dp"
     android:paddingTop="8dp"
-    android:paddingRight="16dp"
-    android:paddingBottom="8dp">
+    android:paddingRight="16dp">
+
 
     <LinearLayout
         android:id="@+id/gastoCard"
@@ -65,7 +65,9 @@
                     android:layout_weight="1"
                     android:gravity="right"
                     android:paddingRight="10dp"
-                    android:text="Valor" />
+                    android:text="Valor"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
             </LinearLayout>
 
             <TextView
