@@ -61,6 +61,17 @@ public class GastoFragment extends Fragment {
         // Required empty public constructor
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        adapterGasto = new AdapterGasto(gastos, getActivity());
+        recyclerGasto.setAdapter(adapterGasto);
+
+        initGastos();
+        adapterGasto.notifyDataSetChanged();
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -124,9 +135,6 @@ public class GastoFragment extends Fragment {
                     adapterGasto = new AdapterGasto(gastos, getActivity());
                     recyclerGasto.setAdapter(adapterGasto);
                     adapterGasto.notifyDataSetChanged();
-
-                    //Gasto g = gastos.get(0);
-                    //Toast.makeText(getActivity(), String.valueOf(gastos.get(0).getId()), Toast.LENGTH_SHORT).show();
                 }
             }
 

@@ -47,7 +47,7 @@ public interface autocasherAPI {
     Call<String> insertGasto(@Body Gasto gasto);
 
     @PUT("registro/gasto")
-    Call<String> updateGasto(@Body Gasto gasto);
+    Call<Gasto> updateGasto(@Body Gasto gasto);
 
     @DELETE("registro/gasto")
     Call<String> deleteGasto(@Body Gasto gasto);

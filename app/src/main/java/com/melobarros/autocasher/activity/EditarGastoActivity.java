@@ -8,6 +8,7 @@ import androidx.fragment.app.DialogFragment;
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -114,7 +115,8 @@ public class EditarGastoActivity extends AppCompatActivity implements DatePicker
         btnSalvar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                updateGasto();
+                updateGasto(EditarGastoActivity.this);
+
             }
         });
     }
@@ -145,8 +147,8 @@ public class EditarGastoActivity extends AppCompatActivity implements DatePicker
         dataGasto.setText(date);
     }
 
-    private void updateGasto(){
-        Gasto g = (Gasto)getIntent().getSerializableExtra("Gasto");
+    private void updateGasto(final Context c){
+        final Gasto g = (Gasto)getIntent().getSerializableExtra("Gasto");
         LocalDateTime dt = LocalDate.parse(dataGasto.getText().toString(), formatter).atStartOfDay();
 
         g.setObservacao(tipoGasto.getText().toString());
@@ -157,27 +159,27 @@ public class EditarGastoActivity extends AppCompatActivity implements DatePicker
         g.setOdometro(Float.valueOf(odometroGasto.getText().toString()));
         g.setTipo("gasto");
 
-        Call<String> requestUpdate = autocasherAPI.updateGasto(g);
+        Call<Gasto> requestUpdate = autocasherAPI.updateGasto(g);
 
-        requestUpdate.enqueue(new Callback<String>() {
+        requestUpdate.enqueue(new Callback<Gasto>() {
             @Override
-            public void onResponse(Call<String> call, Response<String> response) {
+            public void onResponse(Call<Gasto> call, Response<Gasto> response) {
                 if(!response.isSuccessful()){
                     Log.e(TAG, "Erro: " + response.code());
                     return;
                 } else{
-                    Toast.makeText(EditarGastoActivity.this, "Toast",Toast.LENGTH_SHORT).show();
-
-                    if (response.body().equals("OK")) {
-                        Toast.makeText(EditarGastoActivity.this, "GASTO ATUALIZADO COM SUCESSO",Toast.LENGTH_SHORT).show();
+                    if (g.getId() == response.body().getId()) {
+                        Toast.makeText(c, "GASTO ATUALIZADO COM SUCESSO",Toast.LENGTH_SHORT).show();
+                        finish();
                     } else{
-                        Toast.makeText(EditarGastoActivity.this, "FALHA AO ATUALIZAR GASTO",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(c, "FALHA AO ATUALIZAR GASTO",Toast.LENGTH_SHORT).show();
+                        finish();
                     }
                 }
             }
 
             @Override
-            public void onFailure(Call<String> call, Throwable t) {
+            public void onFailure(Call<Gasto> call, Throwable t) {
                 Log.e(TAG, "Erro Failure: " + t.getMessage());
             }
         });
