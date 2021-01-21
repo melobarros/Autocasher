@@ -44,7 +44,7 @@ public interface autocasherAPI {
     Call<Gasto> getGastoById(@Path("id") int id);
 
     @POST("registro/gasto")
-    Call<String> insertGasto(@Body Gasto gasto);
+    Call<Gasto> insertGasto(@Body Gasto gasto);
 
     @PUT("registro/gasto")
     Call<Gasto> updateGasto(@Body Gasto gasto);

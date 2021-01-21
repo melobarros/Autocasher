@@ -18,6 +18,10 @@ public class Gasto extends Registro implements Serializable {
         this.expanded = false;
     }
 
+    public Gasto(){
+
+    }
+
     public boolean isExpanded() {
         return expanded;
     }

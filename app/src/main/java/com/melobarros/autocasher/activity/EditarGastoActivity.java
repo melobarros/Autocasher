@@ -95,7 +95,10 @@ public class EditarGastoActivity extends AppCompatActivity implements DatePicker
 
         initComponentes();
         Gasto gasto = (Gasto)getIntent().getSerializableExtra("Gasto");
-        setTexts(gasto);
+        final Gasto g = gasto;
+
+        if(gasto != null){ setTexts(gasto); }
+
 
         btnDataPicker.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -115,7 +118,13 @@ public class EditarGastoActivity extends AppCompatActivity implements DatePicker
         btnSalvar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                updateGasto(EditarGastoActivity.this);
+
+                if(g != null){
+                    updateGasto(EditarGastoActivity.this);
+                } else{
+                    createGasto(EditarGastoActivity.this);
+                }
+
 
             }
         });
@@ -146,6 +155,45 @@ public class EditarGastoActivity extends AppCompatActivity implements DatePicker
     @Override
     public void returnDate(String date) {
         dataGasto.setText(date);
+    }
+
+    private void createGasto(final Context c){
+        final Gasto g = new Gasto();
+        LocalDateTime dt = LocalDate.parse(dataGasto.getText().toString(), formatter).atStartOfDay();
+
+        g.setObservacao(tipoGasto.getText().toString());
+        g.setValorTotal(Float.valueOf(valorGasto.getText().toString()));
+        g.setDateTime(dt.toString());
+        g.setLocal(localGasto.getText().toString());
+        g.setMotivo(infoAdicionalGasto.getText().toString());
+        g.setOdometro(Float.valueOf(odometroGasto.getText().toString()));
+        g.setTipo("gasto");
+
+        Call<Gasto> requestInsert = autocasherAPI.insertGasto(g);
+
+        requestInsert.enqueue(new Callback<Gasto>() {
+            @Override
+            public void onResponse(Call<Gasto> call, Response<Gasto> response) {
+                if(!response.isSuccessful()){
+                    Log.e(TAG, "Erro: " + response.code());
+                    finish();
+                    return;
+                } else{
+                    if (g.getId() == response.body().getId()) {
+                        Toast.makeText(c, "GASTO INSERIDO COM SUCESSO",Toast.LENGTH_SHORT).show();
+                        finish();
+                    } else{
+                        Toast.makeText(c, "FALHA AO INSERIR GASTO",Toast.LENGTH_SHORT).show();
+                        finish();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Gasto> call, Throwable t) {
+                Log.e(TAG, "Erro Failure: " + t.getMessage());
+            }
+        });
     }
 
     private void updateGasto(final Context c){
@@ -184,7 +232,5 @@ public class EditarGastoActivity extends AppCompatActivity implements DatePicker
                 Log.e(TAG, "Erro Failure: " + t.getMessage());
             }
         });
-
-        //finish();
     }
 }

@@ -1,6 +1,7 @@
 package com.melobarros.autocasher.fragment;
 
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -15,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonDeserializationContext;
@@ -23,6 +25,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
 import com.melobarros.autocasher.MainActivity;
 import com.melobarros.autocasher.R;
+import com.melobarros.autocasher.activity.EditarGastoActivity;
 import com.melobarros.autocasher.adapter.AdapterGasto;
 import com.melobarros.autocasher.model.Gasto;
 import com.melobarros.autocasher.services.autocasherAPI;
@@ -56,6 +59,7 @@ public class GastoFragment extends Fragment {
 
     private RecyclerView recyclerGasto;
     private AdapterGasto adapterGasto;
+    public FloatingActionButton fab;
 
 
     public GastoFragment() {
@@ -103,9 +107,20 @@ public class GastoFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_gasto, container, false);
 
         recyclerGasto = view.findViewById(R.id.recyclerGastos);
+        fab = view.findViewById(R.id.novoGasto_FAB);
         initGastos();
 
 
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Gasto gasto = null;
+
+                Intent i = new Intent(v.getContext(), EditarGastoActivity.class);
+                i.putExtra("Gasto", gasto);
+                v.getContext().startActivity(i);
+            }
+        });
 
         return view;
     }
