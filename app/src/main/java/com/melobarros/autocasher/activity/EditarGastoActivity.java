@@ -97,7 +97,11 @@ public class EditarGastoActivity extends AppCompatActivity implements DatePicker
         Gasto gasto = (Gasto)getIntent().getSerializableExtra("Gasto");
         final Gasto g = gasto;
 
-        if(gasto != null){ setTexts(gasto); }
+        if(gasto != null){
+            setTexts(gasto);
+        } else{
+            setInitNumbers();
+        }
 
 
         btnDataPicker.setOnClickListener(new View.OnClickListener() {
@@ -137,6 +141,12 @@ public class EditarGastoActivity extends AppCompatActivity implements DatePicker
         localGasto.setText(gasto.getLocal());
         infoAdicionalGasto.setText(gasto.getMotivo());
         odometroGasto.setText(String.valueOf(gasto.getOdometro()));
+    }
+
+    public void setInitNumbers(){
+        valorGasto.setText("0.0");
+        dataGasto.setText(LocalDateTime.now().format(formatter));
+        odometroGasto.setText("0.0");
     }
 
     public void initComponentes(){
@@ -179,7 +189,7 @@ public class EditarGastoActivity extends AppCompatActivity implements DatePicker
                     finish();
                     return;
                 } else{
-                    if (g.getId() == response.body().getId()) {
+                    if (response.body().getId() > 0) {
                         Toast.makeText(c, "GASTO INSERIDO COM SUCESSO",Toast.LENGTH_SHORT).show();
                         finish();
                     } else{
