@@ -12,6 +12,7 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
+import retrofit2.http.HTTP;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
@@ -49,8 +50,8 @@ public interface autocasherAPI {
     @PUT("registro/gasto")
     Call<Gasto> updateGasto(@Body Gasto gasto);
 
-    @DELETE("registro/gasto")
-    Call<String> deleteGasto(@Body Gasto gasto);
+    @HTTP(method = "DELETE", path = "registro/gasto", hasBody = true)
+    Call<Void> deleteGasto(@Body Gasto gasto);
 
 
     //------------------------------------------------------

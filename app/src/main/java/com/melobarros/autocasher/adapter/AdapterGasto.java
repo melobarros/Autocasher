@@ -3,6 +3,7 @@ package com.melobarros.autocasher.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,18 +16,33 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.melobarros.autocasher.R;
 import com.melobarros.autocasher.activity.EditarGastoActivity;
 import com.melobarros.autocasher.model.Gasto;
+import com.melobarros.autocasher.services.autocasherAPI;
 
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
 @RequiresApi(api = Build.VERSION_CODES.O)
 public class AdapterGasto extends RecyclerView.Adapter<AdapterGasto.GastoViewHolder> {
+    private static final String TAG = "AdapterGastoActivity";
 
     private List<Gasto> listaGasto;
     private Context context;
+
+    Retrofit retrofit;
+    autocasherAPI autocasherAPI;
 
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MMM/yyyy");
 
@@ -40,12 +56,34 @@ public class AdapterGasto extends RecyclerView.Adapter<AdapterGasto.GastoViewHol
     public GastoViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemLista = LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_gasto, parent, false);
 
+        Gson gson = new GsonBuilder()
+                .setLenient()
+                .create();
+
+        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor(new HttpLoggingInterceptor.Logger() {
+            @Override public void log(String message) {
+                Log.d(TAG, "OkHttp: " + message);
+            }
+        });
+        interceptor.level(HttpLoggingInterceptor.Level.BODY);
+        OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptor).build();
+
+
+        retrofit = new Retrofit.Builder()
+                .baseUrl(autocasherAPI.BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .client(client)
+                .build();
+
+
+        autocasherAPI = retrofit.create(com.melobarros.autocasher.services.autocasherAPI.class);
+
         return new GastoViewHolder(itemLista);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
-    public void onBindViewHolder(@NonNull GastoViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull GastoViewHolder holder, final int position) {
         final Gasto gasto = listaGasto.get(position);
 
         holder.tipo.setText(gasto.getTipo());
@@ -62,7 +100,30 @@ public class AdapterGasto extends RecyclerView.Adapter<AdapterGasto.GastoViewHol
         holder.btn_delete.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-                Toast.makeText(context, "Delete Clicked!", Toast.LENGTH_LONG).show();
+                //Toast.makeText(context, "Delete Clicked!", Toast.LENGTH_LONG).show();
+                Gasto g = gasto;
+                g.setTipo("gasto");
+
+                Call<Void> requestDelete = autocasherAPI.deleteGasto(g);
+
+                requestDelete.enqueue(new Callback<Void>() {
+                    @Override
+                    public void onResponse(Call<Void> call, Response<Void> response) {
+                        if(!response.isSuccessful()){
+                            Log.e(TAG, "Erro: " + response.code());
+                            return;
+                        } else{
+                            Toast.makeText(context, "GASTO REMOVIDO COM SUCESSO",Toast.LENGTH_SHORT).show();
+                            listaGasto.remove(position);
+                            notifyItemRemoved(position);
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<Void> call, Throwable t) {
+                        Log.e(TAG, "Erro Failure: " + t.getMessage());
+                    }
+                });
             }
         });
 
@@ -70,11 +131,12 @@ public class AdapterGasto extends RecyclerView.Adapter<AdapterGasto.GastoViewHol
             @Override
             public void onClick(View v){
                 Intent i = new Intent(v.getContext(), EditarGastoActivity.class);
-                //Toast.makeText(context, "Observacao: " + gasto.getObservacao(), Toast.LENGTH_LONG).show();
                 i.putExtra("Gasto", gasto);
                 v.getContext().startActivity(i);
             }
         });
+
+
     }
 
     @Override
