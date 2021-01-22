@@ -89,8 +89,8 @@ public class AdapterGasto extends RecyclerView.Adapter<AdapterGasto.GastoViewHol
         holder.tipo.setText(gasto.getTipo());
         holder.dateTime.setText(gasto.getLocalDateTime().format(formatter));
         holder.observacao.setText(gasto.getObservacao());
-        holder.valorTotal.setText(String.valueOf(gasto.getValorTotal()));
-        holder.odometro.setText(String.valueOf(gasto.getOdometro()));
+        holder.valorTotal.setText("R$ " + String.format("%.02f", gasto.getValorTotal()));
+        holder.odometro.setText(String.format("%.0f", gasto.getOdometro()) + "km");
         holder.motivo.setText(gasto.getMotivo());
         holder.local.setText(gasto.getLocal());
 
