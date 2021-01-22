@@ -35,6 +35,7 @@ import java.lang.reflect.Type;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import okhttp3.OkHttpClient;
@@ -147,6 +148,8 @@ public class GastoFragment extends Fragment {
                     Log.d(TAG, "Setting variable list");
                     gastos = response.body();
 
+                    orderList(gastos);
+
                     recyclerGasto.setHasFixedSize(true);
                     recyclerGasto.setLayoutManager(new LinearLayoutManager(getActivity()));
                     //SpacingDecorator_Gasto decorator_gasto = new SpacingDecorator_Gasto(1);
@@ -162,6 +165,15 @@ public class GastoFragment extends Fragment {
                 Log.e(TAG, "Erro Failure: " + t.getMessage());
             }
         });
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public void orderList(List<Gasto> gastos){
+        List<Gasto> list = gastos;
+
+        Collections.sort(list, (x, y) -> x.getLocalDateTime().compareTo(y.getLocalDateTime()));
+        Collections.reverse(list);
+
     }
 
 }
