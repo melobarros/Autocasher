@@ -37,16 +37,9 @@ public class MainActivity extends AppCompatActivity {
 
         /*
         - TO DO
-            - COMECAR POR GASTO
-            - Retrofit para buscar/inserir dados
-            - Converter JSON em objetos dos Models
-                    - Exibir objetos na RecyclerView
-                    - Expandir/Diminuir RecyclerView items
-            - Tela para criacao de objeto
-            - Tela para edicao
-            - Botao para deletar
-            - Endpoints para filtrar
-            - Modificar fragment de busca para filtrar
+            - Implementar CRUD dos outros 3 tipos
+            - Implementar Historico
+            - Implementar Lembrete no android
             - Dashboards
 
          */
