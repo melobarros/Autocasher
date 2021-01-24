@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
             - Implementar CRUD dos outros 3 tipos
             - Implementar Historico
             - Implementar Lembrete no android
-            - Dashboards
+            - Dashboards (abastecimento, gastos e manutencoes)
 
          */
     }
