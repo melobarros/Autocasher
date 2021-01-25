@@ -6,6 +6,10 @@ public class Manutencao extends Registro {
     private String pecas;
     private boolean expanded;
 
+    public Manutencao(){
+
+    }
+
     public boolean isExpanded() {
         return expanded;
     }

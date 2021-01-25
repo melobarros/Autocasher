@@ -1,6 +1,7 @@
 package com.melobarros.autocasher.fragment;
 
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -14,10 +15,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.melobarros.autocasher.R;
+import com.melobarros.autocasher.activity.EditarGastoActivity;
+import com.melobarros.autocasher.activity.EditarManutencaoActivity;
 import com.melobarros.autocasher.adapter.AdapterManutencao;
+import com.melobarros.autocasher.model.Gasto;
 import com.melobarros.autocasher.model.Manutencao;
 import com.melobarros.autocasher.services.autocasherAPI;
 
@@ -46,15 +51,23 @@ public class ManutencaoFragment extends Fragment {
 
     private RecyclerView recyclerManutencao;
     private AdapterManutencao adapterManutencao;
-
-
-
+    public FloatingActionButton fab;
 
 
     public ManutencaoFragment() {
         // Required empty public constructor
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        adapterManutencao = new AdapterManutencao(manutencoes, getActivity());
+        recyclerManutencao.setAdapter(adapterManutencao);
+        initManutencoes();
+        adapterManutencao.notifyDataSetChanged();
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -64,7 +77,19 @@ public class ManutencaoFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_manutencao, container, false);
 
         recyclerManutencao = view.findViewById(R.id.recyclerManutencao);
+        fab = view.findViewById(R.id.novoManutencao_FAB);
         initManutencoes();
+
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Manutencao manutencao = null;
+
+                Intent i = new Intent(v.getContext(), EditarManutencaoActivity.class);
+                i.putExtra("Manutencao", manutencao);
+                v.getContext().startActivity(i);
+            }
+        });
 
         return view;
     }

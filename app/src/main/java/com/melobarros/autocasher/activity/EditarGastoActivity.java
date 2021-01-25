@@ -50,6 +50,7 @@ public class EditarGastoActivity extends AppCompatActivity implements DatePicker
     public Button btnSalvar, btnDescartar;
     public ImageButton btnDataPicker;
 
+    Toolbar toolbar;
     Retrofit retrofit;
     autocasherAPI autocasherAPI;
 
@@ -62,38 +63,12 @@ public class EditarGastoActivity extends AppCompatActivity implements DatePicker
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_editar_gasto);
+        toolbar = findViewById(R.id.EditarGasto_toolbar);
 
-
-        Gson gson = new GsonBuilder()
-                .setLenient()
-                .create();
-
-        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor(new HttpLoggingInterceptor.Logger() {
-            @Override public void log(String message) {
-                Log.d(TAG, "OkHttp: " + message);
-            }
-        });
-        interceptor.level(HttpLoggingInterceptor.Level.BODY);
-        OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptor).build();
-
-
-        retrofit = new Retrofit.Builder()
-                .baseUrl(autocasherAPI.BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create(gson))
-                .client(client)
-                .build();
-
-
-        autocasherAPI = retrofit.create(com.melobarros.autocasher.services.autocasherAPI.class);
-
-        Toolbar toolbar = findViewById(R.id.EditarGasto_toolbar);
-        toolbar.setTitle("Editar Gasto");
-        setSupportActionBar(toolbar);
-
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_clear_black_24dp);
-
+        initService();
+        initToolbar();
         initComponentes();
+
         Gasto gasto = (Gasto)getIntent().getSerializableExtra("Gasto");
         final Gasto g = gasto;
 
@@ -141,6 +116,37 @@ public class EditarGastoActivity extends AppCompatActivity implements DatePicker
         localGasto.setText(gasto.getLocal());
         infoAdicionalGasto.setText(gasto.getMotivo());
         odometroGasto.setText(String.valueOf(gasto.getOdometro()));
+    }
+
+    public void initService(){
+        Gson gson = new GsonBuilder()
+                .setLenient()
+                .create();
+
+        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor(new HttpLoggingInterceptor.Logger() {
+            @Override public void log(String message) {
+                Log.d(TAG, "OkHttp: " + message);
+            }
+        });
+        interceptor.level(HttpLoggingInterceptor.Level.BODY);
+        OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptor).build();
+
+
+        retrofit = new Retrofit.Builder()
+                .baseUrl(autocasherAPI.BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .client(client)
+                .build();
+
+        autocasherAPI = retrofit.create(com.melobarros.autocasher.services.autocasherAPI.class);
+    }
+
+    public void initToolbar(){
+        toolbar.setTitle("Editar Gasto");
+        setSupportActionBar(toolbar);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_clear_black_24dp);
     }
 
     public void setInitNumbers(){

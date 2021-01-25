@@ -1,6 +1,7 @@
 package com.melobarros.autocasher.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -9,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -17,6 +19,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.melobarros.autocasher.R;
+import com.melobarros.autocasher.activity.EditarGastoActivity;
+import com.melobarros.autocasher.activity.EditarManutencaoActivity;
 import com.melobarros.autocasher.model.Gasto;
 import com.melobarros.autocasher.model.Manutencao;
 import com.melobarros.autocasher.services.autocasherAPI;
@@ -26,6 +30,9 @@ import java.util.List;
 
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -70,14 +77,38 @@ public class AdapterManutencao extends RecyclerView.Adapter<AdapterManutencao.Ma
         holder.btn_delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Manutencao m = manutencao;
+                m.setTipo("manutencao");
 
+                Call<Void> requestDelete = autocasherAPI.deleteManutencao(m);
+
+                requestDelete.enqueue(new Callback<Void>() {
+                    @Override
+                    public void onResponse(Call<Void> call, Response<Void> response) {
+                        if(!response.isSuccessful()){
+                            Log.e(TAG, "Erro: " + response.code());
+                            return;
+                        } else{
+                            Toast.makeText(context, "MANUTENCAO REMOVIDO COM SUCESSO",Toast.LENGTH_SHORT).show();
+                            manutencaoList.remove(position);
+                            notifyItemRemoved(position);
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<Void> call, Throwable t) {
+                        Log.e(TAG, "Erro Failure: " + t.getMessage());
+                    }
+                });
             }
         });
 
         holder.btn_edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent i = new Intent(v.getContext(), EditarManutencaoActivity.class);
+                i.putExtra("Manutencao", manutencao);
+                v.getContext().startActivity(i);
             }
         });
     }
