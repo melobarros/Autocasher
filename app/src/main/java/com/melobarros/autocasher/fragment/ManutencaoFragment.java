@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.melobarros.autocasher.R;
+import com.melobarros.autocasher.adapter.AdapterManutencao;
 import com.melobarros.autocasher.model.Manutencao;
 import com.melobarros.autocasher.services.autocasherAPI;
 
@@ -44,6 +45,8 @@ public class ManutencaoFragment extends Fragment {
     autocasherAPI autocasherAPI;
 
     private RecyclerView recyclerManutencao;
+    private AdapterManutencao adapterManutencao;
+
 
 
 
@@ -58,7 +61,7 @@ public class ManutencaoFragment extends Fragment {
                              Bundle savedInstanceState) {
         initService();
         Log.d(TAG, "onCreateView: started.");
-        View view = inflater.inflate(R.layout.fragment_gasto, container, false);
+        View view = inflater.inflate(R.layout.fragment_manutencao, container, false);
 
         recyclerManutencao = view.findViewById(R.id.recyclerManutencao);
         initManutencoes();
@@ -88,15 +91,18 @@ public class ManutencaoFragment extends Fragment {
 
             @Override
             public void onFailure(Call<List<Manutencao>> call, Throwable t) {
-
+                Log.e(TAG, "Erro Failure: " + t.getMessage());
             }
         });
     }
 
-    private void setupRecycler(){
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public void setupRecycler(){
         recyclerManutencao.setHasFixedSize(true);
         recyclerManutencao.setLayoutManager(new LinearLayoutManager(getActivity()));
-
+        adapterManutencao = new AdapterManutencao(manutencoes, getActivity());
+        recyclerManutencao.setAdapter(adapterManutencao);
+        adapterManutencao.notifyDataSetChanged();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)

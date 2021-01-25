@@ -4,6 +4,15 @@ public class Manutencao extends Registro {
     private String descricao;
     private float valor;
     private String pecas;
+    private boolean expanded;
+
+    public boolean isExpanded() {
+        return expanded;
+    }
+
+    public void setExpanded(boolean expanded) {
+        this.expanded = expanded;
+    }
 
     public String getDescricao() {
         return descricao;

@@ -72,9 +72,7 @@ public class AdapterGasto extends RecyclerView.Adapter<AdapterGasto.GastoViewHol
         holder.odometro.setText(String.format("%.0f", gasto.getOdometro()) + "km");
         holder.motivo.setText(gasto.getMotivo());
         holder.local.setText(gasto.getLocal());
-
-        boolean isExpanded = listaGasto.get(position).isExpanded();
-        holder.subItem.setVisibility(isExpanded ? View.VISIBLE : View.GONE);
+        holder.subItem.setVisibility(gasto.isExpanded() ? View.VISIBLE : View.GONE);
 
         holder.btn_delete.setOnClickListener(new View.OnClickListener(){
             @Override
