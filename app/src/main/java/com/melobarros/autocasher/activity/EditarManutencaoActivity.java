@@ -53,7 +53,7 @@ public class EditarManutencaoActivity extends AppCompatActivity implements DateP
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_editar_manutencao);
-        toolbar.findViewById(R.id.EditarManutencao_toolbar);
+        toolbar = findViewById(R.id.EditarManutencao_toolbar);
 
         initService();
         initToolbar();
@@ -226,15 +226,15 @@ public class EditarManutencaoActivity extends AppCompatActivity implements DateP
     }
 
     public void initComponentes(){
-        tipoManutencao = findViewById(R.id.tipoGasto_input);
-        valorManutencao = findViewById(R.id.valorGasto_input);
-        dataManutencao = findViewById(R.id.dataGasto_input);
+        tipoManutencao = findViewById(R.id.tipoManutencao_input);
+        valorManutencao = findViewById(R.id.valorManutencao_input);
+        dataManutencao = findViewById(R.id.dataManutencao_input);
         dataManutencao.setFocusable(false);
-        localManutencao = findViewById(R.id.localGasto_input);
-        infoAdicionalManutencao = findViewById(R.id.infoAdicionalGasto_input);
-        pecasManutencao = findViewById(R.id.odometro_input);
-        btnDescartar = findViewById(R.id.descartarGasto_button);
-        btnSalvar = findViewById(R.id.salvarGasto_button);
-        btnDataPicker = findViewById(R.id.dataPicker_imageButton);
+        localManutencao = findViewById(R.id.localManutencao_input);
+        infoAdicionalManutencao = findViewById(R.id.infoAdicionalManutencao_input);
+        pecasManutencao = findViewById(R.id.pecasManutencao_input);
+        btnDescartar = findViewById(R.id.descartarManutencao_button);
+        btnSalvar = findViewById(R.id.salvarManutencao_button);
+        btnDataPicker = findViewById(R.id.dataPicker_Manutencao_imageButton);
     }
 }

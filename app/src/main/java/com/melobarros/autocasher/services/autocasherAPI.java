@@ -102,7 +102,8 @@ public interface autocasherAPI {
     @PUT("registro/manutencao")
     Call<Manutencao> updateManutencao(@Body Manutencao manutencao);
 
-    @DELETE("registro/manutencao")
+    //@DELETE("registro/manutencao")
+    @HTTP(method = "DELETE", path = "registro/manutencao", hasBody = true)
     Call<Void> deleteManutencao(@Body Manutencao manutencao);
 
 }
