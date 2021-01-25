@@ -83,26 +83,7 @@ public class GastoFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        Gson gson = new GsonBuilder()
-                .setLenient()
-                .create();
-
-        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor(new HttpLoggingInterceptor.Logger() {
-            @Override public void log(String message) {
-                Log.d(TAG, "OkHttp: " + message);
-            }
-        });
-        interceptor.level(HttpLoggingInterceptor.Level.BODY);
-        OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptor).build();
-
-
-        retrofit = new Retrofit.Builder()
-                .baseUrl(autocasherAPI.BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create(gson))
-                .client(client)
-                .build();
-
-        autocasherAPI = retrofit.create(com.melobarros.autocasher.services.autocasherAPI.class);
+        initService();
 
         Log.d(TAG, "onCreateView: started.");
         View view = inflater.inflate(R.layout.fragment_gasto, container, false);
@@ -165,6 +146,29 @@ public class GastoFragment extends Fragment {
                 Log.e(TAG, "Erro Failure: " + t.getMessage());
             }
         });
+    }
+
+    public void initService(){
+        Gson gson = new GsonBuilder()
+                .setLenient()
+                .create();
+
+        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor(new HttpLoggingInterceptor.Logger() {
+            @Override public void log(String message) {
+                Log.d(TAG, "OkHttp: " + message);
+            }
+        });
+        interceptor.level(HttpLoggingInterceptor.Level.BODY);
+        OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptor).build();
+
+
+        retrofit = new Retrofit.Builder()
+                .baseUrl(autocasherAPI.BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .client(client)
+                .build();
+
+        autocasherAPI = retrofit.create(com.melobarros.autocasher.services.autocasherAPI.class);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
