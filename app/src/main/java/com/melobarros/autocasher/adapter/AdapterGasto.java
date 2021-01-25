@@ -55,28 +55,7 @@ public class AdapterGasto extends RecyclerView.Adapter<AdapterGasto.GastoViewHol
     @Override
     public GastoViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemLista = LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_gasto, parent, false);
-
-        Gson gson = new GsonBuilder()
-                .setLenient()
-                .create();
-
-        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor(new HttpLoggingInterceptor.Logger() {
-            @Override public void log(String message) {
-                Log.d(TAG, "OkHttp: " + message);
-            }
-        });
-        interceptor.level(HttpLoggingInterceptor.Level.BODY);
-        OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptor).build();
-
-
-        retrofit = new Retrofit.Builder()
-                .baseUrl(autocasherAPI.BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create(gson))
-                .client(client)
-                .build();
-
-
-        autocasherAPI = retrofit.create(com.melobarros.autocasher.services.autocasherAPI.class);
+        initService();
 
         return new GastoViewHolder(itemLista);
     }
@@ -100,7 +79,6 @@ public class AdapterGasto extends RecyclerView.Adapter<AdapterGasto.GastoViewHol
         holder.btn_delete.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-                //Toast.makeText(context, "Delete Clicked!", Toast.LENGTH_LONG).show();
                 Gasto g = gasto;
                 g.setTipo("gasto");
 
@@ -185,5 +163,28 @@ public class AdapterGasto extends RecyclerView.Adapter<AdapterGasto.GastoViewHol
 
 
         }
+    }
+
+    public void initService(){
+        Gson gson = new GsonBuilder()
+                .setLenient()
+                .create();
+
+        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor(new HttpLoggingInterceptor.Logger() {
+            @Override public void log(String message) {
+                Log.d(TAG, "OkHttp: " + message);
+            }
+        });
+        interceptor.level(HttpLoggingInterceptor.Level.BODY);
+        OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptor).build();
+
+
+        retrofit = new Retrofit.Builder()
+                .baseUrl(autocasherAPI.BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .client(client)
+                .build();
+
+        autocasherAPI = retrofit.create(com.melobarros.autocasher.services.autocasherAPI.class);
     }
 }

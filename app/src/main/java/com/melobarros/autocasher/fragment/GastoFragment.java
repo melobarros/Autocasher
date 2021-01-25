@@ -130,14 +130,7 @@ public class GastoFragment extends Fragment {
                     gastos = response.body();
 
                     orderList(gastos);
-
-                    recyclerGasto.setHasFixedSize(true);
-                    recyclerGasto.setLayoutManager(new LinearLayoutManager(getActivity()));
-                    //SpacingDecorator_Gasto decorator_gasto = new SpacingDecorator_Gasto(1);
-                    //recyclerGasto.addItemDecoration(decorator_gasto);
-                    adapterGasto = new AdapterGasto(gastos, getActivity());
-                    recyclerGasto.setAdapter(adapterGasto);
-                    adapterGasto.notifyDataSetChanged();
+                    setupRecycler();
                 }
             }
 
@@ -146,6 +139,15 @@ public class GastoFragment extends Fragment {
                 Log.e(TAG, "Erro Failure: " + t.getMessage());
             }
         });
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public void setupRecycler(){
+        recyclerGasto.setHasFixedSize(true);
+        recyclerGasto.setLayoutManager(new LinearLayoutManager(getActivity()));
+        adapterGasto = new AdapterGasto(gastos, getActivity());
+        recyclerGasto.setAdapter(adapterGasto);
+        adapterGasto.notifyDataSetChanged();
     }
 
     public void initService(){

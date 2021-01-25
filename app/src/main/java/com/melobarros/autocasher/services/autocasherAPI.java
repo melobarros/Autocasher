@@ -97,12 +97,12 @@ public interface autocasherAPI {
     Call<Manutencao> getManutencaoById(@Path("id") int id);
 
     @POST("registro/manutencao")
-    Call<String> insertManutencao(@Body Manutencao manutencao);
+    Call<Manutencao> insertManutencao(@Body Manutencao manutencao);
 
     @PUT("registro/manutencao")
-    Call<String> updateManutencao(@Body Manutencao manutencao);
+    Call<Manutencao> updateManutencao(@Body Manutencao manutencao);
 
     @DELETE("registro/manutencao")
-    Call<String> deleteManutencao(@Body Manutencao manutencao);
+    Call<Void> deleteManutencao(@Body Manutencao manutencao);
 
 }
