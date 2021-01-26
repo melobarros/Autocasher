@@ -63,13 +63,13 @@ public interface autocasherAPI {
     Call<Abastecimento> getAbastecimentoById(@Path("id") int id);
 
     @POST("registro/abastecimento")
-    Call<String> insertAbastecimento(@Body Abastecimento abastecimento);
+    Call<Abastecimento> insertAbastecimento(@Body Abastecimento abastecimento);
 
     @PUT("registro/abastecimento")
-    Call<String> updateAbastecimento(@Body Abastecimento abastecimento);
+    Call<Abastecimento> updateAbastecimento(@Body Abastecimento abastecimento);
 
-    @DELETE("registro/abastecimento")
-    Call<String> deleteAbastecimento(@Body Abastecimento abastecimento);
+    @HTTP(method = "DELETE", path = "registro/abastecimento", hasBody = true)
+    Call<Void> deleteAbastecimento(@Body Abastecimento abastecimento);
 
     //------------------------------------------------------
 
