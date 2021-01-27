@@ -71,6 +71,7 @@ public class AbastecimentoFragment extends Fragment {
         recyclerAbastecimento = view.findViewById(R.id.recyclerAbastecimento);
         fab = view.findViewById(R.id.novoAbastecimento_FAB);
         //initAbastecimentos();
+        //continue
 
         return view;
     }
@@ -80,6 +81,7 @@ public class AbastecimentoFragment extends Fragment {
     }
 
     private void initService(){
+
         Gson gson = new GsonBuilder()
                 .setLenient()
                 .create();
