@@ -7,7 +7,19 @@ public class Abastecimento extends Registro{
     private float litros;
     private boolean completandoTanque;
     private boolean abastecimentoAnteriorEmFalta;
+    private boolean expanded;
 
+    public Abastecimento(){
+
+    }
+
+    public boolean isExpanded() {
+        return expanded;
+    }
+
+    public void setExpanded(boolean expanded) {
+        this.expanded = expanded;
+    }
 
     public float getOdometro() {
         return odometro;

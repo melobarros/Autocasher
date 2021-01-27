@@ -1,11 +1,13 @@
 package com.melobarros.autocasher.fragment;
 
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
@@ -23,10 +25,14 @@ import com.melobarros.autocasher.model.Manutencao;
 import com.melobarros.autocasher.services.autocasherAPI;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -70,14 +76,64 @@ public class AbastecimentoFragment extends Fragment {
 
         recyclerAbastecimento = view.findViewById(R.id.recyclerAbastecimento);
         fab = view.findViewById(R.id.novoAbastecimento_FAB);
-        //initAbastecimentos();
-        //continue
+        initAbastecimentos();
+
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Abastecimento abastecimento = null;
+
+                //Intent i = new Intent(v.getContext(), EditarAbastecimentoActivity.class);
+                //i.putExtra("Abastecimento", abastecimento);
+                //v.getContext().startActivity(i);
+            }
+        });
 
         return view;
     }
 
     private void initAbastecimentos(){
+        Log.d(TAG, "initAbastecimentos: fetching abastecimentos list");
 
+        Call<List<Abastecimento>> requestAbastecimentos = autocasherAPI.getAbastecimentos();
+        requestAbastecimentos.enqueue(new Callback<List<Abastecimento>>() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
+            @Override
+            public void onResponse(Call<List<Abastecimento>> call, Response<List<Abastecimento>> response) {
+                if(!response.isSuccessful()){
+                    Log.v(TAG, "Erro400: " + response.message());
+                    return;
+                } else{
+                    Log.d(TAG, "Setting variable list");
+
+                    abastecimentos = response.body();
+                    orderList(abastecimentos);
+                    setupRecycler();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Abastecimento>> call, Throwable t) {
+                Log.e(TAG, "Erro Failure: " + t.getMessage());
+            }
+        });
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private void orderList(List<Abastecimento> abastecimentos){
+        List<Abastecimento> list = abastecimentos;
+
+        Collections.sort(list, (x, y) -> x.getLocalDateTime().compareTo(y.getLocalDateTime()));
+        Collections.reverse(list);
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public void setupRecycler(){
+        //recyclerManutencao.setHasFixedSize(true);
+        //recyclerManutencao.setLayoutManager(new LinearLayoutManager(getActivity()));
+        //adapterManutencao = new AdapterManutencao(manutencoes, getActivity());
+        //recyclerManutencao.setAdapter(adapterManutencao);
+        //adapterManutencao.notifyDataSetChanged();
     }
 
     private void initService(){
