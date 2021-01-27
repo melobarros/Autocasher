@@ -1,6 +1,7 @@
 package com.melobarros.autocasher.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.melobarros.autocasher.R;
+import com.melobarros.autocasher.activity.EditarAbastecimentoActivity;
 import com.melobarros.autocasher.model.Abastecimento;
 
 import java.time.format.DateTimeFormatter;
@@ -98,9 +100,9 @@ public class AdapterAbastecimento extends RecyclerView.Adapter<AdapterAbastecime
         holder.btn_edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Intent i = new Intent(v.getContext(), EditarAbastecimentoActivity.class);
-                //i.putExtra("Abastecimento", abastecimento);
-                //v.getContext().startActivity(i);
+                Intent i = new Intent(v.getContext(), EditarAbastecimentoActivity.class);
+                i.putExtra("Abastecimento", abastecimento);
+                v.getContext().startActivity(i);
             }
         });
     }
