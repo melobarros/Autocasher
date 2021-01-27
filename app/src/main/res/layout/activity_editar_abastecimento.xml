@@ -96,12 +96,12 @@
             android:padding="10dp">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/tanqueCheio_input"
+                android:id="@+id/odometroAbastecimento_input"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawableLeft="@android:drawable/ic_menu_manage"
                 android:drawablePadding="10dp"
-                android:hint="Tanque cheio"
+                android:hint="Odometro"
                 android:includeFontPadding="false" />
         </com.google.android.material.textfield.TextInputLayout>
 

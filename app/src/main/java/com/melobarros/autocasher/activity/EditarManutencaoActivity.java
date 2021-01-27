@@ -45,7 +45,7 @@ public class EditarManutencaoActivity extends AppCompatActivity implements DateP
 
     Toolbar toolbar;
     Retrofit retrofit;
-    com.melobarros.autocasher.services.autocasherAPI autocasherAPI;
+    autocasherAPI autocasherAPI;
 
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MMM/yyyy");
 

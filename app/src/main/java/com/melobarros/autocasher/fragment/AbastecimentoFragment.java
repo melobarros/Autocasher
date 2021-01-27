@@ -19,6 +19,8 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.melobarros.autocasher.R;
+import com.melobarros.autocasher.activity.EditarAbastecimentoActivity;
+import com.melobarros.autocasher.adapter.AdapterAbastecimento;
 import com.melobarros.autocasher.adapter.AdapterManutencao;
 import com.melobarros.autocasher.model.Abastecimento;
 import com.melobarros.autocasher.model.Manutencao;
@@ -48,7 +50,7 @@ public class AbastecimentoFragment extends Fragment {
     autocasherAPI autocasherAPI;
 
     private RecyclerView recyclerAbastecimento;
-    private AdapterManutencao adapterAbastecimento;
+    private AdapterAbastecimento adapterAbastecimento;
     public FloatingActionButton fab;
 
     public AbastecimentoFragment() {
@@ -60,10 +62,10 @@ public class AbastecimentoFragment extends Fragment {
     public void onResume() {
         super.onResume();
 
-        //adapterAbastecimento = new AdapterAbastecimento(abastecimentos, getActivity());
-        //recyclerAbastecimento.setAdapter(adapterAbastecimento);
-        //initAbastecimentos();
-        //adapterAbastecimento.notifyDataSetChanged();
+        adapterAbastecimento = new AdapterAbastecimento(abastecimentos, getActivity());
+        recyclerAbastecimento.setAdapter(adapterAbastecimento);
+        initAbastecimentos();
+        adapterAbastecimento.notifyDataSetChanged();
     }
 
     @Override
@@ -83,9 +85,9 @@ public class AbastecimentoFragment extends Fragment {
             public void onClick(View v) {
                 Abastecimento abastecimento = null;
 
-                //Intent i = new Intent(v.getContext(), EditarAbastecimentoActivity.class);
-                //i.putExtra("Abastecimento", abastecimento);
-                //v.getContext().startActivity(i);
+                Intent i = new Intent(v.getContext(), EditarAbastecimentoActivity.class);
+                i.putExtra("Abastecimento", abastecimento);
+                v.getContext().startActivity(i);
             }
         });
 
@@ -129,11 +131,11 @@ public class AbastecimentoFragment extends Fragment {
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void setupRecycler(){
-        //recyclerManutencao.setHasFixedSize(true);
-        //recyclerManutencao.setLayoutManager(new LinearLayoutManager(getActivity()));
-        //adapterManutencao = new AdapterManutencao(manutencoes, getActivity());
-        //recyclerManutencao.setAdapter(adapterManutencao);
-        //adapterManutencao.notifyDataSetChanged();
+        recyclerAbastecimento.setHasFixedSize(true);
+        recyclerAbastecimento.setLayoutManager(new LinearLayoutManager(getActivity()));
+        adapterAbastecimento = new AdapterAbastecimento(abastecimentos, getActivity());
+        recyclerAbastecimento.setAdapter(adapterAbastecimento);
+        adapterAbastecimento.notifyDataSetChanged();
     }
 
     private void initService(){
