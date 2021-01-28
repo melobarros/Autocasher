@@ -68,6 +68,8 @@ public class AdapterAbastecimento extends RecyclerView.Adapter<AdapterAbastecime
         holder.tanqueCheio.setText(String.valueOf(abastecimento.isCompletandoTanque()));
         holder.odometro.setText(String.format("%.0f", abastecimento.getOdometro()));
         holder.subItem.setVisibility(abastecimento.isExpanded() ? View.VISIBLE : View.GONE);
+        holder.tipoRegistro.setText(abastecimento.getTipo());
+        holder.valorTotal.setText(String.format("%.2f", abastecimento.getLitros() * abastecimento.getPrecoLitro()));
 
         holder.btn_delete.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -118,6 +120,8 @@ public class AdapterAbastecimento extends RecyclerView.Adapter<AdapterAbastecime
         TextView data;
         TextView tanqueCheio;
         TextView odometro;
+        TextView valorTotal;
+        TextView tipoRegistro;
         LinearLayout subItem;
         LinearLayout abastecimentoCard;
         ImageButton btn_edit;
@@ -135,6 +139,8 @@ public class AdapterAbastecimento extends RecyclerView.Adapter<AdapterAbastecime
             btn_delete = itemView.findViewById(R.id.abastecimento_delete_imageView);
             abastecimentoCard = itemView.findViewById(R.id.abastecimentoCard);
             subItem = itemView.findViewById(R.id.abastecimento_sub_item);
+            valorTotal = itemView.findViewById(R.id.abastecimento_valor_textView);
+            tipoRegistro = itemView.findViewById(R.id.abastecimento_tipoRegistro_textView);
 
             abastecimentoCard.setOnClickListener(new View.OnClickListener() {
                 @Override
