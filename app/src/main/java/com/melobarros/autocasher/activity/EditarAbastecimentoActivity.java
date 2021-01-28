@@ -104,7 +104,7 @@ public class EditarAbastecimentoActivity extends AppCompatActivity implements Da
         LocalDateTime dt = LocalDate.parse(dataAbastecimento.getText().toString(), formatter).atStartOfDay();
 
         a.setObservacao(infoAdicionalAbastecimento.getText().toString());
-        a.setPrecoLitro(Float.valueOf(valorLitroAbastecimento.getText().toString()));
+        a.setPrecoLitro(Float.valueOf(valorLitroAbastecimento.getText().toString().replace(',','.')));
         a.setDateTime(dt.toString());
         a.setLitros(Float.valueOf(quantidadeLitrosAbastecimento.getText().toString()));
         a.setOdometro(Float.valueOf(odometroAbastecimento.getText().toString()));
@@ -142,7 +142,7 @@ public class EditarAbastecimentoActivity extends AppCompatActivity implements Da
         LocalDateTime dt = LocalDate.parse(dataAbastecimento.getText().toString(), formatter).atStartOfDay();
 
         a.setObservacao(infoAdicionalAbastecimento.getText().toString());
-        a.setPrecoLitro(Float.valueOf(valorLitroAbastecimento.getText().toString()));
+        a.setPrecoLitro(Float.valueOf(valorLitroAbastecimento.getText().toString().replace(',','.')));
         a.setDateTime(dt.toString());
         a.setLitros(Float.valueOf(quantidadeLitrosAbastecimento.getText().toString()));
         a.setOdometro(Float.valueOf(odometroAbastecimento.getText().toString()));

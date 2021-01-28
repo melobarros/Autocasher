@@ -69,7 +69,7 @@ public class AdapterAbastecimento extends RecyclerView.Adapter<AdapterAbastecime
         holder.odometro.setText(String.format("%.0f", abastecimento.getOdometro()));
         holder.subItem.setVisibility(abastecimento.isExpanded() ? View.VISIBLE : View.GONE);
         holder.tipoRegistro.setText(abastecimento.getTipo());
-        holder.valorTotal.setText(String.format("%.2f", abastecimento.getLitros() * abastecimento.getPrecoLitro()));
+        holder.valorTotal.setText("R$ " + String.format("%.2f", abastecimento.getLitros() * abastecimento.getPrecoLitro()));
 
         holder.btn_delete.setOnClickListener(new View.OnClickListener() {
             @Override
