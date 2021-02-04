@@ -80,13 +80,14 @@ public interface autocasherAPI {
     Call<Lembrete> getLembreteById(@Path("id") int id);
 
     @POST("registro/lembrete")
-    Call<String> insertLembrete(@Body Lembrete lembrete);
+    Call<Lembrete> insertLembrete(@Body Lembrete lembrete);
 
     @PUT("registro/lembrete")
-    Call<String> updateLembrete(@Body Lembrete lembrete);
+    Call<Lembrete> updateLembrete(@Body Lembrete lembrete);
 
-    @DELETE("registro/lembrete")
-    Call<String> deleteLembrete(@Body Lembrete lembrete);
+
+    @HTTP(method = "DELETE", path = "registro/lembrete", hasBody = true)
+    Call<Void> deleteLembrete(@Body Lembrete lembrete);
 
     //------------------------------------------------------
 
