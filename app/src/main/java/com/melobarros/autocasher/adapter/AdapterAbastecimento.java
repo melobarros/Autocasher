@@ -70,7 +70,7 @@ public class AdapterAbastecimento extends RecyclerView.Adapter<AdapterAbastecime
         holder.subItem.setVisibility(abastecimento.isExpanded() ? View.VISIBLE : View.GONE);
         holder.tipoRegistro.setText(abastecimento.getTipo());
         holder.valorTotal.setText("R$ " + String.format("%.2f", abastecimento.getLitros() * abastecimento.getPrecoLitro()));
-        // to do essa semana
+        // to do lembrete
 
         holder.btn_delete.setOnClickListener(new View.OnClickListener() {
             @Override
