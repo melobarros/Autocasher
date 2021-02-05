@@ -4,6 +4,15 @@ public class Lembrete extends Registro {
     private String descricao;
     private int repetirCada;
     private float valorPrevisto;
+    private boolean expanded;
+
+    public boolean isExpanded() {
+        return expanded;
+    }
+
+    public void setExpanded(boolean expanded) {
+        this.expanded = expanded;
+    }
 
     public String getDescricao() {
         return descricao;
