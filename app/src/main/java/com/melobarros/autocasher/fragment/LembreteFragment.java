@@ -96,7 +96,7 @@ public class LembreteFragment extends Fragment {
     }
 
     private void initLembretes(){
-        Log.d(TAG, "initManutencoes: fetching manutencoes list");
+        Log.d(TAG, "initLembretes: fetching lembretes list");
 
         Call<List<Lembrete>> requestLembretes = autocasherAPI.getLembretes();
         requestLembretes.enqueue(new Callback<List<Lembrete>>() {
@@ -127,7 +127,7 @@ public class LembreteFragment extends Fragment {
         recyclerLembrete.setHasFixedSize(true);
         recyclerLembrete.setLayoutManager(new LinearLayoutManager(getActivity()));
         adapterLembrete = new AdapterLembrete(lembretes, getActivity());
-        recyclerLembrete.setAdapter(adapterManutencao);
+        recyclerLembrete.setAdapter(adapterLembrete);
         adapterLembrete.notifyDataSetChanged();
     }
 
