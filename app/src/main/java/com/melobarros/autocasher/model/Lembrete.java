@@ -6,6 +6,10 @@ public class Lembrete extends Registro {
     private float valorPrevisto;
     private boolean expanded;
 
+    public Lembrete(){
+
+    }
+
     public boolean isExpanded() {
         return expanded;
     }
