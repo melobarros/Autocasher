@@ -13,11 +13,17 @@
         android:id="@+id/gastoCard"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#209C27B0"
+        android:background="#FFFFFF"
         android:orientation="horizontal"
-        android:paddingTop="5dp"
-        android:paddingRight="5dp"
-        android:paddingBottom="5dp">
+        android:paddingRight="5dp">
+
+        <LinearLayout
+            android:id="@+id/leftBarColor_gasto"
+            android:layout_width="10dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0"
+            android:background="#DA74B9"
+            android:orientation="horizontal"></LinearLayout>
 
         <ImageView
             android:id="@+id/iconeTransacao_imageView"
@@ -31,7 +37,9 @@
             android:layout_height="wrap_content"
             android:layout_weight="0"
             android:orientation="vertical"
-            android:paddingLeft="10dp">
+            android:paddingLeft="10dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp">
 
             <TextView
                 android:id="@+id/tipoRegistro_textView"
