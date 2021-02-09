@@ -37,10 +37,25 @@ public class MainActivity extends AppCompatActivity {
 
         /*
         - TO DO
-            - Implementar CRUD dos outros 3 tipos
+            - Melhorias:
+                - Geral
+                    - Design com faixa colorida na esquerda
+                    - Toolbar em cima com tabs para dashboards
+                    - Arrumar casos de uso em que usuario preenche campo com valor invalido (vazio, texto, numero)
+                    - Opcional: circulo em volta dos icones
+                - Abastecimento
+                    - Selecionar se ultimo abastecimento foi tanque cheio
+                    - Selecionar se esta enchendo o tanque
+                - Gasto
+                - Lembrete
+                    - Selecionar repetir a cada qtde numerico somente
+                    - Selecionar repetir a cada periodo (dia, semana, mes, ano)
+                    - Selecionar hora do dia
+                    - Definir qual sera o metodo de lembrete (notificacao android, email, outro?)
+                - Manutencao
+                    - Selecionar tipo de abastecimento em dropdown list
             - Implementar Historico
-            - Implementar Lembrete no android
-            - Dashboards (abastecimento, gastos e manutencoes)
+            - Dashboards com MPAndroidChart
 
          */
     }
