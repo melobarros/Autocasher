@@ -39,7 +39,6 @@ public class MainActivity extends AppCompatActivity {
         - TO DO
             - Melhorias:
                 - Geral
-                    - Design com faixa colorida na esquerda
                     - Toolbar em cima com tabs para dashboards
                     - Arrumar casos de uso em que usuario preenche campo com valor invalido (vazio, texto, numero)
                     - Opcional: circulo em volta dos icones
