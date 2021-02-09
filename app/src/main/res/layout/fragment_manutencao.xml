@@ -10,7 +10,7 @@
         android:id="@+id/recyclerManutencao"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#DFDFDF" />
+        android:background="#D1D0D0" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/novoManutencao_FAB"

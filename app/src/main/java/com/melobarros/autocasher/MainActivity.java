@@ -55,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
                 - Manutencao
                     - Selecionar tipo de abastecimento em dropdown list
             - Implementar Historico
+            - Implementar tela de loading enquanto liga heroku
             - Dashboards com MPAndroidChart
 
          */

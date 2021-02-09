@@ -13,11 +13,17 @@
         android:id="@+id/lembreteCard"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#BCC4F0"
+        android:background="#FFFFFF"
         android:orientation="horizontal"
-        android:paddingTop="5dp"
-        android:paddingRight="5dp"
-        android:paddingBottom="5dp">
+        android:paddingRight="5dp">
+
+        <LinearLayout
+            android:id="@+id/leftBarColor_lembrete"
+            android:layout_width="10dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0"
+            android:background="#9474DA"
+            android:orientation="horizontal"></LinearLayout>
 
         <ImageView
             android:id="@+id/iconeTransacao_imageView"
@@ -32,7 +38,9 @@
             android:layout_height="wrap_content"
             android:layout_weight="0"
             android:orientation="vertical"
-            android:paddingLeft="10dp">
+            android:paddingLeft="10dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp">
 
             <TextView
                 android:id="@+id/lembrete_tipoRegistro_textView"
