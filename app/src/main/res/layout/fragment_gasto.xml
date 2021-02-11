@@ -1,34 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal"
+    android:orientation="vertical"
     tools:context=".fragment.GastoFragment"
     >
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerGastos"
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/Gasto_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#DA74B9"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme" />
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#D1D0D0"
-        tools:layout_editor_absoluteX="1dp"
-        tools:layout_editor_absoluteY="1dp">
+        android:orientation="horizontal"
+        tools:context=".fragment.GastoFragment"
+        >
 
-    </androidx.recyclerview.widget.RecyclerView>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerGastos"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#D1D0D0"
+            tools:layout_editor_absoluteX="1dp"
+            tools:layout_editor_absoluteY="1dp">
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/novoGasto_FAB"
+        </androidx.recyclerview.widget.RecyclerView>
 
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="10dp"
-        android:layout_marginRight="10dp"
-        android:clickable="true"
-        android:src="@android:drawable/ic_input_add"
-        app:backgroundTint="#B5E91E63" />
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/novoGasto_FAB"
 
-</RelativeLayout>
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="10dp"
+            android:layout_marginRight="10dp"
+            android:clickable="true"
+            android:src="@android:drawable/ic_input_add"
+            app:backgroundTint="#B5E91E63" />
+
+    </RelativeLayout>
+
+</LinearLayout>

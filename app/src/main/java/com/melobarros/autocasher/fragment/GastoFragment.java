@@ -6,6 +6,8 @@ import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -61,6 +63,7 @@ public class GastoFragment extends Fragment {
     private RecyclerView recyclerGasto;
     private AdapterGasto adapterGasto;
     public FloatingActionButton fab;
+    Toolbar toolbar;
 
 
     public GastoFragment() {
@@ -90,7 +93,10 @@ public class GastoFragment extends Fragment {
 
         recyclerGasto = view.findViewById(R.id.recyclerGastos);
         fab = view.findViewById(R.id.novoGasto_FAB);
+        toolbar = view.findViewById(R.id.Gasto_toolbar);
+
         initGastos();
+        initToolbar();
 
 
         fab.setOnClickListener(new View.OnClickListener() {
@@ -171,6 +177,14 @@ public class GastoFragment extends Fragment {
                 .build();
 
         autocasherAPI = retrofit.create(com.melobarros.autocasher.services.autocasherAPI.class);
+    }
+
+    public void initToolbar(){
+        toolbar.setTitle("GASTO");
+        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
+
+        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        //getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_clear_black_24dp);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
