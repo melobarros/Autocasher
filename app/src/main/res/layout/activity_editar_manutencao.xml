@@ -124,8 +124,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:paddingLeft="40dp"
-            android:paddingRight="40dp"
+            android:background="#74DAC7"
+            android:paddingLeft="90dp"
+            android:paddingRight="90dp"
             android:text="SALVAR"
             android:textAlignment="center" />
 
