@@ -6,6 +6,8 @@ import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -52,6 +54,7 @@ public class AbastecimentoFragment extends Fragment {
     private RecyclerView recyclerAbastecimento;
     private AdapterAbastecimento adapterAbastecimento;
     public FloatingActionButton fab;
+    Toolbar toolbar;
 
     public AbastecimentoFragment() {
         // Required empty public constructor
@@ -78,7 +81,10 @@ public class AbastecimentoFragment extends Fragment {
 
         recyclerAbastecimento = view.findViewById(R.id.recyclerAbastecimento);
         fab = view.findViewById(R.id.novoAbastecimento_FAB);
+        toolbar = view.findViewById(R.id.Abastecimento_toolbar);
+
         initAbastecimentos();
+        initToolbar();
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -136,6 +142,14 @@ public class AbastecimentoFragment extends Fragment {
         adapterAbastecimento = new AdapterAbastecimento(abastecimentos, getActivity());
         recyclerAbastecimento.setAdapter(adapterAbastecimento);
         adapterAbastecimento.notifyDataSetChanged();
+    }
+
+    public void initToolbar(){
+        toolbar.setTitle("ABASTECIMENTO");
+        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
+
+        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        //getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_clear_black_24dp);
     }
 
     private void initService(){
