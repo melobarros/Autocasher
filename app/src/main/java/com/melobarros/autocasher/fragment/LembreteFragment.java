@@ -6,6 +6,8 @@ import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -53,6 +55,7 @@ public class LembreteFragment extends Fragment {
     private RecyclerView recyclerLembrete;
     private AdapterLembrete adapterLembrete;
     public FloatingActionButton fab;
+    Toolbar toolbar;
 
 
     public LembreteFragment() {
@@ -79,7 +82,10 @@ public class LembreteFragment extends Fragment {
 
         recyclerLembrete = view.findViewById(R.id.recyclerLembrete);
         fab = view.findViewById(R.id.novoLembrete_FAB);
+        toolbar = view.findViewById(R.id.Lembrete_toolbar);
+
         initLembretes();
+        initToolbar();
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -137,6 +143,14 @@ public class LembreteFragment extends Fragment {
 
         Collections.sort(list, (x, y) -> x.getLocalDateTime().compareTo(y.getLocalDateTime()));
         Collections.reverse(list);
+    }
+
+    public void initToolbar(){
+        toolbar.setTitle("LEMBRETE");
+        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
+
+        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        //getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_clear_black_24dp);
     }
 
     private void initService(){

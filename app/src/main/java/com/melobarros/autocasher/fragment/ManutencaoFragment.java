@@ -6,6 +6,8 @@ import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -52,6 +54,7 @@ public class ManutencaoFragment extends Fragment {
     private RecyclerView recyclerManutencao;
     private AdapterManutencao adapterManutencao;
     public FloatingActionButton fab;
+    Toolbar toolbar;
 
 
     public ManutencaoFragment() {
@@ -78,6 +81,8 @@ public class ManutencaoFragment extends Fragment {
 
         recyclerManutencao = view.findViewById(R.id.recyclerManutencao);
         fab = view.findViewById(R.id.novoManutencao_FAB);
+        toolbar = view.findViewById(R.id.Manutencao_toolbar);
+        initToolbar();
         initManutencoes();
 
         fab.setOnClickListener(new View.OnClickListener() {
@@ -136,6 +141,14 @@ public class ManutencaoFragment extends Fragment {
 
         Collections.sort(list, (x, y) -> x.getLocalDateTime().compareTo(y.getLocalDateTime()));
         Collections.reverse(list);
+    }
+
+    public void initToolbar(){
+        toolbar.setTitle("MANUTENCAO");
+        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
+
+        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        //getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_clear_black_24dp);
     }
 
     private void initService(){
