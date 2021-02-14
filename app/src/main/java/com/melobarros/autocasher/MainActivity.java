@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
         - TO DO
             - Melhorias:
                 - Geral
-                    - Toolbar com botao para analytics
+                    - Toolbar com botao para analyticss
                     - Arrumar casos de uso em que usuario preenche campo com valor invalido (vazio, texto, numero)
                     - Opcional: circulo em volta dos icones
                 - Abastecimento
