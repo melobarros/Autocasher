@@ -148,7 +148,7 @@ public class AbastecimentoFragment extends Fragment {
         toolbar.setTitle("ABASTECIMENTO");
         ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
 
-        ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        //((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         //getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_clear_black_24dp);
     }
 
