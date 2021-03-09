@@ -14,6 +14,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -75,6 +77,7 @@ public class AbastecimentoFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+        setHasOptionsMenu(true);
         initService();
         Log.d(TAG, "onCreateView: started.");
         View view = inflater.inflate(R.layout.fragment_abastecimento, container, false);
@@ -99,6 +102,8 @@ public class AbastecimentoFragment extends Fragment {
 
         return view;
     }
+
+
 
     private void initAbastecimentos(){
         Log.d(TAG, "initAbastecimentos: fetching abastecimentos list");
