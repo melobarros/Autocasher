@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
         - TO DO
             - Melhorias:
                 - Geral
-                    - Toolbar com botao para analytics // let goo
+                    - Implementar tela de Estatisticas
                     - Arrumar casos de uso em que usuario preenche campo com valor invalido (vazio, texto, numero)
                     - Opcional: circulo em volta dos icones
                 - Abastecimento
@@ -54,8 +54,6 @@ public class MainActivity extends AppCompatActivity {
                     - Definir qual sera o metodo de lembrete (notificacao android, email, outro?)
                 - Manutencao
                     - Selecionar tipo de abastecimento em dropdown list
-            - Implementar Historico
-            - Implementar tela de loading enquanto liga heroku
             - Dashboards com MPAndroidChart
 
          */
@@ -72,7 +70,6 @@ public class MainActivity extends AppCompatActivity {
         MenuItem menuItem = menu.getItem(2);
         menuItem.setChecked(true);
     }
-
 
     private void habilitarNavegacao(BottomNavigationViewEx viewEx){
         viewEx.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {

@@ -31,7 +31,8 @@
                 android:layout_height="wrap_content"
                 android:drawableLeft="@android:drawable/ic_menu_info_details"
                 android:drawablePadding="10dp"
-                android:hint="Quantidade Litros" />
+                android:hint="Quantidade Litros"
+                android:inputType="number" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -45,7 +46,8 @@
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/ic_attach_money_black_24dp"
                 android:drawablePadding="10dp"
-                android:hint="Valor do litro" />
+                android:hint="Valor do litro"
+                android:inputType="number" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <LinearLayout
@@ -102,7 +104,8 @@
                 android:drawableLeft="@android:drawable/ic_menu_manage"
                 android:drawablePadding="10dp"
                 android:hint="Odometro"
-                android:includeFontPadding="false" />
+                android:includeFontPadding="false"
+                android:inputType="number" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button
