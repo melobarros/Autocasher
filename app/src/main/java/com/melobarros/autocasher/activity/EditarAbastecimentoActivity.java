@@ -106,11 +106,13 @@ public class EditarAbastecimentoActivity extends AppCompatActivity implements Da
         a.setObservacao(infoAdicionalAbastecimento.getText().toString());
         a.setPrecoLitro(Float.valueOf(valorLitroAbastecimento.getText().toString().replace(',','.')));
         a.setDateTime(dt.toString());
-        a.setLitros(Float.valueOf(quantidadeLitrosAbastecimento.getText().toString()));
-        a.setOdometro(Float.valueOf(odometroAbastecimento.getText().toString()));
+        a.setLitros(Float.valueOf(quantidadeLitrosAbastecimento.getText().toString().replace(',','.')));
+        a.setOdometro(Float.valueOf(odometroAbastecimento.getText().toString().replace(',','.')));
         a.setTipo("abastecimento");
 
-        Call<Abastecimento> requestInsert = autocasherAPI.insertAbastecimento(a);
+        Abastecimento b = verificaValoresNulos(a);
+
+        Call<Abastecimento> requestInsert = autocasherAPI.insertAbastecimento(b);
 
         requestInsert.enqueue(new Callback<Abastecimento>() {
             @Override
@@ -148,7 +150,9 @@ public class EditarAbastecimentoActivity extends AppCompatActivity implements Da
         a.setOdometro(Float.valueOf(odometroAbastecimento.getText().toString()));
         a.setTipo("abastecimento");
 
-        Call<Abastecimento> requestUpdate = autocasherAPI.updateAbastecimento(a);
+        Abastecimento b = verificaValoresNulos(a);
+
+        Call<Abastecimento> requestUpdate = autocasherAPI.updateAbastecimento(b);
 
         requestUpdate.enqueue(new Callback<Abastecimento>() {
             @Override
@@ -172,6 +176,22 @@ public class EditarAbastecimentoActivity extends AppCompatActivity implements Da
                 Log.e(TAG, "Erro Failure: " + t.getMessage());
             }
         });
+    }
+
+    private Abastecimento verificaValoresNulos(Abastecimento _a){
+        if(String.valueOf(_a.getPrecoLitro()) == ""){
+            _a.setPrecoLitro(Float.valueOf("0.0"));
+        }
+
+        if(String.valueOf(_a.getLitros()) == ""){
+            _a.setLitros(Float.valueOf("0.0"));
+        }
+
+        if(String.valueOf(_a.getOdometro()) == ""){
+            _a.setOdometro(Float.valueOf("0.0"));
+        }
+
+        return _a;
     }
 
     public void setTexts(Abastecimento abastecimento){
