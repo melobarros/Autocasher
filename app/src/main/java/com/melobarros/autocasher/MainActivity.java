@@ -40,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
         - TO DO
             - Melhorias:
                 - Geral
+                    - Swipe left e right pra trocar fragments
                     - Filtrar por data e ordenar por valor e data
                     - Implementar tela de Estatisticas
                     - Arrumar casos de uso em que usuario preenche campo com valor invalido (vazio, texto, numero)
