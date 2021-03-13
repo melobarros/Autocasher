@@ -32,7 +32,7 @@
                 android:drawableLeft="@android:drawable/ic_menu_info_details"
                 android:drawablePadding="10dp"
                 android:hint="Quantidade Litros"
-                android:inputType="number" />
+                android:inputType="numberDecimal" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -105,7 +105,7 @@
                 android:drawablePadding="10dp"
                 android:hint="Odometro"
                 android:includeFontPadding="false"
-                android:inputType="number" />
+                android:inputType="number|numberDecimal" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button
