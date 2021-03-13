@@ -47,7 +47,7 @@
                 android:drawableLeft="@drawable/ic_attach_money_black_24dp"
                 android:drawablePadding="10dp"
                 android:hint="Valor do litro"
-                android:inputType="number" />
+                android:inputType="numberDecimal" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <LinearLayout
@@ -105,7 +105,7 @@
                 android:drawablePadding="10dp"
                 android:hint="Odometro"
                 android:includeFontPadding="false"
-                android:inputType="number|numberDecimal" />
+                android:inputType="numberDecimal" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button

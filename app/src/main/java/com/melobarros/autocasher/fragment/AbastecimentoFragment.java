@@ -150,7 +150,7 @@ public class AbastecimentoFragment extends Fragment {
     }
 
     public void initToolbar(){
-        toolbar.setTitle("ABASTECIMENTO");
+        toolbar.setTitle("");
         ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
 
         //((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
