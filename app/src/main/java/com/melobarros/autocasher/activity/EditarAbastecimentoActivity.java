@@ -49,6 +49,9 @@ public class EditarAbastecimentoActivity extends AppCompatActivity implements Da
 
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MMM/yyyy");
 
+    Float tempPrecoLitro, tempLitros, tempOdometro;
+    String sPreco, sLitros, sOdometro;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -103,16 +106,19 @@ public class EditarAbastecimentoActivity extends AppCompatActivity implements Da
         final Abastecimento a = new Abastecimento();
         LocalDateTime dt = LocalDate.parse(dataAbastecimento.getText().toString(), formatter).atStartOfDay();
 
+        tempPrecoLitro = verificaNulo(valorLitroAbastecimento.getText().toString());
+        tempLitros = verificaNulo(quantidadeLitrosAbastecimento.getText().toString());
+        tempOdometro = verificaNulo(odometroAbastecimento.getText().toString());
+
         a.setObservacao(infoAdicionalAbastecimento.getText().toString());
-        a.setPrecoLitro(Float.valueOf(valorLitroAbastecimento.getText().toString().replace(',','.')));
+        a.setPrecoLitro(tempPrecoLitro);
         a.setDateTime(dt.toString());
-        a.setLitros(Float.valueOf(quantidadeLitrosAbastecimento.getText().toString().replace(',','.')));
-        a.setOdometro(Float.valueOf(odometroAbastecimento.getText().toString().replace(',','.')));
+        a.setLitros(tempLitros);
+        a.setOdometro(tempOdometro);
         a.setTipo("abastecimento");
 
-        Abastecimento b = verificaValoresNulos(a);
 
-        Call<Abastecimento> requestInsert = autocasherAPI.insertAbastecimento(b);
+        Call<Abastecimento> requestInsert = autocasherAPI.insertAbastecimento(a);
 
         requestInsert.enqueue(new Callback<Abastecimento>() {
             @Override
@@ -141,18 +147,22 @@ public class EditarAbastecimentoActivity extends AppCompatActivity implements Da
 
     private void updateAbastecimento(final Context c){
         final Abastecimento a = (Abastecimento) getIntent().getSerializableExtra("Abastecimento");
-        LocalDateTime dt = LocalDate.parse(dataAbastecimento.getText().toString(), formatter).atStartOfDay();
 
+        tempPrecoLitro = verificaNulo(valorLitroAbastecimento.getText().toString());
+        tempLitros = verificaNulo(quantidadeLitrosAbastecimento.getText().toString());
+        tempOdometro = verificaNulo(odometroAbastecimento.getText().toString());
+
+        LocalDateTime dt = LocalDate.parse(dataAbastecimento.getText().toString(), formatter).atStartOfDay();
         a.setObservacao(infoAdicionalAbastecimento.getText().toString());
-        a.setPrecoLitro(Float.valueOf(valorLitroAbastecimento.getText().toString().replace(',','.')));
+        a.setPrecoLitro(tempPrecoLitro);
         a.setDateTime(dt.toString());
-        a.setLitros(Float.valueOf(quantidadeLitrosAbastecimento.getText().toString()));
-        a.setOdometro(Float.valueOf(odometroAbastecimento.getText().toString()));
+        a.setLitros(tempLitros);
+        a.setOdometro(tempOdometro);
         a.setTipo("abastecimento");
 
-        Abastecimento b = verificaValoresNulos(a);
 
-        Call<Abastecimento> requestUpdate = autocasherAPI.updateAbastecimento(b);
+
+        Call<Abastecimento> requestUpdate = autocasherAPI.updateAbastecimento(a);
 
         requestUpdate.enqueue(new Callback<Abastecimento>() {
             @Override
@@ -178,20 +188,8 @@ public class EditarAbastecimentoActivity extends AppCompatActivity implements Da
         });
     }
 
-    private Abastecimento verificaValoresNulos(Abastecimento _a){
-        if(String.valueOf(_a.getPrecoLitro()) == ""){
-            _a.setPrecoLitro(Float.valueOf("0.0"));
-        }
-
-        if(String.valueOf(_a.getLitros()) == ""){
-            _a.setLitros(Float.valueOf("0.0"));
-        }
-
-        if(String.valueOf(_a.getOdometro()) == ""){
-            _a.setOdometro(Float.valueOf("0.0"));
-        }
-
-        return _a;
+    private Float verificaNulo(String val){
+        return val.trim().length() > 0 ? Float.valueOf(val.replace(',','.')) : 0;
     }
 
     public void setTexts(Abastecimento abastecimento){
