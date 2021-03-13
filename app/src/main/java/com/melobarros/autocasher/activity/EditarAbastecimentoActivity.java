@@ -48,9 +48,7 @@ public class EditarAbastecimentoActivity extends AppCompatActivity implements Da
     autocasherAPI autocasherAPI;
 
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MMM/yyyy");
-
     Float tempPrecoLitro, tempLitros, tempOdometro;
-    String sPreco, sLitros, sOdometro;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
