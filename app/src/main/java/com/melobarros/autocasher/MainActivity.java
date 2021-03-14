@@ -44,10 +44,6 @@ public class MainActivity extends AppCompatActivity {
                     - Implementar tela de Estatisticas
                     - Arrumar casos de uso em que usuario preenche campo com valor invalido (vazio, texto, numero)
                     - Opcional: circulo em volta dos icones
-                - Abastecimento
-                    - Selecionar se ultimo abastecimento foi tanque cheio
-                    - Selecionar se esta enchendo o tanque
-                    - Implementar calculadora de melhor combustivel
                 - Gasto
                 - Lembrete
                     - Selecionar repetir a cada qtde numerico somente
@@ -55,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
                     - Selecionar hora do dia
                     - Definir qual sera o metodo de lembrete (notificacao android, email, outro?)
                 - Manutencao
-                    - Selecionar tipo de abastecimento em dropdown list
+                    - ?
             - Dashboards com MPAndroidChart
 
          */
