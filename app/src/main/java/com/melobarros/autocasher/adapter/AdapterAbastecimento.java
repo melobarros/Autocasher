@@ -43,6 +43,7 @@ public class AdapterAbastecimento extends RecyclerView.Adapter<AdapterAbastecime
     com.melobarros.autocasher.services.autocasherAPI autocasherAPI;
 
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MMM/yyyy");
+    String textoTanqueCheio;
 
     public AdapterAbastecimento(List<Abastecimento> a, Context c){
         this.abastecimentoList = a;
@@ -62,11 +63,17 @@ public class AdapterAbastecimento extends RecyclerView.Adapter<AdapterAbastecime
     public void onBindViewHolder(@NonNull AbastecimentoViewHolder holder, int position) {
         final Abastecimento abastecimento = abastecimentoList.get(position);
 
+        if(abastecimento.isCompletandoTanque()){
+            textoTanqueCheio = "Tanque cheio.";
+        } else{
+            textoTanqueCheio = "Não encheu o tanque.";
+        }
+
         holder.litros.setText(String.format("%.0f",abastecimento.getLitros()) + "L");
         holder.valorLitro.setText("R$ " + String.format("%.2f", abastecimento.getPrecoLitro()));
         holder.data.setText(abastecimento.getLocalDateTime().format(formatter));
-        holder.tanqueCheio.setText(String.valueOf(abastecimento.isCompletandoTanque()));
-        holder.odometro.setText(String.format("%.0f", abastecimento.getOdometro()));
+        holder.tanqueCheio.setText(textoTanqueCheio);
+        holder.odometro.setText(String.format("%.0f", abastecimento.getOdometro())+ " km");
         holder.subItem.setVisibility(abastecimento.isExpanded() ? View.VISIBLE : View.GONE);
         holder.tipoRegistro.setText(abastecimento.getTipo());
         holder.valorTotal.setText("R$ " + String.format("%.2f", abastecimento.getLitros() * abastecimento.getPrecoLitro()));

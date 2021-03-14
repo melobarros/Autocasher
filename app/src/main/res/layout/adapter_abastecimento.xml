@@ -65,6 +65,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:drawableLeft="@drawable/ic_invert_colors_black_24dp"
+                    android:drawablePadding="2dp"
                     android:text="Litros" />
 
                 <TextView
@@ -72,6 +74,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:drawableLeft="@drawable/ic_attach_money_black_24dp"
+                    android:drawablePadding="2dp"
                     android:text="Valor Litro" />
 
                 <TextView
@@ -91,6 +95,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:drawableLeft="@drawable/ic_today_black_24dp"
+                android:drawablePadding="2dp"
                 android:text="Data" />
 
             <LinearLayout
@@ -110,12 +116,16 @@
                         android:id="@+id/abastecimento_InfoAdicional_textView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:drawableLeft="@drawable/ic_info_outline_black_24dp"
+                        android:drawablePadding="2dp"
                         android:text="Info adicional" />
 
                     <TextView
                         android:id="@+id/abastecimento_odometro_textView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:drawableLeft="@drawable/ic_drive_eta_black_24dp"
+                        android:drawablePadding="2dp"
                         android:text="Odometro" />
 
                 </LinearLayout>

@@ -125,11 +125,11 @@
                 android:text="Tanque cheio" />
 
             <CheckBox
-                android:id="@+id/registrouUltimoAbastecimento_checkBox"
+                android:id="@+id/abastecimentoAnteriorEmFalta_checkBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="10dp"
-                android:text="Registrou último abastecimento" />
+                android:text="Abastecimento anterior em falta" />
         </LinearLayout>
 
         <Button

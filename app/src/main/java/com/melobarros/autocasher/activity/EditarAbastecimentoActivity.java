@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
@@ -20,7 +21,6 @@ import com.google.gson.GsonBuilder;
 import com.melobarros.autocasher.R;
 import com.melobarros.autocasher.fragment.DatePickerFragment;
 import com.melobarros.autocasher.model.Abastecimento;
-import com.melobarros.autocasher.model.Manutencao;
 import com.melobarros.autocasher.services.autocasherAPI;
 
 import java.time.LocalDate;
@@ -40,6 +40,7 @@ public class EditarAbastecimentoActivity extends AppCompatActivity implements Da
     private static final String TAG = "EditarAbastActivity";
 
     public TextInputEditText quantidadeLitrosAbastecimento, valorLitroAbastecimento, dataAbastecimento, infoAdicionalAbastecimento, odometroAbastecimento;
+    public CheckBox tanqueCheio, abastecimentoAnteriorEmFalta;
     public Button btnSalvar, btnDescartar;
     public ImageButton btnDataPicker;
 
@@ -114,6 +115,8 @@ public class EditarAbastecimentoActivity extends AppCompatActivity implements Da
         a.setLitros(tempLitros);
         a.setOdometro(tempOdometro);
         a.setTipo("abastecimento");
+        a.setAbastecimentoAnteriorEmFalta(abastecimentoAnteriorEmFalta.isChecked());
+        a.setCompletandoTanque(tanqueCheio.isChecked());
 
 
         Call<Abastecimento> requestInsert = autocasherAPI.insertAbastecimento(a);
@@ -157,6 +160,8 @@ public class EditarAbastecimentoActivity extends AppCompatActivity implements Da
         a.setLitros(tempLitros);
         a.setOdometro(tempOdometro);
         a.setTipo("abastecimento");
+        a.setAbastecimentoAnteriorEmFalta(abastecimentoAnteriorEmFalta.isChecked());
+        a.setCompletandoTanque(tanqueCheio.isChecked());
 
 
 
@@ -196,6 +201,8 @@ public class EditarAbastecimentoActivity extends AppCompatActivity implements Da
         dataAbastecimento.setText(abastecimento.getLocalDateTime().format(formatter));
         infoAdicionalAbastecimento.setText(abastecimento.getObservacao());
         odometroAbastecimento.setText(String.format("%.0f", abastecimento.getOdometro()));
+        tanqueCheio.setChecked(abastecimento.isCompletandoTanque());
+        abastecimentoAnteriorEmFalta.setChecked(abastecimento.isAbastecimentoAnteriorEmFalta());
     }
 
     public void setInitNumbers(){
@@ -246,6 +253,8 @@ public class EditarAbastecimentoActivity extends AppCompatActivity implements Da
         btnDescartar = findViewById(R.id.descartarAbastecimento_button);
         btnSalvar = findViewById(R.id.salvarAbastecimento_button);
         btnDataPicker = findViewById(R.id.dataPicker_Abastecimento_imageButton);
+        tanqueCheio = findViewById(R.id.tanqueCheio_checkBox);
+        abastecimentoAnteriorEmFalta = findViewById(R.id.abastecimentoAnteriorEmFalta_checkBox);
     }
 
     @Override
