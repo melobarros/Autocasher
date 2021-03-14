@@ -22,7 +22,9 @@ import android.view.ViewGroup;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.melobarros.autocasher.MainActivity;
 import com.melobarros.autocasher.R;
+import com.melobarros.autocasher.activity.CalcularMelhorCombustivelActivity;
 import com.melobarros.autocasher.activity.EditarAbastecimentoActivity;
 import com.melobarros.autocasher.adapter.AdapterAbastecimento;
 import com.melobarros.autocasher.adapter.AdapterManutencao;
@@ -55,7 +57,7 @@ public class AbastecimentoFragment extends Fragment {
 
     private RecyclerView recyclerAbastecimento;
     private AdapterAbastecimento adapterAbastecimento;
-    public FloatingActionButton fab;
+    public FloatingActionButton novoAbastecimentoFab, calcularMelhorCombustivelFab;
     Toolbar toolbar;
 
     public AbastecimentoFragment() {
@@ -83,19 +85,28 @@ public class AbastecimentoFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_abastecimento, container, false);
 
         recyclerAbastecimento = view.findViewById(R.id.recyclerAbastecimento);
-        fab = view.findViewById(R.id.novoAbastecimento_FAB);
+        novoAbastecimentoFab = view.findViewById(R.id.novoAbastecimento_FAB);
+        calcularMelhorCombustivelFab = view.findViewById(R.id.calcularMelhorCombustivel_FAB);
         toolbar = view.findViewById(R.id.Abastecimento_toolbar);
 
         initAbastecimentos();
         initToolbar();
 
-        fab.setOnClickListener(new View.OnClickListener() {
+        novoAbastecimentoFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Abastecimento abastecimento = null;
 
                 Intent i = new Intent(v.getContext(), EditarAbastecimentoActivity.class);
                 i.putExtra("Abastecimento", abastecimento);
+                v.getContext().startActivity(i);
+            }
+        });
+
+        calcularMelhorCombustivelFab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(v.getContext(), CalcularMelhorCombustivelActivity.class);
                 v.getContext().startActivity(i);
             }
         });

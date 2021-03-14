@@ -16,11 +16,9 @@
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme" />
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
         tools:context=".fragment.AbastecimentoFragment">
 
         <androidx.recyclerview.widget.RecyclerView
@@ -40,6 +38,20 @@
             android:layout_marginRight="10dp"
             android:clickable="true"
             android:src="@android:drawable/ic_input_add"
+            app:backgroundTint="#B5E91E63" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/calcularMelhorCombustivel_FAB"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginBottom="10dp"
+            android:clickable="true"
+            android:src="@drawable/ic_attach_money_black_24dp"
+            android:tint="#6DD370"
             app:backgroundTint="#B5E91E63" />
     </RelativeLayout>
 

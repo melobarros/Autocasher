@@ -13,7 +13,12 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".activity.EditarLembreteActivity"
+        <activity
+            android:name=".activity.CalcularMelhorCombustivelActivity"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.MelhorCombustivelWindow"/>
+        <activity
+            android:name=".activity.EditarLembreteActivity"
             android:parentActivityName=".MainActivity" />
         <activity
             android:name=".activity.EditarAbastecimentoActivity"

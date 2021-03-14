@@ -47,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
                 - Abastecimento
                     - Selecionar se ultimo abastecimento foi tanque cheio
                     - Selecionar se esta enchendo o tanque
+                    - Implementar calculadora de melhor combustivel
                 - Gasto
                 - Lembrete
                     - Selecionar repetir a cada qtde numerico somente
