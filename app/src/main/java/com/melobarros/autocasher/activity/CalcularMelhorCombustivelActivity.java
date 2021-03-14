@@ -2,9 +2,11 @@ package com.melobarros.autocasher.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -33,6 +35,8 @@ public class CalcularMelhorCombustivelActivity extends AppCompatActivity {
         calcularMelhorPreco.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                hideKeyboard();
+
                 combustivelTemp = getMelhorCombustivel();
                 melhorCombustivel.setText(combustivelTemp);
             }
@@ -40,10 +44,19 @@ public class CalcularMelhorCombustivelActivity extends AppCompatActivity {
 
     }
 
+    public void hideKeyboard(){
+        InputMethodManager inputManager = (InputMethodManager)
+                getSystemService(Context.INPUT_METHOD_SERVICE);
+
+        inputManager.hideSoftInputFromWindow((null == getCurrentFocus()) ? null : getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+    }
+
     public String getMelhorCombustivel(){
         String combustivel = "";
 
-        if (precoAlcool.getText().toString() != "" && precoGasolina.getText().toString() != "") {
+        // return val.trim().length() > 0 ? Float.valueOf(val.replace(',','.')) : 0;
+
+        if (precoAlcool.getText().toString().trim().length() > 0 && precoGasolina.getText().toString().trim().length() > 0) {
             gasolinaTemp = Float.valueOf(precoGasolina.getText().toString());
             alcoolTemp = Float.valueOf(precoAlcool.getText().toString());
             resultado = alcoolTemp / gasolinaTemp;
@@ -55,7 +68,7 @@ public class CalcularMelhorCombustivelActivity extends AppCompatActivity {
                 combustivel = "Gasolina";
             }
         }else{
-            Toast.makeText(CalcularMelhorCombustivelActivity.this, "INSIRA O VALOR DOS DOIS COMBUSTIVEIS",Toast.LENGTH_SHORT).show();
+            Toast.makeText(CalcularMelhorCombustivelActivity.this, "POR FAVOR, INSIRA O VALOR DOS DOIS COMBUSTÍVEIS.",Toast.LENGTH_SHORT).show();
         }
 
         return combustivel;
