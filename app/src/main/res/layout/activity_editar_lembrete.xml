@@ -29,7 +29,7 @@
                 android:id="@+id/descricaoLembrete_input"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:drawableLeft="@android:drawable/ic_menu_info_details"
+                android:drawableLeft="@drawable/ic_info_outline_black_24dp"
                 android:drawablePadding="10dp"
                 android:hint="Descricao" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -45,7 +45,8 @@
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/ic_attach_money_black_24dp"
                 android:drawablePadding="10dp"
-                android:hint="Valor previsto" />
+                android:hint="Valor previsto"
+                android:inputType="numberDecimal" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <LinearLayout
@@ -60,7 +61,7 @@
                 android:layout_gravity="center"
                 android:background="#00FFFFFF"
                 android:paddingLeft="15dp"
-                app:srcCompat="@android:drawable/ic_menu_my_calendar" />
+                app:srcCompat="@drawable/ic_today_black_24dp" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="wrap_content"
@@ -85,10 +86,10 @@
                 android:id="@+id/repetirCadaLembrete_input"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:drawableLeft="@android:drawable/ic_menu_info_details"
+                android:drawableLeft="@drawable/ic_autorenew_black_24dp"
                 android:drawablePadding="10dp"
                 android:hint="Repetir a cada x meses"
-                android:inputType="numberDecimal" />
+                android:inputType="number" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -100,7 +101,7 @@
                 android:id="@+id/localLembrete_input"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:drawableLeft="@android:drawable/ic_menu_mylocation"
+                android:drawableLeft="@drawable/ic_location_on_black_24dp"
                 android:drawablePadding="10dp"
                 android:hint="Local" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -114,7 +115,7 @@
                 android:id="@+id/observacaoLembrete_input"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:drawableLeft="@android:drawable/ic_menu_manage"
+                android:drawableLeft="@drawable/ic_info_outline_black_24dp"
                 android:drawablePadding="10dp"
                 android:hint="Observacao"
                 android:includeFontPadding="false" />

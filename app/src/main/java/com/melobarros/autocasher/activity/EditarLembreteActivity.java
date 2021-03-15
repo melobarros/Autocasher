@@ -49,6 +49,8 @@ public class EditarLembreteActivity extends AppCompatActivity implements DatePic
     autocasherAPI autocasherAPI;
 
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MMM/yyyy");
+    Integer tempRepetirCada;
+    Float tempValorPrevisto;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,12 +110,15 @@ public class EditarLembreteActivity extends AppCompatActivity implements DatePic
         final Lembrete l = new Lembrete();
         LocalDateTime dt = LocalDate.parse(dataLembrete.getText().toString(), formatter).atStartOfDay();
 
+        tempRepetirCada = verificaNulo(repetirCadaLembrete.getText().toString());
+        tempValorPrevisto = verificaNuloFloat(valorLembrete.getText().toString());
+
         l.setDescricao(descricaoLembrete.getText().toString());
-        l.setValorPrevisto(Float.valueOf(valorLembrete.getText().toString()));
+        l.setValorPrevisto(tempValorPrevisto);
         l.setDateTime(dt.toString());
         l.setLocal(localLembrete.getText().toString());
         l.setObservacao(observacaoLembrete.getText().toString());
-        l.setRepetirCada(Integer.valueOf(repetirCadaLembrete.getText().toString()));
+        l.setRepetirCada(tempRepetirCada);
         l.setTipo("lembrete");
 
         Call<Lembrete> requestInsert = autocasherAPI.insertLembrete(l);
@@ -147,12 +152,15 @@ public class EditarLembreteActivity extends AppCompatActivity implements DatePic
         final Lembrete l = (Lembrete) getIntent().getSerializableExtra("Lembrete");
         LocalDateTime dt = LocalDate.parse(dataLembrete.getText().toString(), formatter).atStartOfDay();
 
+        tempRepetirCada = verificaNulo(repetirCadaLembrete.getText().toString());
+        tempValorPrevisto = verificaNuloFloat(valorLembrete.getText().toString());
+
         l.setDescricao(descricaoLembrete.getText().toString());
-        l.setValorPrevisto(Float.valueOf(valorLembrete.getText().toString()));
+        l.setValorPrevisto(tempValorPrevisto);
         l.setDateTime(dt.toString());
         l.setLocal(localLembrete.getText().toString());
         l.setObservacao(observacaoLembrete.getText().toString());
-        l.setRepetirCada(Integer.valueOf(repetirCadaLembrete.getText().toString()));
+        l.setRepetirCada(tempRepetirCada);
         l.setTipo("lembrete");
 
         Call<Lembrete> requestUpdate = autocasherAPI.updateLembrete(l);
@@ -179,6 +187,14 @@ public class EditarLembreteActivity extends AppCompatActivity implements DatePic
                 Log.e(TAG, "Erro Failure: " + t.getMessage());
             }
         });
+    }
+
+    private Integer verificaNulo(String val){
+        return val.trim().length() > 0 ? Integer.valueOf(val) : 0;
+    }
+
+    private Float verificaNuloFloat(String val){
+        return val.trim().length() > 0 ? Float.valueOf(val.replace(',','.')) : 0;
     }
 
     public void setTexts(Lembrete lembrete){

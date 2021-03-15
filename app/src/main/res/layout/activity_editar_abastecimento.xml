@@ -29,7 +29,7 @@
                 android:id="@+id/quantidadeLitros_input"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:drawableLeft="@android:drawable/ic_menu_info_details"
+                android:drawableLeft="@drawable/ic_info_outline_black_24dp"
                 android:drawablePadding="10dp"
                 android:hint="Quantidade Litros"
                 android:inputType="numberDecimal" />
@@ -62,7 +62,7 @@
                 android:layout_gravity="center"
                 android:background="#00FFFFFF"
                 android:paddingLeft="15dp"
-                app:srcCompat="@android:drawable/ic_menu_my_calendar" />
+                app:srcCompat="@drawable/ic_today_black_24dp" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="wrap_content"
@@ -87,7 +87,7 @@
                 android:id="@+id/infoAdicionalAbastecimento_input"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:drawableLeft="@android:drawable/ic_menu_info_details"
+                android:drawableLeft="@drawable/ic_info_outline_black_24dp"
                 android:drawablePadding="10dp"
                 android:hint="Info adicional" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -101,7 +101,7 @@
                 android:id="@+id/odometroAbastecimento_input"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:drawableLeft="@android:drawable/ic_menu_manage"
+                android:drawableLeft="@drawable/ic_drive_eta_black_24dp"
                 android:drawablePadding="10dp"
                 android:hint="Odometro"
                 android:includeFontPadding="false"
