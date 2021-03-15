@@ -146,7 +146,7 @@ public class LembreteFragment extends Fragment {
     }
 
     public void initToolbar(){
-        toolbar.setTitle("LEMBRETE");
+        toolbar.setTitle("");
         ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
 
         //getSupportActionBar().setDisplayHomeAsUpEnabled(true);

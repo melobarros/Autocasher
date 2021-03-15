@@ -87,7 +87,8 @@
                 android:layout_height="wrap_content"
                 android:drawableLeft="@android:drawable/ic_menu_info_details"
                 android:drawablePadding="10dp"
-                android:hint="Repetir a cada x meses" />
+                android:hint="Repetir a cada x meses"
+                android:inputType="numberDecimal" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
