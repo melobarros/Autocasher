@@ -48,6 +48,7 @@ public class EditarManutencaoActivity extends AppCompatActivity implements DateP
     autocasherAPI autocasherAPI;
 
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MMM/yyyy");
+    Float tempValor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,12 +99,18 @@ public class EditarManutencaoActivity extends AppCompatActivity implements DateP
         });
     }
 
+    private Float verificaNuloFloat(String val){
+        return val.trim().length() > 0 ? Float.valueOf(val.replace(',','.')) : 0;
+    }
+
     private void createManutencao(final Context c){
         final Manutencao m = new Manutencao();
         LocalDateTime dt = LocalDate.parse(dataManutencao.getText().toString(), formatter).atStartOfDay();
 
+        tempValor = verificaNuloFloat(valorManutencao.getText().toString());
+
         m.setObservacao(tipoManutencao.getText().toString());
-        m.setValor(Float.valueOf(valorManutencao.getText().toString()));
+        m.setValor(tempValor);
         m.setDateTime(dt.toString());
         m.setLocal(localManutencao.getText().toString());
         m.setDescricao(infoAdicionalManutencao.getText().toString());
@@ -141,8 +148,10 @@ public class EditarManutencaoActivity extends AppCompatActivity implements DateP
         final Manutencao m = (Manutencao) getIntent().getSerializableExtra("Manutencao");
         LocalDateTime dt = LocalDate.parse(dataManutencao.getText().toString(), formatter).atStartOfDay();
 
+        tempValor = verificaNuloFloat(valorManutencao.getText().toString());
+
         m.setObservacao(tipoManutencao.getText().toString());
-        m.setValor(Float.valueOf(valorManutencao.getText().toString()));
+        m.setValor(tempValor);
         m.setDateTime(dt.toString());
         m.setLocal(localManutencao.getText().toString());
         m.setDescricao(infoAdicionalManutencao.getText().toString());
