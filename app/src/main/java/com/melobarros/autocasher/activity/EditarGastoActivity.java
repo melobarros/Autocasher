@@ -55,6 +55,7 @@ public class EditarGastoActivity extends AppCompatActivity implements DatePicker
     autocasherAPI autocasherAPI;
 
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MMM/yyyy");
+    Float tempValor, tempOdometro;
 
 
     @SuppressLint("NewApi")
@@ -118,6 +119,10 @@ public class EditarGastoActivity extends AppCompatActivity implements DatePicker
         odometroGasto.setText(String.valueOf(gasto.getOdometro()));
     }
 
+    private Float verificaNuloFloat(String val){
+        return val.trim().length() > 0 ? Float.valueOf(val.replace(',','.')) : 0;
+    }
+
     public void initService(){
         Gson gson = new GsonBuilder()
                 .setLenient()
@@ -177,12 +182,15 @@ public class EditarGastoActivity extends AppCompatActivity implements DatePicker
         final Gasto g = new Gasto();
         LocalDateTime dt = LocalDate.parse(dataGasto.getText().toString(), formatter).atStartOfDay();
 
+        tempValor = verificaNuloFloat(valorGasto.getText().toString());
+        tempOdometro = verificaNuloFloat(odometroGasto.getText().toString());
+
         g.setObservacao(tipoGasto.getText().toString());
-        g.setValorTotal(Float.valueOf(valorGasto.getText().toString()));
+        g.setValorTotal(tempValor);
         g.setDateTime(dt.toString());
         g.setLocal(localGasto.getText().toString());
         g.setMotivo(infoAdicionalGasto.getText().toString());
-        g.setOdometro(Float.valueOf(odometroGasto.getText().toString()));
+        g.setOdometro(tempOdometro);
         g.setTipo("gasto");
 
         Call<Gasto> requestInsert = autocasherAPI.insertGasto(g);
@@ -216,12 +224,15 @@ public class EditarGastoActivity extends AppCompatActivity implements DatePicker
         final Gasto g = (Gasto)getIntent().getSerializableExtra("Gasto");
         LocalDateTime dt = LocalDate.parse(dataGasto.getText().toString(), formatter).atStartOfDay();
 
+        tempValor = verificaNuloFloat(valorGasto.getText().toString());
+        tempOdometro = verificaNuloFloat(odometroGasto.getText().toString());
+
         g.setObservacao(tipoGasto.getText().toString());
-        g.setValorTotal(Float.valueOf(valorGasto.getText().toString()));
+        g.setValorTotal(tempValor);
         g.setDateTime(dt.toString());
         g.setLocal(localGasto.getText().toString());
         g.setMotivo(infoAdicionalGasto.getText().toString());
-        g.setOdometro(Float.valueOf(odometroGasto.getText().toString()));
+        g.setOdometro(tempOdometro);
         g.setTipo("gasto");
 
         Call<Gasto> requestUpdate = autocasherAPI.updateGasto(g);

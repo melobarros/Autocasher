@@ -64,6 +64,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:drawableLeft="@drawable/ic_info_outline_black_24dp"
+                    android:drawablePadding="2dp"
                     android:text="Observacao" />
 
                 <TextView
@@ -83,6 +85,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:drawableLeft="@drawable/ic_today_black_24dp"
+                android:drawablePadding="2dp"
                 android:text="Data" />
 
             <LinearLayout
@@ -102,18 +106,24 @@
                         android:id="@+id/motivo_textView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:drawableLeft="@drawable/ic_info_outline_black_24dp"
+                        android:drawablePadding="2dp"
                         android:text="Motivo" />
 
                     <TextView
                         android:id="@+id/local_textView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:drawableLeft="@drawable/ic_location_on_black_24dp"
+                        android:drawablePadding="2dp"
                         android:text="Local" />
 
                     <TextView
                         android:id="@+id/odometro_textView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:drawableLeft="@drawable/ic_drive_eta_black_24dp"
+                        android:drawablePadding="2dp"
                         android:text="Odometro" />
 
                 </LinearLayout>
