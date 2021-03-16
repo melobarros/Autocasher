@@ -41,16 +41,12 @@ public class MainActivity extends AppCompatActivity {
             - Melhorias:
                 - Geral
                     - Filtrar por data e ordenar por valor e data
-                    - Implementar tela de Estatisticas
-                    - Arrumar casos de uso em que usuario preenche campo com valor invalido (vazio, texto, numero)
-                    - Opcional: circulo em volta dos icones
+                    - Implementar tela de Estatisticas (Dashboards com MPAndroidChart)
                 - Gasto
                 - Lembrete
                     - Definir qual sera o metodo de lembrete (notificacao android, email, outro?)
                 - Manutencao
                     - ?
-            - Dashboards com MPAndroidChart
-
          */
     }
 
