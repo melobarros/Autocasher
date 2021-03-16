@@ -7,11 +7,11 @@
 
     <item android:id="@+id/ic_manutencao"
         android:icon="@drawable/ic_build_black_24dp"
-        android:title="Manutencao"/>
+        android:title="Manutenção"/>
 
     <item android:id="@+id/ic_historico"
         android:icon="@drawable/ic_insert_chart_black_24dp"
-        android:title="Estatisticas"/>
+        android:title="Estatísticas"/>
 
     <item android:id="@+id/ic_lembrete"
         android:icon="@drawable/ic_access_alarm_black_24dp"

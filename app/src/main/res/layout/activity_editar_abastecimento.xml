@@ -29,7 +29,7 @@
                 android:id="@+id/quantidadeLitros_input"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_info_outline_black_24dp"
+                android:drawableLeft="@drawable/ic_invert_colors_black_24dp"
                 android:drawablePadding="10dp"
                 android:hint="Quantidade Litros"
                 android:inputType="numberDecimal" />
@@ -103,7 +103,7 @@
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/ic_drive_eta_black_24dp"
                 android:drawablePadding="10dp"
-                android:hint="Odometro"
+                android:hint="Odômetro"
                 android:includeFontPadding="false"
                 android:inputType="numberDecimal" />
         </com.google.android.material.textfield.TextInputLayout>

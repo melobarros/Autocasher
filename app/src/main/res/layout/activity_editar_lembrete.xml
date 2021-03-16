@@ -31,7 +31,7 @@
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/ic_info_outline_black_24dp"
                 android:drawablePadding="10dp"
-                android:hint="Descricao" />
+                android:hint="Descrição" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -117,7 +117,7 @@
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/ic_info_outline_black_24dp"
                 android:drawablePadding="10dp"
-                android:hint="Observacao"
+                android:hint="Observação"
                 android:includeFontPadding="false" />
         </com.google.android.material.textfield.TextInputLayout>
 

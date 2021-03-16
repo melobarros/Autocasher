@@ -1,15 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
     tools:context=".fragment.HistoricoFragment">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerHistorico"
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/Estatisticas_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#993737"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme" />
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#D1D0D0" />
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        tools:context=".fragment.HistoricoFragment">
 
-</RelativeLayout>
+
+    </RelativeLayout>
+
+</LinearLayout>
+

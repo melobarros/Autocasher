@@ -31,7 +31,7 @@
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/ic_info_outline_black_24dp"
                 android:drawablePadding="10dp"
-                android:hint="Tipo de manutencao" />
+                android:hint="Tipo de manutenção" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
