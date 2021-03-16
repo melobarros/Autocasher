@@ -144,7 +144,7 @@ public class ManutencaoFragment extends Fragment {
     }
 
     public void initToolbar(){
-        toolbar.setTitle("MANUTENCAO");
+        toolbar.setTitle("");
         ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
 
         //getSupportActionBar().setDisplayHomeAsUpEnabled(true);

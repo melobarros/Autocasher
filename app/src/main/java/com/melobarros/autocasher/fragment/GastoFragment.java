@@ -180,7 +180,7 @@ public class GastoFragment extends Fragment {
     }
 
     public void initToolbar(){
-        toolbar.setTitle("GASTO");
+        toolbar.setTitle("");
         ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
 
         //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
