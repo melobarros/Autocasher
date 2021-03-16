@@ -46,9 +46,6 @@ public class MainActivity extends AppCompatActivity {
                     - Opcional: circulo em volta dos icones
                 - Gasto
                 - Lembrete
-                    - Selecionar repetir a cada qtde numerico somente
-                    - Selecionar repetir a cada periodo (dia, semana, mes, ano)
-                    - Selecionar hora do dia
                     - Definir qual sera o metodo de lembrete (notificacao android, email, outro?)
                 - Manutencao
                     - ?
