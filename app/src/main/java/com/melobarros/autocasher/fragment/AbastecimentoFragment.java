@@ -38,6 +38,7 @@ import com.melobarros.autocasher.services.autocasherAPI;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import okhttp3.OkHttpClient;
@@ -67,6 +68,7 @@ public class AbastecimentoFragment extends Fragment implements AdapterView.OnIte
     private Spinner ordenarPor_spinner, periodo_spinner;
     private static final String[] ordernarPor_paths = {"Ordernar por", "Mais novos", "Mais antigos", "Maior valor", "Menor valor"};
     private static final String[] periodo_paths = {"Período", "15 dias", "30 dias", "90 dias", "1 ano", "2 anos", "5 anos"};
+    String selectedSpinner;
 
 
     public AbastecimentoFragment() {
@@ -160,7 +162,7 @@ public class AbastecimentoFragment extends Fragment implements AdapterView.OnIte
                     Log.d(TAG, "Setting variable list");
 
                     abastecimentos = response.body();
-                    orderList(abastecimentos);
+                    orderList(abastecimentos, "Mais novos");
                     setupRecycler();
                 }
             }
@@ -172,13 +174,7 @@ public class AbastecimentoFragment extends Fragment implements AdapterView.OnIte
         });
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    private void orderList(List<Abastecimento> abastecimentos){
-        List<Abastecimento> list = abastecimentos;
 
-        Collections.sort(list, (x, y) -> x.getLocalDateTime().compareTo(y.getLocalDateTime()));
-        Collections.reverse(list);
-    }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void setupRecycler(){
@@ -221,9 +217,66 @@ public class AbastecimentoFragment extends Fragment implements AdapterView.OnIte
         autocasherAPI = retrofit.create(com.melobarros.autocasher.services.autocasherAPI.class);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private void orderList(List<Abastecimento> abastecimentos, String orderType){
+        List<Abastecimento> list = abastecimentos;
+
+        switch (orderType){
+            case "Mais novos":
+                Collections.sort(list, (x, y) -> x.getLocalDateTime().compareTo(y.getLocalDateTime()));
+                Collections.reverse(list);
+                adapterAbastecimento.notifyDataSetChanged();
+                break;
+            case "Mais antigos":
+                Collections.sort(list, (x, y) -> x.getLocalDateTime().compareTo(y.getLocalDateTime()));
+                adapterAbastecimento.notifyDataSetChanged();
+                break;
+            case "Maior valor":
+                Collections.sort(list, new Comparator<Abastecimento>() {
+                    @Override
+                    public int compare(Abastecimento o1, Abastecimento o2) {
+                        return Float.compare(o1.getLitros() * o1.getPrecoLitro(), o2.getLitros() * o2.getPrecoLitro());
+                    }
+                });
+
+                Collections.reverse(list);
+                adapterAbastecimento.notifyDataSetChanged();
+                break;
+            case "Menor valor":
+                Collections.sort(list, new Comparator<Abastecimento>() {
+                    @Override
+                    public int compare(Abastecimento o1, Abastecimento o2) {
+                        return Float.compare(o1.getLitros() * o1.getPrecoLitro(), o2.getLitros() * o2.getPrecoLitro());
+                    }
+                });
+                adapterAbastecimento.notifyDataSetChanged();
+                break;
+        }
+
+
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        Toast.makeText(getActivity(), "YOUR SELECTION IS : " + parent.getItemAtPosition(position).toString(), Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getActivity(), "YOUR SELECTION IS : " + parent.getItemAtPosition(position).toString(), Toast.LENGTH_SHORT).show();
+
+        selectedSpinner = parent.getItemAtPosition(position).toString();
+
+        //private static final String[] ordernarPor_paths = {"Ordernar por", "Mais novos", "Mais antigos", "Maior valor", "Menor valor"};
+        //private static final String[] periodo_paths = {"Período", "15 dias", "30 dias", "90 dias", "1 ano", "2 anos", "5 anos"};
+
+        for (String order : ordernarPor_paths) {
+            if(selectedSpinner == order){
+                orderList(abastecimentos, selectedSpinner);
+            }
+        }
+
+        for (String period : periodo_paths) {
+            if(selectedSpinner == period){
+                // ADD FILTER FUNCTION
+            }
+        }
     }
 
     @Override
