@@ -40,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
         - TO DO
             - Melhorias:
                 - Geral
+                    - Refresh spring api and how to send to heroku
                     - Filtrar por data e ordenar por valor e data
                     - Implementar tela de Estatisticas (Dashboards com MPAndroidChart)
                 - Gasto
