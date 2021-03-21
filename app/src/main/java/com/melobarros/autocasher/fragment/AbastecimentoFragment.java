@@ -166,7 +166,7 @@ public class AbastecimentoFragment extends Fragment implements AdapterView.OnIte
                     Log.d(TAG, "Setting variable list");
 
                     abastecimentos = response.body();
-                    orderList(abastecimentos, "Mais novos");
+                    orderList(abastecimentos);
                     setupRecycler();
                 }
             }
@@ -240,7 +240,7 @@ public class AbastecimentoFragment extends Fragment implements AdapterView.OnIte
                     Log.d(TAG, "Setting variable list");
 
                     abastecimentos = response.body();
-                    orderList(abastecimentos, "Mais novos");
+                    orderList(abastecimentos);
                     setupRecycler();
                 }
             }
@@ -296,10 +296,12 @@ public class AbastecimentoFragment extends Fragment implements AdapterView.OnIte
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    private void orderList(List<Abastecimento> abastecimentos, String orderType){
+    private void orderList(List<Abastecimento> abastecimentos){
+        String selectedOrder = ordenarPor_spinner.getSelectedItem().toString();
         List<Abastecimento> list = abastecimentos;
 
-        switch (orderType){
+        switch (selectedOrder){
+            case "Ordernar por":
             case "Mais novos":
                 Collections.sort(list, (x, y) -> x.getLocalDateTime().compareTo(y.getLocalDateTime()));
                 Collections.reverse(list);
@@ -346,13 +348,13 @@ public class AbastecimentoFragment extends Fragment implements AdapterView.OnIte
 
         for (String order : ordernarPor_paths) {
             if(selectedSpinner == order){
-                orderList(abastecimentos, selectedSpinner);
+                orderList(abastecimentos);
             }
         }
 
         for (String period : periodo_paths) {
             if(selectedSpinner == period){
-                // ADD FILTER FUNCTION
+                initAbastecimentosBetweenDates(null, null);
             }
         }
     }
