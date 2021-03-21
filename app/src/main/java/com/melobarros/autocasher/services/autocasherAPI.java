@@ -6,6 +6,7 @@ import com.melobarros.autocasher.model.Lembrete;
 import com.melobarros.autocasher.model.Manutencao;
 import com.melobarros.autocasher.model.Registro;
 
+import java.util.Date;
 import java.util.List;
 
 import retrofit2.Call;
@@ -58,6 +59,9 @@ public interface autocasherAPI {
 
     @GET("registros/abastecimentos")
     Call<List<Abastecimento>> getAbastecimentos();
+
+    @GET("registro/abastecimento/{startDate}/{endDate}")
+    Call<List<Abastecimento>> getAbastecimentosBetweenDates(@Path("startDate") String startDate, @Path("endDate") String endDate);
 
     @GET("registro/abastecimento/{id}")
     Call<Abastecimento> getAbastecimentoById(@Path("id") int id);

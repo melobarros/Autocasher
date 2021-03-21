@@ -36,9 +36,12 @@ import com.melobarros.autocasher.model.Abastecimento;
 import com.melobarros.autocasher.model.Manutencao;
 import com.melobarros.autocasher.services.autocasherAPI;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 
 import okhttp3.OkHttpClient;
@@ -82,7 +85,7 @@ public class AbastecimentoFragment extends Fragment implements AdapterView.OnIte
 
         adapterAbastecimento = new AdapterAbastecimento(abastecimentos, getActivity());
         recyclerAbastecimento.setAdapter(adapterAbastecimento);
-        initAbastecimentos();
+        initAbastecimentosBetweenDates(null, null);
         adapterAbastecimento.notifyDataSetChanged();
     }
 
@@ -97,8 +100,9 @@ public class AbastecimentoFragment extends Fragment implements AdapterView.OnIte
 
         initComponentes(view);
         initToolbar();
-        initAbastecimentos();
         initSpinners();
+        initAbastecimentosBetweenDates(null, null);
+
 
 
         novoAbastecimentoFab.setOnClickListener(new View.OnClickListener() {
@@ -151,6 +155,80 @@ public class AbastecimentoFragment extends Fragment implements AdapterView.OnIte
         Log.d(TAG, "initAbastecimentos: fetching abastecimentos list");
 
         Call<List<Abastecimento>> requestAbastecimentos = autocasherAPI.getAbastecimentos();
+        requestAbastecimentos.enqueue(new Callback<List<Abastecimento>>() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
+            @Override
+            public void onResponse(Call<List<Abastecimento>> call, Response<List<Abastecimento>> response) {
+                if(!response.isSuccessful()){
+                    Log.v(TAG, "Erro400: " + response.message());
+                    return;
+                } else{
+                    Log.d(TAG, "Setting variable list");
+
+                    abastecimentos = response.body();
+                    orderList(abastecimentos, "Mais novos");
+                    setupRecycler();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Abastecimento>> call, Throwable t) {
+                Log.e(TAG, "Erro Failure: " + t.getMessage());
+            }
+        });
+    }
+
+    public static String getCalculatedDate(int days) {
+        Calendar cal = Calendar.getInstance();
+        SimpleDateFormat s = new SimpleDateFormat("yyyy-MM-dd");
+        cal.add(Calendar.DAY_OF_YEAR, days);
+        return s.format(new Date(cal.getTimeInMillis()));
+    }
+
+    private String getStartDate(String _startDate){
+
+        String startDate = _startDate;
+        String selectedPeriodo = periodo_spinner.getSelectedItem().toString();
+
+        if(startDate == null){
+            switch (selectedPeriodo) {
+                case "Período":
+                case "15 dias":
+                    startDate = getCalculatedDate(-15);
+                    break;
+                case "30 dias":
+                    startDate = getCalculatedDate(-30);
+                    break;
+                case "90 dias":
+                    startDate = getCalculatedDate(-90);
+                    break;
+                case "1 ano":
+                    startDate = getCalculatedDate(-365);
+                    break;
+                case "2 anos":
+                    startDate = getCalculatedDate(-365*2);
+                    break;
+                case "5 anos":
+                    startDate = getCalculatedDate(-365*5);
+                    break;
+            }
+        }
+
+        return startDate;
+    }
+
+    private void initAbastecimentosBetweenDates(String _startDate, String _endDate){
+        Log.d(TAG, "initAbastecimentosBetweenDates: fetching abastecimentos list");
+
+        String startDate = getStartDate(_startDate);
+        String endDate = _endDate;
+
+        if(endDate == null){
+            SimpleDateFormat s = new SimpleDateFormat("yyyy-MM-dd");
+            endDate = s.format(new Date(Calendar.getInstance().getTimeInMillis()));
+        }
+
+        Call<List<Abastecimento>> requestAbastecimentos = autocasherAPI.getAbastecimentosBetweenDates(startDate, endDate);
         requestAbastecimentos.enqueue(new Callback<List<Abastecimento>>() {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
