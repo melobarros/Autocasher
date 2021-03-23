@@ -102,7 +102,7 @@ public class AbastecimentoFragment extends Fragment implements AdapterView.OnIte
         initToolbar();
         initSpinners();
         initAbastecimentosBetweenDates(null, null);
-
+        //todos
 
 
         novoAbastecimentoFab.setOnClickListener(new View.OnClickListener() {
