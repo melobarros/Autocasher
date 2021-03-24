@@ -13,10 +13,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
+        <activity android:name=".MainActivity"/>
         <activity
             android:name=".activity.CalcularMelhorCombustivelActivity"
             android:parentActivityName=".MainActivity"
-            android:theme="@style/AppTheme.MelhorCombustivelWindow"/>
+            android:theme="@style/AppTheme.MelhorCombustivelWindow" />
         <activity
             android:name=".activity.EditarLembreteActivity"
             android:parentActivityName=".MainActivity" />
@@ -30,11 +31,10 @@
             android:name=".activity.EditarGastoActivity"
             android:parentActivityName=".MainActivity" />
         <activity
-            android:name=".MainActivity"
+            android:name=".activity.LoginActivity"
             android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
