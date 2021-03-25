@@ -84,6 +84,8 @@ public class LoginActivity extends AppCompatActivity {
                     return;
                 } else{
                     Log.d(TAG, "Response arrived!");
+                    login_progressBar.setVisibility(View.INVISIBLE);
+                    login_textView.setVisibility(View.INVISIBLE);
                     Intent i = new Intent(v.getContext(), MainActivity.class);
                     v.getContext().startActivity(i);
                 }
