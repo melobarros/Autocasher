@@ -25,6 +25,9 @@ public interface autocasherAPI {
     @GET("registros")
     Call<List<Registro>> getRegistros();
 
+    @GET("registro/{startDate}/{endDate}")
+    Call<List<Registro>> getRegistrosBetweenDates(@Path("startDate") String startDate, @Path("endDate") String endDate);
+
     @GET("registro/{id}")
     Call<Registro> getRegistroById(@Path("id") int id);
 
@@ -41,6 +44,9 @@ public interface autocasherAPI {
 
     @GET("registros/gastos")
     Call<List<Gasto>> getGastos();
+
+    @GET("registro/gasto/{startDate}/{endDate}")
+    Call<List<Gasto>> getGastosBetweenDates(@Path("startDate") String startDate, @Path("endDate") String endDate);
 
     @GET("registro/gasto/{id}")
     Call<Gasto> getGastoById(@Path("id") int id);
@@ -80,6 +86,9 @@ public interface autocasherAPI {
     @GET("registros/lembretes")
     Call<List<Lembrete>> getLembretes();
 
+    @GET("registro/lembrete/{startDate}/{endDate}")
+    Call<List<Lembrete>> getLembretesBetweenDates(@Path("startDate") String startDate, @Path("endDate") String endDate);
+
     @GET("registro/lembrete/{id}")
     Call<Lembrete> getLembreteById(@Path("id") int id);
 
@@ -97,6 +106,9 @@ public interface autocasherAPI {
 
     @GET("registros/manutencoes")
     Call<List<Manutencao>> getManutencoes();
+
+    @GET("registro/manutencao/{startDate}/{endDate}")
+    Call<List<Manutencao>> getManutencoesBetweenDates(@Path("startDate") String startDate, @Path("endDate") String endDate);
 
     @GET("registro/manutencao/{id}")
     Call<Manutencao> getManutencaoById(@Path("id") int id);

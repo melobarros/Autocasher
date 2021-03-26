@@ -16,6 +16,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.Spinner;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;
@@ -44,7 +46,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class LembreteFragment extends Fragment {
+public class LembreteFragment extends Fragment implements AdapterView.OnItemSelectedListener  {
     private static final String TAG = "LembreteFragment";
 
     private List<Lembrete> lembretes = new ArrayList<>();
@@ -57,6 +59,10 @@ public class LembreteFragment extends Fragment {
     public FloatingActionButton fab;
     Toolbar toolbar;
 
+    private Spinner ordenarPor_spinner, periodo_spinner;
+    private static final String[] ordernarPor_paths = {"Ordernar por", "Mais novos", "Mais antigos", "Maior valor", "Menor valor"};
+    private static final String[] periodo_paths = {"Período", "15 dias", "30 dias", "90 dias", "1 ano", "2 anos", "5 anos"};
+    String selectedSpinner;
 
     public LembreteFragment() {
         // Required empty public constructor
@@ -174,5 +180,15 @@ public class LembreteFragment extends Fragment {
                 .build();
 
         autocasherAPI = retrofit.create(com.melobarros.autocasher.services.autocasherAPI.class);
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
     }
 }

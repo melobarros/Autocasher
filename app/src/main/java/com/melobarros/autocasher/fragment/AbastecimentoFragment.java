@@ -102,8 +102,6 @@ public class AbastecimentoFragment extends Fragment implements AdapterView.OnIte
         initToolbar();
         initSpinners();
         initAbastecimentosBetweenDates(null, null);
-        //todos
-
 
         novoAbastecimentoFab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -339,12 +337,7 @@ public class AbastecimentoFragment extends Fragment implements AdapterView.OnIte
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        //Toast.makeText(getActivity(), "YOUR SELECTION IS : " + parent.getItemAtPosition(position).toString(), Toast.LENGTH_SHORT).show();
-
         selectedSpinner = parent.getItemAtPosition(position).toString();
-
-        //private static final String[] ordernarPor_paths = {"Ordernar por", "Mais novos", "Mais antigos", "Maior valor", "Menor valor"};
-        //private static final String[] periodo_paths = {"Período", "15 dias", "30 dias", "90 dias", "1 ano", "2 anos", "5 anos"};
 
         for (String order : ordernarPor_paths) {
             if(selectedSpinner == order){
