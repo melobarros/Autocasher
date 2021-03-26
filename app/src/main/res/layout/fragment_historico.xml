@@ -12,15 +12,14 @@
         android:id="@+id/Estatisticas_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#993737"
+        android:background="#588CE0"
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme" />
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:background="#D1D0D0"
         tools:context=".fragment.HistoricoFragment">
 
 
