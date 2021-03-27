@@ -81,7 +81,7 @@ public class LembreteFragment extends Fragment implements AdapterView.OnItemSele
 
         adapterLembrete = new AdapterLembrete(lembretes, getActivity());
         recyclerLembrete.setAdapter(adapterLembrete);
-        initLembretes();
+        initLembretesBetweenDates(null, null);
         adapterLembrete.notifyDataSetChanged();
     }
 
