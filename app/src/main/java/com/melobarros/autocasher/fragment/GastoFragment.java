@@ -173,6 +173,14 @@ public class GastoFragment extends Fragment implements AdapterView.OnItemSelecte
         adapterGasto.notifyDataSetChanged();
     }
 
+    public void initToolbar(){
+        toolbar.setTitle("");
+        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
+
+        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        //getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_clear_black_24dp);
+    }
+
     public void initService(){
         Gson gson = new GsonBuilder()
                 .setLenient()
@@ -194,14 +202,6 @@ public class GastoFragment extends Fragment implements AdapterView.OnItemSelecte
                 .build();
 
         autocasherAPI = retrofit.create(com.melobarros.autocasher.services.autocasherAPI.class);
-    }
-
-    public void initToolbar(){
-        toolbar.setTitle("");
-        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
-
-        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        //getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_clear_black_24dp);
     }
 
     private void initSpinners(){
