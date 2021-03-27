@@ -40,7 +40,6 @@ public class MainActivity extends AppCompatActivity {
         - TO DO
             - Melhorias:
                 - Geral
-                    - Filtrar por data e ordenar por valor e data
                     - Implementar tela de Estatisticas (Dashboards com MPAndroidChart)
                 - Gasto
                 - Lembrete
