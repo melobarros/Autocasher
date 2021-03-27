@@ -17,6 +17,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -27,12 +28,17 @@ import com.melobarros.autocasher.activity.EditarLembreteActivity;
 import com.melobarros.autocasher.activity.EditarManutencaoActivity;
 import com.melobarros.autocasher.adapter.AdapterLembrete;
 import com.melobarros.autocasher.adapter.AdapterManutencao;
+import com.melobarros.autocasher.model.Gasto;
 import com.melobarros.autocasher.model.Lembrete;
 import com.melobarros.autocasher.model.Manutencao;
 import com.melobarros.autocasher.services.autocasherAPI;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 
 import okhttp3.OkHttpClient;
@@ -90,8 +96,13 @@ public class LembreteFragment extends Fragment implements AdapterView.OnItemSele
         fab = view.findViewById(R.id.novoLembrete_FAB);
         toolbar = view.findViewById(R.id.Lembrete_toolbar);
 
-        initLembretes();
+        ordenarPor_spinner = view.findViewById(R.id.ordenarPor_lembrete_spinner);
+        periodo_spinner = view.findViewById(R.id.periodo_lembrete_spinner);
+
+        //initLembretes();
         initToolbar();
+        initSpinners();
+        initLembretesBetweenDates(null, null);
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -143,14 +154,6 @@ public class LembreteFragment extends Fragment implements AdapterView.OnItemSele
         adapterLembrete.notifyDataSetChanged();
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    private void orderList(List<Lembrete> lembretes){
-        List<Lembrete> list = lembretes;
-
-        Collections.sort(list, (x, y) -> x.getLocalDateTime().compareTo(y.getLocalDateTime()));
-        Collections.reverse(list);
-    }
-
     public void initToolbar(){
         toolbar.setTitle("");
         ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
@@ -182,9 +185,151 @@ public class LembreteFragment extends Fragment implements AdapterView.OnItemSele
         autocasherAPI = retrofit.create(com.melobarros.autocasher.services.autocasherAPI.class);
     }
 
+    private void initSpinners(){
+        ArrayAdapter<String> adapterOrdenar = new ArrayAdapter<>(getActivity(),
+                android.R.layout.simple_spinner_item,ordernarPor_paths);
+        ArrayAdapter<String>adapterPeriodo = new ArrayAdapter<>(getActivity(),
+                android.R.layout.simple_spinner_item,periodo_paths);
+
+        adapterOrdenar.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        adapterPeriodo.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        ordenarPor_spinner.setAdapter(adapterOrdenar);
+        ordenarPor_spinner.setOnItemSelectedListener(this);
+        periodo_spinner.setAdapter(adapterPeriodo);
+        periodo_spinner.setOnItemSelectedListener(this);
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public void orderList(List<Lembrete> lembretes){
+        String selectedOrder = ordenarPor_spinner.getSelectedItem().toString();
+        List<Lembrete> list = lembretes;
+
+        switch (selectedOrder){
+            case "Ordernar por":
+            case "Mais novos":
+                Collections.sort(list, (x, y) -> x.getLocalDateTime().compareTo(y.getLocalDateTime()));
+                Collections.reverse(list);
+                adapterLembrete.notifyDataSetChanged();
+                break;
+            case "Mais antigos":
+                Collections.sort(list, (x, y) -> x.getLocalDateTime().compareTo(y.getLocalDateTime()));
+                adapterLembrete.notifyDataSetChanged();
+                break;
+            case "Maior valor":
+                Collections.sort(list, new Comparator<Lembrete>() {
+                    @Override
+                    public int compare(Lembrete o1, Lembrete o2) {
+                        return Float.compare(o1.getValorPrevisto(), o2.getValorPrevisto());
+                    }
+                });
+
+                Collections.reverse(list);
+                adapterLembrete.notifyDataSetChanged();
+                break;
+            case "Menor valor":
+                Collections.sort(list, new Comparator<Lembrete>() {
+                    @Override
+                    public int compare(Lembrete o1, Lembrete o2) {
+                        return Float.compare(o1.getValorPrevisto(), o2.getValorPrevisto());
+                    }
+                });
+                adapterLembrete.notifyDataSetChanged();
+                break;
+        }
+
+    }
+
+    public static String getCalculatedDate(int days) {
+        Calendar cal = Calendar.getInstance();
+        SimpleDateFormat s = new SimpleDateFormat("yyyy-MM-dd");
+        cal.add(Calendar.DAY_OF_YEAR, days);
+        return s.format(new Date(cal.getTimeInMillis()));
+    }
+
+    private String getStartDate(String _startDate){
+
+        String startDate = _startDate;
+        String selectedPeriodo = periodo_spinner.getSelectedItem().toString();
+
+        if(startDate == null){
+            switch (selectedPeriodo) {
+                case "Período":
+                case "15 dias":
+                    startDate = getCalculatedDate(-15);
+                    break;
+                case "30 dias":
+                    startDate = getCalculatedDate(-30);
+                    break;
+                case "90 dias":
+                    startDate = getCalculatedDate(-90);
+                    break;
+                case "1 ano":
+                    startDate = getCalculatedDate(-365);
+                    break;
+                case "2 anos":
+                    startDate = getCalculatedDate(-365*2);
+                    break;
+                case "5 anos":
+                    startDate = getCalculatedDate(-365*5);
+                    break;
+            }
+        }
+
+        return startDate;
+    }
+
+    private void initLembretesBetweenDates(String _startDate, String _endDate){
+        Log.d(TAG, "initLembretesBetweenDates: fetching lembretes list");
+
+        String startDate = getStartDate(_startDate);
+        String endDate = _endDate;
+
+        if(endDate == null){
+            SimpleDateFormat s = new SimpleDateFormat("yyyy-MM-dd");
+            endDate = s.format(new Date(Calendar.getInstance().getTimeInMillis()));
+        }
+
+        Call<List<Lembrete>> requestLembrete = autocasherAPI.getLembretesBetweenDates(startDate, endDate);
+        requestLembrete.enqueue(new Callback<List<Lembrete>>() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
+            @Override
+            public void onResponse(Call<List<Lembrete>> call, Response<List<Lembrete>> response) {
+                if(!response.isSuccessful()){
+                    Log.v(TAG, "Erro400: " + response.message());
+                    return;
+                } else{
+                    Log.d(TAG, "Setting variable list");
+
+                    lembretes = response.body();
+                    orderList(lembretes);
+                    setupRecycler();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Lembrete>> call, Throwable t) {
+                Log.e(TAG, "Erro Failure: " + t.getMessage());
+            }
+        });
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        selectedSpinner = parent.getItemAtPosition(position).toString();
 
+        for (String order : ordernarPor_paths) {
+            if(selectedSpinner == order){
+                orderList(lembretes);
+            }
+        }
+
+        for (String period : periodo_paths) {
+            if(selectedSpinner == period){
+                initLembretesBetweenDates(null, null);
+            }
+        }
     }
 
     @Override

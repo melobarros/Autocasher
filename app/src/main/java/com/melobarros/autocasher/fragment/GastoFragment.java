@@ -128,20 +128,7 @@ public class GastoFragment extends Fragment implements AdapterView.OnItemSelecte
         return view;
     }
 
-    private void initSpinners(){
-        ArrayAdapter<String> adapterOrdenar = new ArrayAdapter<>(getActivity(),
-                android.R.layout.simple_spinner_item,ordernarPor_paths);
-        ArrayAdapter<String>adapterPeriodo = new ArrayAdapter<>(getActivity(),
-                android.R.layout.simple_spinner_item,periodo_paths);
 
-        adapterOrdenar.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        adapterPeriodo.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        ordenarPor_spinner.setAdapter(adapterOrdenar);
-        ordenarPor_spinner.setOnItemSelectedListener(this);
-        periodo_spinner.setAdapter(adapterPeriodo);
-        periodo_spinner.setOnItemSelectedListener(this);
-    }
 
     private void initGastos(){
         Log.d(TAG, "initGastos: fetching gastos list");
@@ -215,6 +202,21 @@ public class GastoFragment extends Fragment implements AdapterView.OnItemSelecte
 
         //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         //getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_clear_black_24dp);
+    }
+
+    private void initSpinners(){
+        ArrayAdapter<String> adapterOrdenar = new ArrayAdapter<>(getActivity(),
+                android.R.layout.simple_spinner_item,ordernarPor_paths);
+        ArrayAdapter<String>adapterPeriodo = new ArrayAdapter<>(getActivity(),
+                android.R.layout.simple_spinner_item,periodo_paths);
+
+        adapterOrdenar.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        adapterPeriodo.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        ordenarPor_spinner.setAdapter(adapterOrdenar);
+        ordenarPor_spinner.setOnItemSelectedListener(this);
+        periodo_spinner.setAdapter(adapterPeriodo);
+        periodo_spinner.setOnItemSelectedListener(this);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
