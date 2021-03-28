@@ -26,7 +26,7 @@ public interface autocasherAPI {
     Call<List<Registro>> getRegistros();
 
     @GET("registro/{startDate}/{endDate}")
-    Call<String> getRegistrosBetweenDates(@Path("startDate") String startDate, @Path("endDate") String endDate);
+    Call<List<Registro>> getRegistrosBetweenDates(@Path("startDate") String startDate, @Path("endDate") String endDate);
 
     @GET("registro/{id}")
     Call<Registro> getRegistroById(@Path("id") int id);
