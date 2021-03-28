@@ -19,11 +19,20 @@ import android.widget.Spinner;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.melobarros.autocasher.R;
 import com.melobarros.autocasher.adapter.AdapterGasto;
+import com.melobarros.autocasher.model.Abastecimento;
 import com.melobarros.autocasher.model.Gasto;
+import com.melobarros.autocasher.model.Lembrete;
+import com.melobarros.autocasher.model.Manutencao;
 import com.melobarros.autocasher.model.Registro;
 import com.melobarros.autocasher.services.autocasherAPI;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -51,12 +60,18 @@ public class HistoricoFragment extends Fragment implements AdapterView.OnItemSel
     private static final String TAG = "HistoricoFragment";
 
     private List<Registro> registros = new ArrayList<>();
+    private List<Abastecimento> abastecimentos = new ArrayList<>();
+    private List<Gasto> gastos = new ArrayList<>();
+    private List<Lembrete> lembretes = new ArrayList<>();
+    private List<Manutencao> manutencoes = new ArrayList<>();
     Toolbar toolbar;
 
     Retrofit retrofit;
     Retrofit retrofit_scalar;
     com.melobarros.autocasher.services.autocasherAPI autocasherAPI;
     com.melobarros.autocasher.services.autocasherAPI autocasherAPI_scalar;
+
+    Gson gson = new Gson();
 
     private Spinner periodo_spinner;
     private static final String[] periodo_paths = {"Período", "15 dias", "30 dias", "90 dias", "1 ano", "2 anos", "5 anos"};
@@ -200,6 +215,49 @@ public class HistoricoFragment extends Fragment implements AdapterView.OnItemSel
         return startDate;
     }
 
+    public void setObjectsToLists(String response) throws JSONException {
+        JSONObject registro;
+        String tipo;
+        JsonParser jsonParser;
+        JsonObject gsonObject;
+        JSONArray jsonArray;
+
+        abastecimentos.clear();
+        gastos.clear();
+        lembretes.clear();
+        manutencoes.clear();
+
+        jsonArray = new JSONArray(response);
+        for (int i = 0; i < jsonArray.length(); i++) {
+            registro = jsonArray.getJSONObject(i);
+            tipo = registro.getString("tipo");
+            jsonParser = new JsonParser();
+            gsonObject = (JsonObject)jsonParser.parseString(registro.toString());
+
+            switch (tipo) {
+                case "Abastecimento":
+                    abastecimentos.add(gson.fromJson(gsonObject, Abastecimento.class));
+                    break;
+                case "Gasto":
+                    gastos.add(gson.fromJson(gsonObject, Gasto.class));
+                    break;
+                case "Lembrete":
+                    lembretes.add(gson.fromJson(gsonObject, Lembrete.class));
+                    break;
+                case "Manutencao":
+                    manutencoes.add(gson.fromJson(gsonObject, Manutencao.class));
+                    break;
+            }
+        }
+    }
+
+    private void updateCharts(){
+        Log.d(TAG, "Abastecimentos: " + abastecimentos.size());
+        Log.d(TAG, "Gastos: " + gastos.size());
+        Log.d(TAG, "Lembretes: " + lembretes.size());
+        Log.d(TAG, "Manutencoes: " + manutencoes.size());
+    }
+
     private void initRegistrosBetweenDates_scalar(String _startDate, String _endDate){
         Log.d(TAG, "initRegistrosBetweenDates_scalar: fetching Registros list");
 
@@ -223,6 +281,13 @@ public class HistoricoFragment extends Fragment implements AdapterView.OnItemSel
                     Log.d(TAG, "Successful!");
                     Log.d(TAG, "Full response: " + response);
                     Log.d(TAG, "Response body: " + response.body());
+
+                    try {
+                        setObjectsToLists(response.body());
+                        updateCharts();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
 
                     //registros = response.body();
                 }
