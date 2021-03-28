@@ -189,7 +189,6 @@ public class HistoricoFragment extends Fragment implements AdapterView.OnItemSel
         Log.d(TAG, "Gastos: " + gastos.size());
         Log.d(TAG, "Lembretes: " + lembretes.size());
         Log.d(TAG, "Manutencoes: " + manutencoes.size());
-        Log.d(TAG, "Registros totais: " + registros.size());
     }
 
     private void initRegistrosBetweenDates(String _startDate, String _endDate){
@@ -203,18 +202,18 @@ public class HistoricoFragment extends Fragment implements AdapterView.OnItemSel
             endDate = s.format(new Date(Calendar.getInstance().getTimeInMillis()));
         }
 
-        Call<List<Registro>> requestRegistros = autocasherAPI.getRegistrosBetweenDates(startDate, endDate);
-        requestRegistros.enqueue(new Callback<List<Registro>>() {
+        Call<String> requestRegistros = autocasherAPI.getRegistrosBetweenDates(startDate, endDate);
+        requestRegistros.enqueue(new Callback<String>() {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
-            public void onResponse(Call<List<Registro>> call, Response<List<Registro>> response) {
+            public void onResponse(Call<String> call, Response<String> response) {
                 if(!response.isSuccessful()){
                     Log.v(TAG, "Erro400: " + response.message());
                     return;
                 } else{
                     Log.d(TAG, "Setting variable list");
 
-                    registros = response.body();
+                    //registros = response.body();
                     try {
                         setObjectsToLists(response.body().toString());
                         updateCharts();
@@ -225,7 +224,7 @@ public class HistoricoFragment extends Fragment implements AdapterView.OnItemSel
             }
 
             @Override
-            public void onFailure(Call<List<Registro>> call, Throwable t) {
+            public void onFailure(Call<String> call, Throwable t) {
                 Log.e(TAG, "Erro Failure: " + t.getMessage());
             }
         });
