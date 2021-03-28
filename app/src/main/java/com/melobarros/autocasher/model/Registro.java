@@ -16,6 +16,10 @@ public abstract class Registro implements Serializable {
     private String local;
     private String tipo = this.getClass().getSimpleName();
 
+    public Registro(){
+
+    }
+
 
     public LocalDateTime getLocalDateTime() {
         return LocalDateTime.parse(this.dateTime);
