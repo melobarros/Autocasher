@@ -40,6 +40,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 import static androidx.constraintlayout.widget.Constraints.TAG;
 
@@ -53,7 +54,9 @@ public class HistoricoFragment extends Fragment implements AdapterView.OnItemSel
     Toolbar toolbar;
 
     Retrofit retrofit;
+    Retrofit retrofit_scalar;
     com.melobarros.autocasher.services.autocasherAPI autocasherAPI;
+    com.melobarros.autocasher.services.autocasherAPI autocasherAPI_scalar;
 
     private Spinner periodo_spinner;
     private static final String[] periodo_paths = {"Período", "15 dias", "30 dias", "90 dias", "1 ano", "2 anos", "5 anos"};
@@ -68,7 +71,9 @@ public class HistoricoFragment extends Fragment implements AdapterView.OnItemSel
     public void onResume() {
         super.onResume();
 
-        initRegistrosBetweenDates(null, null);
+        //initRegistrosBetweenDates(null, null);
+        Log.d(TAG, "initRegistros: onResume");
+        initRegistrosBetweenDates_scalar(null, null);
     }
 
 
@@ -84,8 +89,11 @@ public class HistoricoFragment extends Fragment implements AdapterView.OnItemSel
 
         initToolbar();
         initService();
+        initService_scalar();
         initSpinners();
-        initRegistrosBetweenDates(null, null);
+        //initRegistrosBetweenDates(null, null);
+        Log.d(TAG, "initRegistros: onCreateView");
+        initRegistrosBetweenDates_scalar(null, null);
 
         return view;
     }
@@ -96,6 +104,29 @@ public class HistoricoFragment extends Fragment implements AdapterView.OnItemSel
 
         //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         //getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_clear_black_24dp);
+    }
+
+    public void initService_scalar(){
+        Gson gson = new GsonBuilder()
+                .setLenient()
+                .create();
+
+        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor(new HttpLoggingInterceptor.Logger() {
+            @Override public void log(String message) {
+                Log.d(TAG, "OkHttp: " + message);
+            }
+        });
+        interceptor.level(HttpLoggingInterceptor.Level.BODY);
+        OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptor).build();
+
+
+        retrofit_scalar = new Retrofit.Builder()
+                .baseUrl(autocasherAPI.BASE_URL)
+                .addConverterFactory(ScalarsConverterFactory.create())
+                .client(client)
+                .build();
+
+        autocasherAPI_scalar = retrofit_scalar.create(com.melobarros.autocasher.services.autocasherAPI.class);
     }
 
     public void initService(){
@@ -169,8 +200,43 @@ public class HistoricoFragment extends Fragment implements AdapterView.OnItemSel
         return startDate;
     }
 
+    private void initRegistrosBetweenDates_scalar(String _startDate, String _endDate){
+        Log.d(TAG, "initRegistrosBetweenDates_scalar: fetching Registros list");
+
+        String startDate = getStartDate(_startDate);
+        String endDate = _endDate;
+
+        if(endDate == null){
+            SimpleDateFormat s = new SimpleDateFormat("yyyy-MM-dd");
+            endDate = s.format(new Date(Calendar.getInstance().getTimeInMillis()));
+        }
+
+        Call<String> requestRegistros = autocasherAPI_scalar.getRegistrosBetweenDatesAsString(startDate, endDate);
+        requestRegistros.enqueue(new Callback<String>() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                if(!response.isSuccessful()){
+                    Log.v(TAG, "Erro400: " + response.message());
+                    return;
+                } else{
+                    Log.d(TAG, "Successful!");
+                    Log.d(TAG, "Full response: " + response);
+                    Log.d(TAG, "Response body: " + response.body());
+
+                    //registros = response.body();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                Log.e(TAG, "Erro Failure Scalar: " + t.getMessage());
+            }
+        });
+    }
+
     private void initRegistrosBetweenDates(String _startDate, String _endDate){
-        Log.d(TAG, "initGastosBetweenDates: fetching gastos list");
+        Log.d(TAG, "initRegistrosBetweenDates: fetching Registros list");
 
         String startDate = getStartDate(_startDate);
         String endDate = _endDate;
@@ -209,7 +275,8 @@ public class HistoricoFragment extends Fragment implements AdapterView.OnItemSel
 
         for (String period : periodo_paths) {
             if(selectedSpinner == period){
-                initRegistrosBetweenDates(null, null);
+                Log.d(TAG, "initRegistros: onItemSelected");
+                initRegistrosBetweenDates_scalar(null, null);
             }
         }
     }
