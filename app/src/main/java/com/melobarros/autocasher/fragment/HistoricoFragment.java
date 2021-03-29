@@ -1,6 +1,7 @@
 package com.melobarros.autocasher.fragment;
 
 
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -18,6 +19,13 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.components.YAxis;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
+import com.github.mikephil.charting.utils.ColorTemplate;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
@@ -79,6 +87,7 @@ public class HistoricoFragment extends Fragment implements AdapterView.OnItemSel
     String selectedSpinner;
 
     TextView abastecimento_qtde, manutencao_qtde, lembrete_qtde, gasto_qtde;
+    BarChart gastosBarChart;
 
     public HistoricoFragment() {
         // Required empty public constructor
@@ -122,6 +131,7 @@ public class HistoricoFragment extends Fragment implements AdapterView.OnItemSel
         manutencao_qtde = view.findViewById(R.id.manutencoes_qtde_textView);
         lembrete_qtde = view.findViewById(R.id.lembretes_qtde_textView);
         gasto_qtde = view.findViewById(R.id.gastos_qtde_textView);
+        gastosBarChart = view.findViewById(R.id.gastosMes_barChart);
     }
 
     public void initToolbar(){
@@ -268,6 +278,13 @@ public class HistoricoFragment extends Fragment implements AdapterView.OnItemSel
         manutencao_qtde.setText(String.valueOf(manutencoes.size()));
         lembrete_qtde.setText(String.valueOf(lembretes.size()));
         gasto_qtde.setText(String.valueOf(gastos.size()));
+
+        BarData barData = new BarData(getDataSet());
+        gastosBarChart.getXAxis().setValueFormatter(new IndexAxisValueFormatter(getLabels()));
+        gastosBarChart.setData(barData);
+        gastosBarChart.getDescription().setText("Gastos/Mês");
+        gastosBarChart.animateXY(2000, 2000);
+        gastosBarChart.invalidate();
     }
 
     private void initRegistrosBetweenDates_scalar(String _startDate, String _endDate){
@@ -361,5 +378,39 @@ public class HistoricoFragment extends Fragment implements AdapterView.OnItemSel
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
 
+    }
+
+    private BarDataSet getDataSet() {
+        List<BarEntry> barEntries = new ArrayList<BarEntry>();
+
+        barEntries.add(new BarEntry(0, 1));
+        barEntries.add(new BarEntry(1, 2));
+        barEntries.add(new BarEntry(2, 4));
+        barEntries.add(new BarEntry(3, 6));
+        barEntries.add(new BarEntry(4, 5));
+        barEntries.add(new BarEntry(5, 7));
+
+        BarDataSet barDataSet = new BarDataSet(barEntries, "Contracts");
+        barDataSet.setAxisDependency(YAxis.AxisDependency.LEFT);
+        //        barDataSet.setColors(ColorTemplate.COLORFUL_COLORS);
+        barDataSet.setColor(Color.rgb(0, 155, 0));
+        barDataSet.setHighlightEnabled(true);
+        barDataSet.setHighLightColor(Color.RED);
+        barDataSet.setValueTextColor(Color.rgb(155, 155, 0));
+
+        return barDataSet;
+    }
+
+    private List<String> getLabels(){
+        ArrayList<String> labels = new ArrayList<String> ();
+
+        labels.add( "JAN");
+        labels.add( "FEB");
+        labels.add( "MAR");
+        labels.add( "APR");
+        labels.add( "MAY");
+        labels.add( "JUN");
+
+        return labels;
     }
 }
