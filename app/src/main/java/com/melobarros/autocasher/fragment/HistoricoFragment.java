@@ -251,9 +251,14 @@ public class HistoricoFragment extends Fragment implements AdapterView.OnItemSel
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     private void updateCharts(){
         Log.d(TAG, "Abastecimentos: " + abastecimentos.size());
+        for (Abastecimento a : abastecimentos) {
+            Log.d(TAG, "ID: [" + a.getId() + "]");
+        }
         Log.d(TAG, "Gastos: " + gastos.size());
+
         Log.d(TAG, "Lembretes: " + lembretes.size());
         Log.d(TAG, "Manutencoes: " + manutencoes.size());
     }
