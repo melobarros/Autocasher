@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -77,6 +78,8 @@ public class HistoricoFragment extends Fragment implements AdapterView.OnItemSel
     private static final String[] periodo_paths = {"Período", "15 dias", "30 dias", "90 dias", "1 ano", "2 anos", "5 anos"};
     String selectedSpinner;
 
+    TextView abastecimento_qtde;
+
     public HistoricoFragment() {
         // Required empty public constructor
     }
@@ -101,6 +104,7 @@ public class HistoricoFragment extends Fragment implements AdapterView.OnItemSel
 
         toolbar = view.findViewById(R.id.Estatisticas_toolbar);
         periodo_spinner = view.findViewById(R.id.periodo_historico_spinner);
+        abastecimento_qtde = view.findViewById(R.id.abastecimentos_qtde_textView);
 
         initToolbar();
         initService();
@@ -257,6 +261,8 @@ public class HistoricoFragment extends Fragment implements AdapterView.OnItemSel
         for (Abastecimento a : abastecimentos) {
             Log.d(TAG, "ID: [" + a.getId() + "]");
         }
+        abastecimento_qtde.setText(String.valueOf(abastecimentos.size()));
+
         Log.d(TAG, "Gastos: " + gastos.size());
 
         Log.d(TAG, "Lembretes: " + lembretes.size());
