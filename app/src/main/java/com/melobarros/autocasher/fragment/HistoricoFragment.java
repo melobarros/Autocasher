@@ -78,7 +78,7 @@ public class HistoricoFragment extends Fragment implements AdapterView.OnItemSel
     private static final String[] periodo_paths = {"Período", "15 dias", "30 dias", "90 dias", "1 ano", "2 anos", "5 anos"};
     String selectedSpinner;
 
-    TextView abastecimento_qtde;
+    TextView abastecimento_qtde, manutencao_qtde, lembrete_qtde, gasto_qtde;
 
     public HistoricoFragment() {
         // Required empty public constructor
@@ -104,8 +104,8 @@ public class HistoricoFragment extends Fragment implements AdapterView.OnItemSel
 
         toolbar = view.findViewById(R.id.Estatisticas_toolbar);
         periodo_spinner = view.findViewById(R.id.periodo_historico_spinner);
-        abastecimento_qtde = view.findViewById(R.id.abastecimentos_qtde_textView);
 
+        initStatsElements(view);
         initToolbar();
         initService();
         initService_scalar();
@@ -115,6 +115,13 @@ public class HistoricoFragment extends Fragment implements AdapterView.OnItemSel
         initRegistrosBetweenDates_scalar(null, null);
 
         return view;
+    }
+
+    public void initStatsElements(View view){
+        abastecimento_qtde = view.findViewById(R.id.abastecimentos_qtde_textView);
+        manutencao_qtde = view.findViewById(R.id.manutencoes_qtde_textView);
+        lembrete_qtde = view.findViewById(R.id.lembretes_qtde_textView);
+        gasto_qtde = view.findViewById(R.id.gastos_qtde_textView);
     }
 
     public void initToolbar(){
@@ -257,16 +264,10 @@ public class HistoricoFragment extends Fragment implements AdapterView.OnItemSel
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void updateCharts(){
-        Log.d(TAG, "Abastecimentos: " + abastecimentos.size());
-        for (Abastecimento a : abastecimentos) {
-            Log.d(TAG, "ID: [" + a.getId() + "]");
-        }
         abastecimento_qtde.setText(String.valueOf(abastecimentos.size()));
-
-        Log.d(TAG, "Gastos: " + gastos.size());
-
-        Log.d(TAG, "Lembretes: " + lembretes.size());
-        Log.d(TAG, "Manutencoes: " + manutencoes.size());
+        manutencao_qtde.setText(String.valueOf(manutencoes.size()));
+        lembrete_qtde.setText(String.valueOf(lembretes.size()));
+        gasto_qtde.setText(String.valueOf(gastos.size()));
     }
 
     private void initRegistrosBetweenDates_scalar(String _startDate, String _endDate){
