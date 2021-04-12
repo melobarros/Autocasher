@@ -46,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
                     - Definir qual sera o metodo de lembrete (notificacao android, email, outro?)
                 - Manutencao
                     - ?
+             - Getting back
          */
     }
 
