@@ -383,12 +383,13 @@ public class HistoricoFragment extends Fragment implements AdapterView.OnItemSel
     private BarDataSet getDataSet() {
         List<BarEntry> barEntries = new ArrayList<BarEntry>();
 
-        barEntries.add(new BarEntry(0, 1));
-        barEntries.add(new BarEntry(1, 2));
-        barEntries.add(new BarEntry(2, 4));
-        barEntries.add(new BarEntry(3, 6));
-        barEntries.add(new BarEntry(4, 5));
-        barEntries.add(new BarEntry(5, 7));
+        barEntries.add(new BarEntry(4, 10));
+        barEntries.add(new BarEntry(4, 15));
+        //barEntries.add(new BarEntry(1, 2));
+        //barEntries.add(new BarEntry(2, 4));
+        //barEntries.add(new BarEntry(3, 6));
+        //barEntries.add(new BarEntry(4, 5));
+        //barEntries.add(new BarEntry(5, 7));
 
         BarDataSet barDataSet = new BarDataSet(barEntries, "Contracts");
         barDataSet.setAxisDependency(YAxis.AxisDependency.LEFT);
