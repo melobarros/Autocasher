@@ -44,6 +44,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -287,6 +288,8 @@ public class HistoricoFragment extends Fragment implements AdapterView.OnItemSel
         gastosBarChart.invalidate();
     }
 
+
+
     private void initRegistrosBetweenDates_scalar(String _startDate, String _endDate){
         Log.d(TAG, "initRegistrosBetweenDates_scalar: fetching Registros list");
 
@@ -402,6 +405,7 @@ public class HistoricoFragment extends Fragment implements AdapterView.OnItemSel
         return barDataSet;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     private List<String> getLabels(){
         ArrayList<String> labels = new ArrayList<String> ();
 
@@ -411,7 +415,41 @@ public class HistoricoFragment extends Fragment implements AdapterView.OnItemSel
         labels.add( "APR");
         labels.add( "MAY");
         labels.add( "JUN");
+        getLabelsGastosMes();
 
         return labels;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private List<String> getLabelsGastosMes(){
+        List<Date> gastosDatas = new ArrayList<Date>();
+        for(Gasto g : gastos){
+            gastosDatas.add(Date.from(g.getLocalDateTime().atZone(ZoneId.systemDefault()).toInstant()));
+        }
+
+        List<String> labels = getYearMonths(gastosDatas);
+
+        for(String l : labels){
+            Log.d(TAG, "##### Mes: " + l);
+        }
+
+        return null;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private List<String> getYearMonths(List<Date> datas){
+        List<String> yearMonths = new ArrayList<String>();
+        Collections.sort(datas, (x, y) -> x.compareTo(y));
+        String yearMonth;
+        SimpleDateFormat s = new SimpleDateFormat("yyyy/MMM");
+
+        for(Date d : datas){
+            yearMonth = s.format(d);
+            if(!yearMonths.contains(yearMonth)){
+                yearMonths.add(yearMonth);
+            }
+        }
+
+        return yearMonths;
     }
 }
