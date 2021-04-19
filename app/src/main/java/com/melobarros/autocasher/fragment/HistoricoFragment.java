@@ -20,6 +20,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
@@ -283,14 +284,17 @@ public class HistoricoFragment extends Fragment implements AdapterView.OnItemSel
         gasto_qtde.setText(String.valueOf(gastos.size()));
 
         if(!gastos.isEmpty()) { updateGastosMes(); }
-
-
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void updateGastosMes(){
         BarData barData = new BarData(getGastosMesDataSet());
         gastosBarChart.getXAxis().setValueFormatter(new IndexAxisValueFormatter(getLabelsMes("Gasto")));
+        gastosBarChart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
+        gastosBarChart.getAxisRight().setEnabled(false);
+        gastosBarChart.getXAxis().setDrawGridLines(false);
+        gastosBarChart.setDrawValueAboveBar(false);
+
         gastosBarChart.setData(barData);
         gastosBarChart.getDescription().setText("Gastos/Mês");
         gastosBarChart.animateXY(2000, 2000);
@@ -432,11 +436,11 @@ public class HistoricoFragment extends Fragment implements AdapterView.OnItemSel
         BarDataSet barDataSet = new BarDataSet(barEntries, "Gastos");
         barDataSet.setAxisDependency(YAxis.AxisDependency.LEFT);
         //        barDataSet.setColors(ColorTemplate.COLORFUL_COLORS);
-        barDataSet.setColor(Color.rgb(0, 155, 0));
+        barDataSet.setColor(Color.rgb(21,48,97));
         barDataSet.setHighlightEnabled(true);
         barDataSet.setHighLightColor(Color.RED);
-        barDataSet.setValueTextColor(Color.rgb(155, 155, 0));
-
+        barDataSet.setValueTextColor(Color.rgb(232,232,232));
+        barDataSet.setValueTextSize(11f);
         return barDataSet;
     }
 
