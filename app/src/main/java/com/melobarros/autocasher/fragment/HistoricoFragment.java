@@ -282,7 +282,7 @@ public class HistoricoFragment extends Fragment implements AdapterView.OnItemSel
         lembrete_qtde.setText(String.valueOf(lembretes.size()));
         gasto_qtde.setText(String.valueOf(gastos.size()));
 
-        if(!gastos.isEmpty()){updateGastosMes();}
+        if(!gastos.isEmpty()) { updateGastosMes(); }
 
 
     }
