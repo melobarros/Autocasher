@@ -50,7 +50,9 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -280,8 +282,15 @@ public class HistoricoFragment extends Fragment implements AdapterView.OnItemSel
         lembrete_qtde.setText(String.valueOf(lembretes.size()));
         gasto_qtde.setText(String.valueOf(gastos.size()));
 
-        BarData barData = new BarData(getDataSet());
-        gastosBarChart.getXAxis().setValueFormatter(new IndexAxisValueFormatter(getLabels()));
+        if(!gastos.isEmpty()){updateGastosMes();}
+
+
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private void updateGastosMes(){
+        BarData barData = new BarData(getGastosMesDataSet());
+        gastosBarChart.getXAxis().setValueFormatter(new IndexAxisValueFormatter(getLabelsMes("Gasto")));
         gastosBarChart.setData(barData);
         gastosBarChart.getDescription().setText("Gastos/Mês");
         gastosBarChart.animateXY(2000, 2000);
@@ -406,6 +415,53 @@ public class HistoricoFragment extends Fragment implements AdapterView.OnItemSel
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
+    private BarDataSet getGastosMesDataSet(){
+        List<BarEntry> barEntries = new ArrayList<BarEntry>();
+        List<String> labels = getLabelsMes("Gasto");
+        Map<String, Float> gastoMap = getGastoYearMonthTotalValueMap(labels);
+
+        for(Map.Entry<String, Float> entry : gastoMap.entrySet()){
+            String yearMonth = entry.getKey();
+            Float valorTotal = entry.getValue();
+
+            //Log.d(TAG, "##### Mes: " + yearMonth + " #### ValorTotal: " + valorTotal + " #### ListIndex: " + labels.indexOf(yearMonth));
+
+            barEntries.add(new BarEntry(labels.indexOf(yearMonth), valorTotal));
+        }
+
+        BarDataSet barDataSet = new BarDataSet(barEntries, "Gastos");
+        barDataSet.setAxisDependency(YAxis.AxisDependency.LEFT);
+        //        barDataSet.setColors(ColorTemplate.COLORFUL_COLORS);
+        barDataSet.setColor(Color.rgb(0, 155, 0));
+        barDataSet.setHighlightEnabled(true);
+        barDataSet.setHighLightColor(Color.RED);
+        barDataSet.setValueTextColor(Color.rgb(155, 155, 0));
+
+        return barDataSet;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private Map<String, Float> getGastoYearMonthTotalValueMap(List<String> labels){
+        Map<String, Float> gastoYearMonthTotalValueMap = new HashMap<String, Float>();
+        String yearMonth;
+        SimpleDateFormat s = new SimpleDateFormat("MMM/yy");
+
+        for(String l : labels){
+            gastoYearMonthTotalValueMap.put(l, 0.0f);
+        }
+
+        for(Gasto g : gastos){
+            //Date.from(g.getLocalDateTime().atZone(ZoneId.systemDefault()).toInstant())
+            yearMonth = s.format(Date.from(g.getLocalDateTime().atZone(ZoneId.systemDefault()).toInstant()));
+            gastoYearMonthTotalValueMap.put(yearMonth, gastoYearMonthTotalValueMap.get(yearMonth) + g.getValorTotal());
+            Log.d(TAG, "##### Mes: " + yearMonth + " #### ValorTotal: " + g.getValorTotal() + " #### ListIndex: " + labels.indexOf(yearMonth));
+            //map.put(key, map.get(key) + valueToAdd);
+        }
+
+        return gastoYearMonthTotalValueMap;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
     private List<String> getLabels(){
         ArrayList<String> labels = new ArrayList<String> ();
 
@@ -415,23 +471,40 @@ public class HistoricoFragment extends Fragment implements AdapterView.OnItemSel
         labels.add( "APR");
         labels.add( "MAY");
         labels.add( "JUN");
-        getLabelsGastosMes();
+        getLabelsMes("Gasto");
 
         return labels;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    private List<String> getLabelsGastosMes(){
-        List<Date> gastosDatas = new ArrayList<Date>();
-        for(Gasto g : gastos){
-            gastosDatas.add(Date.from(g.getLocalDateTime().atZone(ZoneId.systemDefault()).toInstant()));
+    private List<String> getLabelsMes(String tipo){
+        List<Date> listaDatas = new ArrayList<Date>();
+
+        switch (tipo) {
+            case "Abastecimento":
+                for(Abastecimento g : abastecimentos){ listaDatas.add(Date.from(g.getLocalDateTime().atZone(ZoneId.systemDefault()).toInstant())); }
+                break;
+            case "Gasto":
+                for(Gasto g : gastos){ listaDatas.add(Date.from(g.getLocalDateTime().atZone(ZoneId.systemDefault()).toInstant())); }
+                break;
+            case "Lembrete":
+                for(Lembrete g : lembretes){ listaDatas.add(Date.from(g.getLocalDateTime().atZone(ZoneId.systemDefault()).toInstant())); }
+                break;
+            case "Manutencao":
+                for(Manutencao g : manutencoes){ listaDatas.add(Date.from(g.getLocalDateTime().atZone(ZoneId.systemDefault()).toInstant())); }
+                break;
         }
 
-        List<String> labels = getYearMonths(gastosDatas);
+        if(!listaDatas.isEmpty()){
+            List<String> labels = getYearMonths(listaDatas);
 
-        for(String l : labels){
-            Log.d(TAG, "##### Mes: " + l);
+            for(String l : labels){
+                //Log.d(TAG, "##### Mes: " + l);
+            }
+
+            return labels;
         }
+
 
         return null;
     }
@@ -441,7 +514,7 @@ public class HistoricoFragment extends Fragment implements AdapterView.OnItemSel
         List<String> yearMonths = new ArrayList<String>();
         Collections.sort(datas, (x, y) -> x.compareTo(y));
         String yearMonth;
-        SimpleDateFormat s = new SimpleDateFormat("yyyy/MMM");
+        SimpleDateFormat s = new SimpleDateFormat("MMM/yy");
 
         for(Date d : datas){
             yearMonth = s.format(d);
