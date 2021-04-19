@@ -182,6 +182,16 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/Manutencao_qtde_card_LinearLayout">
 
+                <TextView
+                    android:id="@+id/textView12"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:paddingLeft="5dp"
+                    android:paddingTop="5dp"
+                    android:text="GASTOS/MÊS"
+                    android:textSize="12sp" />
+
                 <com.github.mikephil.charting.charts.BarChart
                     android:id="@+id/gastosMes_barChart"
                     android:layout_width="360dp"
