@@ -294,9 +294,9 @@ public class HistoricoFragment extends Fragment implements AdapterView.OnItemSel
         gastosBarChart.getAxisRight().setEnabled(false);
         gastosBarChart.getXAxis().setDrawGridLines(false);
         gastosBarChart.setDrawValueAboveBar(false);
-
+        gastosBarChart.getDescription().setEnabled(false);
         gastosBarChart.setData(barData);
-        gastosBarChart.getDescription().setText("Gastos/Mês");
+        gastosBarChart.setTouchEnabled(false);
         gastosBarChart.animateXY(2000, 2000);
         gastosBarChart.invalidate();
     }
@@ -427,20 +427,19 @@ public class HistoricoFragment extends Fragment implements AdapterView.OnItemSel
         for(Map.Entry<String, Float> entry : gastoMap.entrySet()){
             String yearMonth = entry.getKey();
             Float valorTotal = entry.getValue();
-
-            //Log.d(TAG, "##### Mes: " + yearMonth + " #### ValorTotal: " + valorTotal + " #### ListIndex: " + labels.indexOf(yearMonth));
-
             barEntries.add(new BarEntry(labels.indexOf(yearMonth), valorTotal));
         }
 
         BarDataSet barDataSet = new BarDataSet(barEntries, "Gastos");
         barDataSet.setAxisDependency(YAxis.AxisDependency.LEFT);
-        //        barDataSet.setColors(ColorTemplate.COLORFUL_COLORS);
         barDataSet.setColor(Color.rgb(21,48,97));
-        barDataSet.setHighlightEnabled(true);
-        barDataSet.setHighLightColor(Color.RED);
         barDataSet.setValueTextColor(Color.rgb(232,232,232));
         barDataSet.setValueTextSize(11f);
+
+        barDataSet.setHighlightEnabled(false);
+        //barDataSet.setHighLightColor(Color.RED);
+        //barDataSet.setColors(ColorTemplate.COLORFUL_COLORS);
+
         return barDataSet;
     }
 
