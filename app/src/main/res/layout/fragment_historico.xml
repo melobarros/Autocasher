@@ -195,7 +195,7 @@
                 <com.github.mikephil.charting.charts.BarChart
                     android:id="@+id/gastosMes_barChart"
                     android:layout_width="360dp"
-                    android:layout_height="266dp" />
+                    android:layout_height="200dp" />
             </LinearLayout>
 
             <LinearLayout
@@ -225,7 +225,7 @@
                 <com.github.mikephil.charting.charts.BarChart
                     android:id="@+id/gastosTipo_barChart"
                     android:layout_width="360dp"
-                    android:layout_height="266dp" />
+                    android:layout_height="200dp" />
             </LinearLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>

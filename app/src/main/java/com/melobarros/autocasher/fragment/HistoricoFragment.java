@@ -91,7 +91,7 @@ public class HistoricoFragment extends Fragment implements AdapterView.OnItemSel
     String selectedSpinner;
 
     TextView abastecimento_qtde, manutencao_qtde, lembrete_qtde, gasto_qtde;
-    BarChart gastosBarChart;
+    BarChart gastosBarChart, gastosTipoBarChart;
 
     public HistoricoFragment() {
         // Required empty public constructor
@@ -136,6 +136,7 @@ public class HistoricoFragment extends Fragment implements AdapterView.OnItemSel
         lembrete_qtde = view.findViewById(R.id.lembretes_qtde_textView);
         gasto_qtde = view.findViewById(R.id.gastos_qtde_textView);
         gastosBarChart = view.findViewById(R.id.gastosMes_barChart);
+        gastosTipoBarChart = view.findViewById(R.id.gastosTipo_barChart);
     }
 
     public void initToolbar(){
@@ -276,30 +277,7 @@ public class HistoricoFragment extends Fragment implements AdapterView.OnItemSel
         }
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    private void updateCharts(){
-        abastecimento_qtde.setText(String.valueOf(abastecimentos.size()));
-        manutencao_qtde.setText(String.valueOf(manutencoes.size()));
-        lembrete_qtde.setText(String.valueOf(lembretes.size()));
-        gasto_qtde.setText(String.valueOf(gastos.size()));
 
-        if(!gastos.isEmpty()) { updateGastosMes(); }
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    private void updateGastosMes(){
-        BarData barData = new BarData(getGastosMesDataSet());
-        gastosBarChart.getXAxis().setValueFormatter(new IndexAxisValueFormatter(getLabelsMes("Gasto")));
-        gastosBarChart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
-        gastosBarChart.getAxisRight().setEnabled(false);
-        gastosBarChart.getXAxis().setDrawGridLines(false);
-        gastosBarChart.setDrawValueAboveBar(false);
-        gastosBarChart.getDescription().setEnabled(false);
-        gastosBarChart.setData(barData);
-        gastosBarChart.setTouchEnabled(false);
-        gastosBarChart.animateXY(2000, 2000);
-        gastosBarChart.invalidate();
-    }
 
 
 
@@ -393,6 +371,35 @@ public class HistoricoFragment extends Fragment implements AdapterView.OnItemSel
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
+
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private void updateCharts(){
+        abastecimento_qtde.setText(String.valueOf(abastecimentos.size()));
+        manutencao_qtde.setText(String.valueOf(manutencoes.size()));
+        lembrete_qtde.setText(String.valueOf(lembretes.size()));
+        gasto_qtde.setText(String.valueOf(gastos.size()));
+
+        if(!gastos.isEmpty()) { updateGastosMes(); }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private void updateGastosMes(){
+        BarData barData = new BarData(getGastosMesDataSet());
+        gastosBarChart.getXAxis().setValueFormatter(new IndexAxisValueFormatter(getLabelsMes("Gasto")));
+        gastosBarChart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
+        gastosBarChart.getAxisRight().setEnabled(false);
+        gastosBarChart.getXAxis().setDrawGridLines(false);
+        gastosBarChart.setDrawValueAboveBar(false);
+        gastosBarChart.getDescription().setEnabled(false);
+        gastosBarChart.setData(barData);
+        gastosBarChart.setTouchEnabled(false);
+        gastosBarChart.animateXY(2000, 2000);
+        gastosBarChart.invalidate();
+    }
+
+    private void updateGastosTipo(){
 
     }
 
