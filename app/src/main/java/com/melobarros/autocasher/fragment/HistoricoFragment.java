@@ -386,11 +386,34 @@ public class HistoricoFragment extends Fragment implements AdapterView.OnItemSel
         lembrete_qtde.setText(String.valueOf(lembretes.size()));
         gasto_qtde.setText(String.valueOf(gastos.size()));
         totalDespesas.setText("R$ " + String.format("%.02f", getDespesasTotais()));
+        precoMedioLitro.setText("R$ " + String.format("%.02f", getPrecoMedioLitro()));
 
         if(!gastos.isEmpty()) {
             updateGastosMes();
             updateGastosTipo();
         }
+    }
+
+    private float getConsumoMedio(){
+        //TODO
+    }
+
+    private float getPrecoMedioLitro(){
+        float precoMedio = 0.0f;
+        int contador = 0;
+
+        for(Abastecimento a : abastecimentos){
+            if(a.getPrecoLitro() > 0.0f){
+                precoMedio = precoMedio + a.getPrecoLitro();
+                contador = contador + 1;
+            }
+        }
+
+        if(precoMedio > 0.0f){
+            precoMedio = precoMedio / contador;
+        }
+
+        return precoMedio;
     }
 
     private float getDespesasTotais(){
