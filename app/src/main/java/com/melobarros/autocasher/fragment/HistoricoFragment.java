@@ -409,15 +409,13 @@ public class HistoricoFragment extends Fragment implements AdapterView.OnItemSel
         barChart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
         barChart.getAxisRight().setEnabled(false);
         barChart.getXAxis().setDrawGridLines(false);
-        barChart.setDrawValueAboveBar(false);
+        barChart.setDrawValueAboveBar(true);
         barChart.getDescription().setEnabled(false);
         barChart.setData(barData);
         barChart.setTouchEnabled(false);
         barChart.animateXY(2000, 2000);
         XAxis bottomAxis = barChart.getXAxis();
         bottomAxis.setLabelCount(labels.size());
-
-
 
         barChart.invalidate();
     }
@@ -426,18 +424,18 @@ public class HistoricoFragment extends Fragment implements AdapterView.OnItemSel
     private BarDataSet getGastosTipoDataSet(){
         List<BarEntry> barEntries = new ArrayList<BarEntry>();
         List<String> labels = getLabelsTipoGasto();
-        Map<String, Integer> gastoMap = getGastoTipoCountMap(labels);
+        Map<String, Float> gastoMap = getGastoTipoCountMap(labels);
 
-        for(Map.Entry<String, Integer> entry : gastoMap.entrySet()){
+        for(Map.Entry<String, Float> entry : gastoMap.entrySet()){
             String tipo = entry.getKey();
-            Integer valorTotal = entry.getValue();
+            Float valorTotal = entry.getValue();
             barEntries.add(new BarEntry(labels.indexOf(tipo), valorTotal));
         }
 
         BarDataSet barDataSet = new BarDataSet(barEntries, "Gastos");
         barDataSet.setAxisDependency(YAxis.AxisDependency.LEFT);
         barDataSet.setColor(Color.rgb(21,48,97));
-        barDataSet.setValueTextColor(Color.rgb(232,232,232));
+        barDataSet.setValueTextColor(Color.rgb(64,6,6));
         barDataSet.setValueTextSize(11f);
 
         barDataSet.setHighlightEnabled(false);
@@ -460,7 +458,7 @@ public class HistoricoFragment extends Fragment implements AdapterView.OnItemSel
         BarDataSet barDataSet = new BarDataSet(barEntries, "Gastos");
         barDataSet.setAxisDependency(YAxis.AxisDependency.LEFT);
         barDataSet.setColor(Color.rgb(21,48,97));
-        barDataSet.setValueTextColor(Color.rgb(232,232,232));
+        barDataSet.setValueTextColor(Color.rgb(64,6,6));
         barDataSet.setValueTextSize(11f);
 
         barDataSet.setHighlightEnabled(false);
@@ -492,19 +490,17 @@ public class HistoricoFragment extends Fragment implements AdapterView.OnItemSel
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    private Map<String, Integer> getGastoTipoCountMap(List<String> labels){
-        Map<String, Integer> gastoTipoCountMap = new HashMap<String, Integer>();
+    private Map<String, Float> getGastoTipoCountMap(List<String> labels){
+        Map<String, Float> gastoTipoCountMap = new HashMap<String, Float>();
         String tipoGasto;
 
         for(String l : labels){
-            gastoTipoCountMap.put(l, 0);
+            gastoTipoCountMap.put(l, 0.0f);
         }
 
         for(Gasto g : gastos){
             tipoGasto = standardString(g.getObservacao());
-            if(!tipoGasto.isEmpty()){
-                gastoTipoCountMap.put(tipoGasto, gastoTipoCountMap.get(tipoGasto) + 1);
-            }
+            gastoTipoCountMap.put(tipoGasto, gastoTipoCountMap.get(tipoGasto) + g.getValorTotal());
         }
 
         return gastoTipoCountMap;
@@ -518,7 +514,7 @@ public class HistoricoFragment extends Fragment implements AdapterView.OnItemSel
         for(Gasto g : gastos){
             tipoGasto = standardString(g.getObservacao());
 
-            if(!tiposGastos.contains(tipoGasto) && !tipoGasto.isEmpty()){
+            if(!tiposGastos.contains(tipoGasto)){
                 tiposGastos.add(tipoGasto);
             }
         }
@@ -577,7 +573,7 @@ public class HistoricoFragment extends Fragment implements AdapterView.OnItemSel
     }
 
     public static String standardString(String str) {
-        String ret = "";
+        String ret = "(vazio)";
 
         if(!str.isEmpty()){
             ret = firstCapital(deAccent(str)).trim();
