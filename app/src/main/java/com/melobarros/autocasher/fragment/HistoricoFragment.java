@@ -414,6 +414,11 @@ public class HistoricoFragment extends Fragment implements AdapterView.OnItemSel
         barChart.setData(barData);
         barChart.setTouchEnabled(false);
         barChart.animateXY(2000, 2000);
+        XAxis bottomAxis = barChart.getXAxis();
+        bottomAxis.setLabelCount(labels.size());
+
+
+
         barChart.invalidate();
     }
 
@@ -513,7 +518,7 @@ public class HistoricoFragment extends Fragment implements AdapterView.OnItemSel
         for(Gasto g : gastos){
             tipoGasto = standardString(g.getObservacao());
 
-            if(!tiposGastos.contains(tipoGasto)){
+            if(!tiposGastos.contains(tipoGasto) && !tipoGasto.isEmpty()){
                 tiposGastos.add(tipoGasto);
             }
         }
