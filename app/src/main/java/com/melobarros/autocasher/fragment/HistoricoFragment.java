@@ -383,35 +383,28 @@ public class HistoricoFragment extends Fragment implements AdapterView.OnItemSel
         lembrete_qtde.setText(String.valueOf(lembretes.size()));
         gasto_qtde.setText(String.valueOf(gastos.size()));
 
-        if(!gastos.isEmpty()) { updateGastosMes(); }
+        if(!gastos.isEmpty()) {
+            updateGastosMes();
+            updateGastosTipo();
+        }
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void updateGastosMes(){
         BarData barData = new BarData(getGastosMesDataSet());
         List<String> labels = getLabelsMes("Gasto");
-        setupBarChar(gastosBarChart, barData, labels);
-        /*
-        gastosBarChart.getXAxis().setValueFormatter(new IndexAxisValueFormatter(getLabelsMes("Gasto")));
-        gastosBarChart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
-        gastosBarChart.getAxisRight().setEnabled(false);
-        gastosBarChart.getXAxis().setDrawGridLines(false);
-        gastosBarChart.setDrawValueAboveBar(false);
-        gastosBarChart.getDescription().setEnabled(false);
-        gastosBarChart.setData(barData);
-        gastosBarChart.setTouchEnabled(false);
-        gastosBarChart.animateXY(2000, 2000);
-        gastosBarChart.invalidate();
-         */
+        setupBarChart(gastosBarChart, barData, labels);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void updateGastosTipo(){
         BarData barData = new BarData(getGastosTipoDataSet());
+        List<String> labels = getLabelsTipoGasto();
+        setupBarChart(gastosTipoBarChart, barData, labels);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    private void setupBarChar(BarChart barChart, BarData barData, List<String> labels){
+    private void setupBarChart(BarChart barChart, BarData barData, List<String> labels){
         barChart.getXAxis().setValueFormatter(new IndexAxisValueFormatter(labels));
         barChart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
         barChart.getAxisRight().setEnabled(false);
@@ -424,12 +417,27 @@ public class HistoricoFragment extends Fragment implements AdapterView.OnItemSel
         barChart.invalidate();
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     private BarDataSet getGastosTipoDataSet(){
         List<BarEntry> barEntries = new ArrayList<BarEntry>();
+        List<String> labels = getLabelsTipoGasto();
+        Map<String, Integer> gastoMap = getGastoTipoCountMap(labels);
+
+        for(Map.Entry<String, Integer> entry : gastoMap.entrySet()){
+            String tipo = entry.getKey();
+            Integer valorTotal = entry.getValue();
+            barEntries.add(new BarEntry(labels.indexOf(tipo), valorTotal));
+        }
 
         BarDataSet barDataSet = new BarDataSet(barEntries, "Gastos");
+        barDataSet.setAxisDependency(YAxis.AxisDependency.LEFT);
+        barDataSet.setColor(Color.rgb(21,48,97));
+        barDataSet.setValueTextColor(Color.rgb(232,232,232));
+        barDataSet.setValueTextSize(11f);
 
-        return null;
+        barDataSet.setHighlightEnabled(false);
+
+        return barDataSet;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -479,14 +487,31 @@ public class HistoricoFragment extends Fragment implements AdapterView.OnItemSel
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
+    private Map<String, Integer> getGastoTipoCountMap(List<String> labels){
+        Map<String, Integer> gastoTipoCountMap = new HashMap<String, Integer>();
+        String tipoGasto;
+
+        for(String l : labels){
+            gastoTipoCountMap.put(l, 0);
+        }
+
+        for(Gasto g : gastos){
+            tipoGasto = standardString(g.getObservacao());
+            if(!tipoGasto.isEmpty()){
+                gastoTipoCountMap.put(tipoGasto, gastoTipoCountMap.get(tipoGasto) + 1);
+            }
+        }
+
+        return gastoTipoCountMap;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
     private List<String> getLabelsTipoGasto(){
         List<String> tiposGastos = new ArrayList<String>();
         String tipoGasto;
 
         for(Gasto g : gastos){
-            tipoGasto = g.getObservacao();
-            tipoGasto = deAccent(tipoGasto);
-            tipoGasto = firstCapital(tipoGasto);
+            tipoGasto = standardString(g.getObservacao());
 
             if(!tiposGastos.contains(tipoGasto)){
                 tiposGastos.add(tipoGasto);
@@ -546,6 +571,15 @@ public class HistoricoFragment extends Fragment implements AdapterView.OnItemSel
         return yearMonths;
     }
 
+    public static String standardString(String str) {
+        String ret = "";
+
+        if(!str.isEmpty()){
+            ret = firstCapital(deAccent(str)).trim();
+        }
+
+        return ret;
+    }
     public static String deAccent(String str) {
         String nfdNormalizedString = Normalizer.normalize(str, Normalizer.Form.NFD);
         Pattern pattern = Pattern.compile("\\p{InCombiningDiacriticalMarks}+");
