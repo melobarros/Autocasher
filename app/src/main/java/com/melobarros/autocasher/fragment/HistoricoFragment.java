@@ -44,6 +44,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.Normalizer;
 import java.text.SimpleDateFormat;
 import java.time.ZoneId;
 import java.util.ArrayList;
@@ -54,6 +55,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -387,6 +389,9 @@ public class HistoricoFragment extends Fragment implements AdapterView.OnItemSel
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void updateGastosMes(){
         BarData barData = new BarData(getGastosMesDataSet());
+        List<String> labels = getLabelsMes("Gasto");
+        setupBarChar(gastosBarChart, barData, labels);
+        /*
         gastosBarChart.getXAxis().setValueFormatter(new IndexAxisValueFormatter(getLabelsMes("Gasto")));
         gastosBarChart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
         gastosBarChart.getAxisRight().setEnabled(false);
@@ -397,32 +402,34 @@ public class HistoricoFragment extends Fragment implements AdapterView.OnItemSel
         gastosBarChart.setTouchEnabled(false);
         gastosBarChart.animateXY(2000, 2000);
         gastosBarChart.invalidate();
+         */
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     private void updateGastosTipo(){
-
+        BarData barData = new BarData(getGastosTipoDataSet());
     }
 
-    private BarDataSet getDataSet() {
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private void setupBarChar(BarChart barChart, BarData barData, List<String> labels){
+        barChart.getXAxis().setValueFormatter(new IndexAxisValueFormatter(labels));
+        barChart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
+        barChart.getAxisRight().setEnabled(false);
+        barChart.getXAxis().setDrawGridLines(false);
+        barChart.setDrawValueAboveBar(false);
+        barChart.getDescription().setEnabled(false);
+        barChart.setData(barData);
+        barChart.setTouchEnabled(false);
+        barChart.animateXY(2000, 2000);
+        barChart.invalidate();
+    }
+
+    private BarDataSet getGastosTipoDataSet(){
         List<BarEntry> barEntries = new ArrayList<BarEntry>();
 
-        barEntries.add(new BarEntry(4, 10));
-        barEntries.add(new BarEntry(4, 15));
-        //barEntries.add(new BarEntry(1, 2));
-        //barEntries.add(new BarEntry(2, 4));
-        //barEntries.add(new BarEntry(3, 6));
-        //barEntries.add(new BarEntry(4, 5));
-        //barEntries.add(new BarEntry(5, 7));
+        BarDataSet barDataSet = new BarDataSet(barEntries, "Gastos");
 
-        BarDataSet barDataSet = new BarDataSet(barEntries, "Contracts");
-        barDataSet.setAxisDependency(YAxis.AxisDependency.LEFT);
-        //        barDataSet.setColors(ColorTemplate.COLORFUL_COLORS);
-        barDataSet.setColor(Color.rgb(0, 155, 0));
-        barDataSet.setHighlightEnabled(true);
-        barDataSet.setHighLightColor(Color.RED);
-        barDataSet.setValueTextColor(Color.rgb(155, 155, 0));
-
-        return barDataSet;
+        return null;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -472,18 +479,21 @@ public class HistoricoFragment extends Fragment implements AdapterView.OnItemSel
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    private List<String> getLabels(){
-        ArrayList<String> labels = new ArrayList<String> ();
+    private List<String> getLabelsTipoGasto(){
+        List<String> tiposGastos = new ArrayList<String>();
+        String tipoGasto;
 
-        labels.add( "JAN");
-        labels.add( "FEB");
-        labels.add( "MAR");
-        labels.add( "APR");
-        labels.add( "MAY");
-        labels.add( "JUN");
-        getLabelsMes("Gasto");
+        for(Gasto g : gastos){
+            tipoGasto = g.getObservacao();
+            tipoGasto = deAccent(tipoGasto);
+            tipoGasto = firstCapital(tipoGasto);
 
-        return labels;
+            if(!tiposGastos.contains(tipoGasto)){
+                tiposGastos.add(tipoGasto);
+            }
+        }
+
+        return tiposGastos;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -534,5 +544,20 @@ public class HistoricoFragment extends Fragment implements AdapterView.OnItemSel
         }
 
         return yearMonths;
+    }
+
+    public static String deAccent(String str) {
+        String nfdNormalizedString = Normalizer.normalize(str, Normalizer.Form.NFD);
+        Pattern pattern = Pattern.compile("\\p{InCombiningDiacriticalMarks}+");
+        return pattern.matcher(nfdNormalizedString).replaceAll("");
+    }
+
+    public static String firstCapital(String name){
+        String ret = "";
+
+        if(!name.isEmpty()){
+            ret = name.substring(0,1).toUpperCase() + name.substring(1).toLowerCase();
+        }
+        return ret;
     }
 }
