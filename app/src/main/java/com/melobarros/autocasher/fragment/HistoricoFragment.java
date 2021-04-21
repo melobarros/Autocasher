@@ -92,7 +92,7 @@ public class HistoricoFragment extends Fragment implements AdapterView.OnItemSel
     private static final String[] periodo_paths = {"Período", "15 dias", "30 dias", "90 dias", "1 ano", "2 anos", "5 anos"};
     String selectedSpinner;
 
-    TextView abastecimento_qtde, manutencao_qtde, lembrete_qtde, gasto_qtde;
+    TextView abastecimento_qtde, manutencao_qtde, lembrete_qtde, gasto_qtde, totalDespesas, precoMedioLitro, consumoMedio;
     BarChart gastosBarChart, gastosTipoBarChart;
 
     public HistoricoFragment() {
@@ -139,6 +139,9 @@ public class HistoricoFragment extends Fragment implements AdapterView.OnItemSel
         gasto_qtde = view.findViewById(R.id.gastos_qtde_textView);
         gastosBarChart = view.findViewById(R.id.gastosMes_barChart);
         gastosTipoBarChart = view.findViewById(R.id.gastosTipo_barChart);
+        totalDespesas = view.findViewById(R.id.despesasTotaisValor_textView);
+        consumoMedio = view.findViewById(R.id.consumoMedio_textView);
+        precoMedioLitro = view.findViewById(R.id.precoMedioLitroValor_textView);
     }
 
     public void initToolbar(){
@@ -382,11 +385,38 @@ public class HistoricoFragment extends Fragment implements AdapterView.OnItemSel
         manutencao_qtde.setText(String.valueOf(manutencoes.size()));
         lembrete_qtde.setText(String.valueOf(lembretes.size()));
         gasto_qtde.setText(String.valueOf(gastos.size()));
+        totalDespesas.setText("R$ " + String.format("%.02f", getDespesasTotais()));
 
         if(!gastos.isEmpty()) {
             updateGastosMes();
             updateGastosTipo();
         }
+    }
+
+    private float getDespesasTotais(){
+        float despesasTotais = 0.0f;
+        float valorAbastecimentoTemp;
+
+        for(Gasto g : gastos){
+            if(g.getValorTotal() > 0.0f){
+                despesasTotais = despesasTotais + g.getValorTotal();
+            }
+        }
+
+        for(Abastecimento a : abastecimentos){
+            valorAbastecimentoTemp = a.getLitros() * a.getPrecoLitro();
+            if(valorAbastecimentoTemp > 0.0f){
+                despesasTotais = despesasTotais + valorAbastecimentoTemp;
+            }
+        }
+
+        for(Manutencao m : manutencoes){
+            if(m.getValor() > 0.0f){
+                despesasTotais = despesasTotais + m.getValor();
+            }
+        }
+
+        return despesasTotais;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
