@@ -387,6 +387,7 @@ public class HistoricoFragment extends Fragment implements AdapterView.OnItemSel
         gasto_qtde.setText(String.valueOf(gastos.size()));
         totalDespesas.setText("R$ " + String.format("%.02f", getDespesasTotais()));
         precoMedioLitro.setText("R$ " + String.format("%.02f", getPrecoMedioLitro()));
+        consumoMedio.setText(String.format("%.02f", getConsumoMedio()) + " km/l");
 
         if(!gastos.isEmpty()) {
             updateGastosMes();
@@ -394,8 +395,31 @@ public class HistoricoFragment extends Fragment implements AdapterView.OnItemSel
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     private float getConsumoMedio(){
-        //TODO
+        float consumoMedio = 0.0f;
+        float deltaOdometro;
+        float consumoTemp = 0.0f;
+        int contador = 0;
+        List<Abastecimento> abastecimentosOrdenados = orderAbastecimentos(abastecimentos, "Mais novos");
+
+        for(int i = 0; i < abastecimentosOrdenados.size() - 1; i++){
+            Abastecimento b = abastecimentosOrdenados.get(i);
+            Abastecimento bNext = abastecimentosOrdenados.get(i+1);
+            if(b.isCompletandoTanque() && !b.isAbastecimentoAnteriorEmFalta() && b.getLitros() > 0 && b.getOdometro() > 0){
+                if(b.getOdometro() - bNext.getOdometro() > 0){
+                    deltaOdometro = b.getOdometro() - bNext.getOdometro();
+                    consumoTemp = consumoTemp + (deltaOdometro / b.getLitros());
+                    contador = contador + 1;
+                }
+            }
+        }
+
+        if(consumoTemp > 0.0f && contador > 0){
+            consumoMedio = consumoTemp / contador;
+        }
+
+        return consumoMedio;
     }
 
     private float getPrecoMedioLitro(){
@@ -647,5 +671,41 @@ public class HistoricoFragment extends Fragment implements AdapterView.OnItemSel
             ret = name.substring(0,1).toUpperCase() + name.substring(1).toLowerCase();
         }
         return ret;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private List<Abastecimento> orderAbastecimentos(List<Abastecimento> abastecimentos, String selectedOrder){
+        List<Abastecimento> list = abastecimentos;
+
+        switch (selectedOrder){
+            case "Ordernar por":
+            case "Mais novos":
+                Collections.sort(list, (x, y) -> x.getLocalDateTime().compareTo(y.getLocalDateTime()));
+                Collections.reverse(list);
+                break;
+            case "Mais antigos":
+                Collections.sort(list, (x, y) -> x.getLocalDateTime().compareTo(y.getLocalDateTime()));
+                break;
+            case "Maior valor":
+                Collections.sort(list, new Comparator<Abastecimento>() {
+                    @Override
+                    public int compare(Abastecimento o1, Abastecimento o2) {
+                        return Float.compare(o1.getLitros() * o1.getPrecoLitro(), o2.getLitros() * o2.getPrecoLitro());
+                    }
+                });
+
+                Collections.reverse(list);
+                break;
+            case "Menor valor":
+                Collections.sort(list, new Comparator<Abastecimento>() {
+                    @Override
+                    public int compare(Abastecimento o1, Abastecimento o2) {
+                        return Float.compare(o1.getLitros() * o1.getPrecoLitro(), o2.getLitros() * o2.getPrecoLitro());
+                    }
+                });
+                break;
+        }
+
+        return list;
     }
 }
