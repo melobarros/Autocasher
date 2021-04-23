@@ -20,11 +20,15 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.data.PieData;
+import com.github.mikephil.charting.data.PieDataSet;
+import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.google.gson.Gson;
@@ -94,6 +98,7 @@ public class HistoricoFragment extends Fragment implements AdapterView.OnItemSel
 
     TextView abastecimento_qtde, manutencao_qtde, lembrete_qtde, gasto_qtde, totalDespesas, precoMedioLitro, consumoMedio;
     BarChart gastosBarChart, gastosTipoBarChart;
+    PieChart despesasTipoChart;
 
     public HistoricoFragment() {
         // Required empty public constructor
@@ -142,6 +147,7 @@ public class HistoricoFragment extends Fragment implements AdapterView.OnItemSel
         totalDespesas = view.findViewById(R.id.despesasTotaisValor_textView);
         consumoMedio = view.findViewById(R.id.consumoMedio_textView);
         precoMedioLitro = view.findViewById(R.id.precoMedioLitroValor_textView);
+        despesasTipoChart = view.findViewById(R.id.despesasTipo_pieChart);
     }
 
     public void initToolbar(){
@@ -393,6 +399,8 @@ public class HistoricoFragment extends Fragment implements AdapterView.OnItemSel
             updateGastosMes();
             updateGastosTipo();
         }
+
+        updateDespesasTipo();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -467,6 +475,13 @@ public class HistoricoFragment extends Fragment implements AdapterView.OnItemSel
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
+    private void updateDespesasTipo(){
+        PieData pieData = new PieData(getDespesasTipoDataSet());
+        List<String> labels = getDespesaLabels();
+        setupPieChart(despesasTipoChart, pieData, labels);
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
     private void updateGastosMes(){
         BarData barData = new BarData(getGastosMesDataSet());
         List<String> labels = getLabelsMes("Gasto");
@@ -495,6 +510,60 @@ public class HistoricoFragment extends Fragment implements AdapterView.OnItemSel
         bottomAxis.setLabelCount(labels.size());
 
         barChart.invalidate();
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private void setupPieChart(PieChart pieChart, PieData pieData, List<String> labels){
+        pieChart.getDescription().setEnabled(false);
+        pieChart.setData(pieData);
+        pieChart.setTouchEnabled(false);
+
+        pieChart.invalidate();
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private List<String> getDespesaLabels(){
+        List<String> labels = new ArrayList<String>();
+
+        labels.add("Abastecimento");
+        labels.add("Gasto");
+        labels.add("Manutenção");
+
+        return labels;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private PieDataSet getDespesasTipoDataSet(){
+        List<PieEntry> pieEntries = new ArrayList<PieEntry>();
+        List<String> labels = getDespesaLabels();
+        float abastecimentoSubtotal = 0.0f;
+        float gastoSubtotal = 0.0f;
+        float manutencaoSubtotal = 0.0f;
+        float total = 0.0f;
+        float abastecimentoPorcent = 0.0f;
+        float gastoPorcent = 0.0f;
+        float manutencaoPorcent = 0.0f;
+
+        for(Abastecimento a : abastecimentos){ abastecimentoSubtotal = abastecimentoSubtotal + (a.getLitros() * a.getPrecoLitro()); }
+        for(Gasto g : gastos){ gastoSubtotal = gastoSubtotal + g.getValorTotal(); }
+        for(Manutencao m : manutencoes){ manutencaoSubtotal = manutencaoSubtotal + m.getValor(); }
+
+        total = abastecimentoSubtotal + gastoSubtotal + manutencaoSubtotal;
+
+        if(total > 0){
+            abastecimentoPorcent = abastecimentoSubtotal / total;
+            gastoPorcent = gastoSubtotal / total;
+            manutencaoPorcent = manutencaoSubtotal / total;
+        }
+
+        pieEntries.add(labels.indexOf("Abastecimento"), new PieEntry(abastecimentoPorcent));
+        pieEntries.add(labels.indexOf("Gasto"), new PieEntry(gastoPorcent));
+        pieEntries.add(labels.indexOf("Manutenção"), new PieEntry(manutencaoPorcent));
+
+        PieDataSet pieDataSet = new PieDataSet(pieEntries, "Despesas");
+        pieDataSet.setHighlightEnabled(false);
+
+        return pieDataSet;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
