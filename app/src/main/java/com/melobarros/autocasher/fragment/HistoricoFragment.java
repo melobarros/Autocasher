@@ -8,6 +8,7 @@ import android.os.Bundle;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
@@ -21,6 +22,8 @@ import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.components.Legend;
+import com.github.mikephil.charting.components.LegendEntry;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
@@ -30,6 +33,7 @@ import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
+import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -48,6 +52,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Array;
 import java.text.Normalizer;
 import java.text.SimpleDateFormat;
 import java.time.ZoneId;
@@ -476,9 +481,14 @@ public class HistoricoFragment extends Fragment implements AdapterView.OnItemSel
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void updateDespesasTipo(){
+        List<Integer> colors = new ArrayList<Integer>();
+        colors.add(Color.rgb(202,97,48));
+        colors.add(Color.rgb(218,116,185));
+        colors.add(Color.rgb(116,218,199));
+
         PieData pieData = new PieData(getDespesasTipoDataSet());
         List<String> labels = getDespesaLabels();
-        setupPieChart(despesasTipoChart, pieData, labels);
+        setupPieChart(despesasTipoChart, pieData, labels, colors);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -505,7 +515,7 @@ public class HistoricoFragment extends Fragment implements AdapterView.OnItemSel
         barChart.getDescription().setEnabled(false);
         barChart.setData(barData);
         barChart.setTouchEnabled(false);
-        barChart.animateXY(2000, 2000);
+        barChart.animateXY(1500, 1500);
         XAxis bottomAxis = barChart.getXAxis();
         bottomAxis.setLabelCount(labels.size());
 
@@ -513,10 +523,28 @@ public class HistoricoFragment extends Fragment implements AdapterView.OnItemSel
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    private void setupPieChart(PieChart pieChart, PieData pieData, List<String> labels){
+    private void setupPieChart(PieChart pieChart, PieData pieData, List<String> labels, List<Integer> colors){
         pieChart.getDescription().setEnabled(false);
         pieChart.setData(pieData);
         pieChart.setTouchEnabled(false);
+        pieData.setValueFormatter(new PercentFormatter(pieChart));
+        pieChart.setUsePercentValues(true);
+
+        pieChart.animateY(1500);
+
+        Legend legend = pieChart.getLegend();
+        legend.setEnabled(true);
+
+        List<LegendEntry> entries = new ArrayList<>();
+
+        for (int i = 0; i < labels.size(); i++) {
+            LegendEntry entry = new LegendEntry();
+            entry.formColor = colors.get(i);
+            entry.label = labels.get(i);
+            entries.add(entry);
+        }
+
+        legend.setCustom(entries);
 
         pieChart.invalidate();
     }
@@ -536,6 +564,8 @@ public class HistoricoFragment extends Fragment implements AdapterView.OnItemSel
     private PieDataSet getDespesasTipoDataSet(){
         List<PieEntry> pieEntries = new ArrayList<PieEntry>();
         List<String> labels = getDespesaLabels();
+        List<Integer> colors = new ArrayList<Integer>();
+
         float abastecimentoSubtotal = 0.0f;
         float gastoSubtotal = 0.0f;
         float manutencaoSubtotal = 0.0f;
@@ -548,12 +578,16 @@ public class HistoricoFragment extends Fragment implements AdapterView.OnItemSel
         for(Gasto g : gastos){ gastoSubtotal = gastoSubtotal + g.getValorTotal(); }
         for(Manutencao m : manutencoes){ manutencaoSubtotal = manutencaoSubtotal + m.getValor(); }
 
+        colors.add(Color.rgb(202,97,48));
+        colors.add(Color.rgb(218,116,185));
+        colors.add(Color.rgb(116,218,199));
+
         total = abastecimentoSubtotal + gastoSubtotal + manutencaoSubtotal;
 
         if(total > 0){
-            abastecimentoPorcent = abastecimentoSubtotal / total;
-            gastoPorcent = gastoSubtotal / total;
-            manutencaoPorcent = manutencaoSubtotal / total;
+            abastecimentoPorcent = (abastecimentoSubtotal / total)*100;
+            gastoPorcent = (gastoSubtotal / total)*100;
+            manutencaoPorcent = (manutencaoSubtotal / total)*100;
         }
 
         pieEntries.add(labels.indexOf("Abastecimento"), new PieEntry(abastecimentoPorcent));
@@ -562,6 +596,8 @@ public class HistoricoFragment extends Fragment implements AdapterView.OnItemSel
 
         PieDataSet pieDataSet = new PieDataSet(pieEntries, "Despesas");
         pieDataSet.setHighlightEnabled(false);
+        pieDataSet.setColors(colors);
+        pieDataSet.setValueTextSize(11f);
 
         return pieDataSet;
     }
