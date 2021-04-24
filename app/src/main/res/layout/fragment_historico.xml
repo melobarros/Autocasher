@@ -361,6 +361,36 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/ConsumoMesCard"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/stats_card"
+                android:orientation="vertical"
+                android:padding="5dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/GastosTipoCard">
+
+                <TextView
+                    android:id="@+id/textView15"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:paddingLeft="5dp"
+                    android:paddingTop="5dp"
+                    android:text="CONSUMO / MÊS"
+                    android:textAlignment="center"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <com.github.mikephil.charting.charts.LineChart
+                    android:id="@+id/consumoMes_lineChart"
+                    android:layout_width="360dp"
+                    android:layout_height="200dp" />
+            </LinearLayout>
+
+            <LinearLayout
                 android:id="@+id/DespesasTipoCard"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -389,6 +419,7 @@
                     android:id="@+id/despesasTipo_pieChart"
                     android:layout_width="360dp"
                     android:layout_height="200dp" />
+
             </LinearLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
