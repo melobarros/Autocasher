@@ -30,6 +30,9 @@ import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
@@ -483,6 +486,13 @@ public class HistoricoFragment extends Fragment implements AdapterView.OnItemSel
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
+    private void updateConsumoMensal(){
+        LineData lineData = new LineData(getConsumoMesDataSet());
+        List<String> labels = getLabelsMes("Abastecimento");
+        setupLineChart(consumoMesChart, lineData, labels);
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
     private void updateDespesasTipo(){
         List<Integer> colors = new ArrayList<Integer>();
         colors.add(Color.rgb(202,97,48));
@@ -506,6 +516,11 @@ public class HistoricoFragment extends Fragment implements AdapterView.OnItemSel
         BarData barData = new BarData(getGastosTipoDataSet());
         List<String> labels = getLabelsTipoGasto();
         setupBarChart(gastosTipoBarChart, barData, labels);
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private void setupLineChart(LineChart lineChart, LineData lineData, List<String> labels){
+
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -563,6 +578,8 @@ public class HistoricoFragment extends Fragment implements AdapterView.OnItemSel
         return labels;
     }
 
+
+
     @RequiresApi(api = Build.VERSION_CODES.O)
     private PieDataSet getDespesasTipoDataSet(){
         List<PieEntry> pieEntries = new ArrayList<PieEntry>();
@@ -603,6 +620,18 @@ public class HistoricoFragment extends Fragment implements AdapterView.OnItemSel
         pieDataSet.setValueTextSize(11f);
 
         return pieDataSet;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private LineDataSet getConsumoMesDataSet(){
+        List<Entry> lineEntries = new ArrayList<Entry>();
+        List<String> labels = getLabelsMes("Abastecimento");
+
+
+
+        LineDataSet lineDataSet = new LineDataSet(lineEntries, "Consumo");
+
+        return lineDataSet;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -651,6 +680,22 @@ public class HistoricoFragment extends Fragment implements AdapterView.OnItemSel
         //barDataSet.setColors(ColorTemplate.COLORFUL_COLORS);
 
         return barDataSet;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private Map<String, Float> getConsumoYearMonthTotalValueMap(List<String> labels){
+        Map<String, Float> consumoYearMonthTotalValueMap = new HashMap<String, Float>();
+        String yearMonth;
+        SimpleDateFormat s = new SimpleDateFormat("MMM/yy");
+
+        for(String l : labels){
+            consumoYearMonthTotalValueMap.put(l, 0.0f);
+        }
+
+        //TODO ---------------------------------------------------------------------------------------------------------##################################
+        // Pegar mapa de consumos por mes. Utilizar funcao de pegar consumo medio que ja esta pronta. Iterar em cada label e montar sublistas e mandar para essa funcao
+
+        return consumoYearMonthTotalValueMap;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
