@@ -21,6 +21,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.LegendEntry;
@@ -104,6 +105,7 @@ public class HistoricoFragment extends Fragment implements AdapterView.OnItemSel
     TextView abastecimento_qtde, manutencao_qtde, lembrete_qtde, gasto_qtde, totalDespesas, precoMedioLitro, consumoMedio;
     BarChart gastosBarChart, gastosTipoBarChart;
     PieChart despesasTipoChart;
+    LineChart consumoMesChart;
 
     public HistoricoFragment() {
         // Required empty public constructor
@@ -153,6 +155,7 @@ public class HistoricoFragment extends Fragment implements AdapterView.OnItemSel
         consumoMedio = view.findViewById(R.id.consumoMedio_textView);
         precoMedioLitro = view.findViewById(R.id.precoMedioLitroValor_textView);
         despesasTipoChart = view.findViewById(R.id.despesasTipo_pieChart);
+        consumoMesChart = view.findViewById(R.id.consumoMes_lineChart);
     }
 
     public void initToolbar(){
@@ -398,7 +401,7 @@ public class HistoricoFragment extends Fragment implements AdapterView.OnItemSel
         gasto_qtde.setText(String.valueOf(gastos.size()));
         totalDespesas.setText("R$ " + String.format("%.02f", getDespesasTotais()));
         precoMedioLitro.setText("R$ " + String.format("%.02f", getPrecoMedioLitro()));
-        consumoMedio.setText(String.format("%.02f", getConsumoMedio()) + " km/l");
+        consumoMedio.setText(String.format("%.02f", getConsumoMedio(abastecimentos)) + " km/l");
 
         if(!gastos.isEmpty()) {
             updateGastosMes();
@@ -409,12 +412,12 @@ public class HistoricoFragment extends Fragment implements AdapterView.OnItemSel
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    private float getConsumoMedio(){
+    private float getConsumoMedio(List<Abastecimento> abs){
         float consumoMedio = 0.0f;
         float deltaOdometro;
         float consumoTemp = 0.0f;
         int contador = 0;
-        List<Abastecimento> abastecimentosOrdenados = orderAbastecimentos(abastecimentos, "Mais novos");
+        List<Abastecimento> abastecimentosOrdenados = orderAbastecimentos(abs, "Mais novos");
 
         for(int i = 0; i < abastecimentosOrdenados.size() - 1; i++){
             Abastecimento b = abastecimentosOrdenados.get(i);
