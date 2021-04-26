@@ -379,7 +379,7 @@
                     android:layout_gravity="center"
                     android:paddingLeft="5dp"
                     android:paddingTop="5dp"
-                    android:text="CONSUMO / MÊS"
+                    android:text="CONSUMO (km/l) / MÊS"
                     android:textAlignment="center"
                     android:textSize="14sp"
                     android:textStyle="bold" />

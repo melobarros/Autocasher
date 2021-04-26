@@ -529,13 +529,13 @@ public class HistoricoFragment extends Fragment implements AdapterView.OnItemSel
         lineChart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
         lineChart.getAxisRight().setEnabled(false);
         lineChart.getXAxis().setDrawGridLines(false);
-        //lineChart.setDrawValueAboveBar(true);
         lineChart.getDescription().setEnabled(false);
         lineChart.setData(lineData);
         lineChart.setTouchEnabled(false);
         lineChart.animateXY(1500, 1500);
         XAxis bottomAxis = lineChart.getXAxis();
         bottomAxis.setLabelCount(labels.size());
+        if(labels.size() >= 2){ bottomAxis.setLabelCount(labels.size(), true); }
 
         lineChart.invalidate();
     }
@@ -725,8 +725,6 @@ public class HistoricoFragment extends Fragment implements AdapterView.OnItemSel
             consumoYearMonthTotalValueMap.put(l, 0.0f);
         }
 
-        //TODO ---------------------------------------------------------------------------------------------------------##################################
-        // Pegar mapa de consumos por mes. Utilizar funcao de pegar consumo medio que ja esta pronta. Iterar em cada label e montar sublistas e mandar para essa funcao
         for(String label : labels){
             for(Abastecimento a : abastecimentos){
                 yearMonth = s.format(Date.from(a.getLocalDateTime().atZone(ZoneId.systemDefault()).toInstant()));
