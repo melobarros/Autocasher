@@ -60,7 +60,9 @@ import org.json.JSONObject;
 import java.lang.reflect.Array;
 import java.text.Normalizer;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -85,6 +87,7 @@ import static androidx.constraintlayout.widget.Constraints.TAG;
 /**
  * A simple {@link Fragment} subclass.
  */
+@RequiresApi(api = Build.VERSION_CODES.O)
 public class HistoricoFragment extends Fragment implements AdapterView.OnItemSelectedListener  {
     private static final String TAG = "HistoricoFragment";
 
@@ -94,6 +97,7 @@ public class HistoricoFragment extends Fragment implements AdapterView.OnItemSel
     private List<Lembrete> lembretes = new ArrayList<>();
     private List<Manutencao> manutencoes = new ArrayList<>();
     Toolbar toolbar;
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MMM");
 
     Retrofit retrofit;
     Retrofit retrofit_scalar;
@@ -106,7 +110,7 @@ public class HistoricoFragment extends Fragment implements AdapterView.OnItemSel
     private static final String[] periodo_paths = {"Período", "15 dias", "30 dias", "90 dias", "1 ano", "2 anos", "5 anos"};
     String selectedSpinner;
 
-    TextView abastecimento_qtde, manutencao_qtde, lembrete_qtde, gasto_qtde, totalDespesas, precoMedioLitro, consumoMedio;
+    TextView abastecimento_qtde, manutencao_qtde, lembrete_qtde, gasto_qtde, totalDespesas, precoMedioLitro, consumoMedio, proximoLembrete;
     BarChart gastosBarChart, gastosTipoBarChart;
     PieChart despesasTipoChart;
     LineChart consumoMesChart;
@@ -160,6 +164,7 @@ public class HistoricoFragment extends Fragment implements AdapterView.OnItemSel
         precoMedioLitro = view.findViewById(R.id.precoMedioLitroValor_textView);
         despesasTipoChart = view.findViewById(R.id.despesasTipo_pieChart);
         consumoMesChart = view.findViewById(R.id.consumoMes_lineChart);
+        proximoLembrete = view.findViewById(R.id.proximoLembreteValor_textView);
     }
 
     public void initToolbar(){
@@ -410,6 +415,8 @@ public class HistoricoFragment extends Fragment implements AdapterView.OnItemSel
         totalDespesas.setText("R$ " + String.format("%.02f", getDespesasTotais()));
         precoMedioLitro.setText("R$ " + String.format("%.02f", getPrecoMedioLitro()));
         consumoMedio.setText(String.format("%.02f", getConsumoMedio(abastecimentos)) + " km/l");
+        proximoLembrete.setText(getProximoLembrete(lembretes));
+
 
         if(!gastos.isEmpty()) {
             updateGastosMes();
@@ -421,6 +428,19 @@ public class HistoricoFragment extends Fragment implements AdapterView.OnItemSel
         }
 
         updateDespesasTipo();
+    }
+
+    private String getProximoLembrete(List<Lembrete> lembreteList){
+        List<Lembrete> lembretesOrdenados = orderLembretesMaisAntigos(lembreteList);
+        LocalDateTime today = LocalDateTime.now();
+
+        for(Lembrete l : lembretesOrdenados){
+            if(l.getLocalDateTime().isAfter(today)){
+                return l.getLocalDateTime().format(formatter);
+            }
+        }
+
+        return "-";
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -906,6 +926,13 @@ public class HistoricoFragment extends Fragment implements AdapterView.OnItemSel
                 });
                 break;
         }
+
+        return list;
+    }
+
+    public List<Lembrete> orderLembretesMaisAntigos(List<Lembrete> _lembretes){
+        List<Lembrete> list = lembretes;
+        Collections.sort(list, (x, y) -> x.getLocalDateTime().compareTo(y.getLocalDateTime()));
 
         return list;
     }
