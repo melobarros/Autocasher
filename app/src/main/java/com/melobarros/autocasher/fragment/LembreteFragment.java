@@ -287,7 +287,11 @@ public class LembreteFragment extends Fragment implements AdapterView.OnItemSele
 
         if(endDate == null){
             SimpleDateFormat s = new SimpleDateFormat("yyyy-MM-dd");
-            endDate = s.format(new Date(Calendar.getInstance().getTimeInMillis()));
+
+            Calendar c = Calendar.getInstance();
+            c.add(Calendar.YEAR, 1);
+            c.getTimeInMillis();
+            endDate = s.format(new Date(c.getTimeInMillis()));
         }
 
         Call<List<Lembrete>> requestLembrete = autocasherAPI.getLembretesBetweenDates(startDate, endDate);

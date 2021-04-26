@@ -312,7 +312,11 @@ public class HistoricoFragment extends Fragment implements AdapterView.OnItemSel
 
         if(endDate == null){
             SimpleDateFormat s = new SimpleDateFormat("yyyy-MM-dd");
-            endDate = s.format(new Date(Calendar.getInstance().getTimeInMillis()));
+
+            Calendar c = Calendar.getInstance();
+            c.add(Calendar.YEAR, 1);
+            c.getTimeInMillis();
+            endDate = s.format(new Date(c.getTimeInMillis()));
         }
 
         Call<String> requestRegistros = autocasherAPI_scalar.getRegistrosBetweenDatesAsString(startDate, endDate);
