@@ -39,6 +39,7 @@ import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
+import com.github.mikephil.charting.utils.EntryXComparator;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
@@ -411,6 +412,10 @@ public class HistoricoFragment extends Fragment implements AdapterView.OnItemSel
             updateGastosTipo();
         }
 
+        if(!abastecimentos.isEmpty()){
+            updateConsumoMensal();
+        }
+
         updateDespesasTipo();
     }
 
@@ -520,7 +525,19 @@ public class HistoricoFragment extends Fragment implements AdapterView.OnItemSel
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void setupLineChart(LineChart lineChart, LineData lineData, List<String> labels){
+        lineChart.getXAxis().setValueFormatter(new IndexAxisValueFormatter(labels));
+        lineChart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
+        lineChart.getAxisRight().setEnabled(false);
+        lineChart.getXAxis().setDrawGridLines(false);
+        //lineChart.setDrawValueAboveBar(true);
+        lineChart.getDescription().setEnabled(false);
+        lineChart.setData(lineData);
+        lineChart.setTouchEnabled(false);
+        lineChart.animateXY(1500, 1500);
+        XAxis bottomAxis = lineChart.getXAxis();
+        bottomAxis.setLabelCount(labels.size());
 
+        lineChart.invalidate();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -626,10 +643,24 @@ public class HistoricoFragment extends Fragment implements AdapterView.OnItemSel
     private LineDataSet getConsumoMesDataSet(){
         List<Entry> lineEntries = new ArrayList<Entry>();
         List<String> labels = getLabelsMes("Abastecimento");
+        Map<String, Float> consumoMap = getConsumoYearMonthTotalValueMap(labels);
 
+        for(Map.Entry<String, Float> entry : consumoMap.entrySet()){
+            String tipo = entry.getKey();
+            Float valorTotal = entry.getValue();
+            lineEntries.add(new BarEntry(labels.indexOf(tipo), valorTotal));
+            Log.d(TAG, "##### Mes: " + tipo + " #### Consumo: " + valorTotal + " #### ListIndex: " + labels.indexOf(tipo));
+        }
 
+        Collections.sort(lineEntries, new EntryXComparator());
 
         LineDataSet lineDataSet = new LineDataSet(lineEntries, "Consumo");
+        lineDataSet.setAxisDependency(YAxis.AxisDependency.LEFT);
+        lineDataSet.setColor(Color.rgb(21,48,97));
+        lineDataSet.setValueTextColor(Color.rgb(64,6,6));
+        lineDataSet.setValueTextSize(11f);
+
+        lineDataSet.setHighlightEnabled(false);
 
         return lineDataSet;
     }
@@ -687,6 +718,8 @@ public class HistoricoFragment extends Fragment implements AdapterView.OnItemSel
         Map<String, Float> consumoYearMonthTotalValueMap = new HashMap<String, Float>();
         String yearMonth;
         SimpleDateFormat s = new SimpleDateFormat("MMM/yy");
+        List<Abastecimento> abastecimentosTemp = new ArrayList<Abastecimento>();
+        Float consumoMedio;
 
         for(String l : labels){
             consumoYearMonthTotalValueMap.put(l, 0.0f);
@@ -694,6 +727,19 @@ public class HistoricoFragment extends Fragment implements AdapterView.OnItemSel
 
         //TODO ---------------------------------------------------------------------------------------------------------##################################
         // Pegar mapa de consumos por mes. Utilizar funcao de pegar consumo medio que ja esta pronta. Iterar em cada label e montar sublistas e mandar para essa funcao
+        for(String label : labels){
+            for(Abastecimento a : abastecimentos){
+                yearMonth = s.format(Date.from(a.getLocalDateTime().atZone(ZoneId.systemDefault()).toInstant()));
+                if(label.equals(yearMonth)){
+                    abastecimentosTemp.add(a);
+                }
+            }
+
+            consumoMedio = getConsumoMedio(abastecimentosTemp);
+            if(consumoMedio > 0.0f){
+                consumoYearMonthTotalValueMap.put(label, consumoYearMonthTotalValueMap.get(label) + consumoMedio);
+            }
+        }
 
         return consumoYearMonthTotalValueMap;
     }
