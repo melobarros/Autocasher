@@ -147,7 +147,7 @@ public class HistoricoFragment extends Fragment implements AdapterView.OnItemSel
         initSpinners();
         //initRegistrosBetweenDates(null, null);
         Log.d(TAG, "initRegistros: onCreateView");
-        periodo_spinner.setSelection(1);
+        periodo_spinner.setSelection(3);
         initRegistrosBetweenDates_scalar(null, null);
 
         return view;
