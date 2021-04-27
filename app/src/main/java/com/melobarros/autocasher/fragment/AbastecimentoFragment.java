@@ -101,6 +101,8 @@ public class AbastecimentoFragment extends Fragment implements AdapterView.OnIte
         initComponentes(view);
         initToolbar();
         initSpinners();
+        periodo_spinner.setSelection(1);
+        ordenarPor_spinner.setSelection(1);
         initAbastecimentosBetweenDates(null, null);
 
         novoAbastecimentoFab.setOnClickListener(new View.OnClickListener() {
@@ -262,7 +264,7 @@ public class AbastecimentoFragment extends Fragment implements AdapterView.OnIte
     }
 
     public void initToolbar(){
-        toolbar.setTitle("");
+        toolbar.setTitle("Abastecimento");
         ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
 
         //((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);

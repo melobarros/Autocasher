@@ -102,6 +102,8 @@ public class LembreteFragment extends Fragment implements AdapterView.OnItemSele
         //initLembretes();
         initToolbar();
         initSpinners();
+        periodo_spinner.setSelection(1);
+        ordenarPor_spinner.setSelection(1);
         initLembretesBetweenDates(null, null);
 
         fab.setOnClickListener(new View.OnClickListener() {
@@ -155,7 +157,7 @@ public class LembreteFragment extends Fragment implements AdapterView.OnItemSele
     }
 
     public void initToolbar(){
-        toolbar.setTitle("");
+        toolbar.setTitle("Lembrete");
         ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
 
         //getSupportActionBar().setDisplayHomeAsUpEnabled(true);

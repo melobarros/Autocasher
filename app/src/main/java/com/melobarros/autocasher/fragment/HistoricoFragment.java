@@ -147,6 +147,7 @@ public class HistoricoFragment extends Fragment implements AdapterView.OnItemSel
         initSpinners();
         //initRegistrosBetweenDates(null, null);
         Log.d(TAG, "initRegistros: onCreateView");
+        periodo_spinner.setSelection(1);
         initRegistrosBetweenDates_scalar(null, null);
 
         return view;
@@ -168,7 +169,7 @@ public class HistoricoFragment extends Fragment implements AdapterView.OnItemSel
     }
 
     public void initToolbar(){
-        toolbar.setTitle("");
+        toolbar.setTitle("Estatísticas");
         ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
 
         //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -524,9 +525,9 @@ public class HistoricoFragment extends Fragment implements AdapterView.OnItemSel
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void updateDespesasTipo(){
         List<Integer> colors = new ArrayList<Integer>();
-        colors.add(Color.rgb(202,97,48));
-        colors.add(Color.rgb(218,116,185));
-        colors.add(Color.rgb(116,218,199));
+        colors.add(Color.rgb(201, 133, 101));
+        colors.add(Color.rgb(214, 159, 196));
+        colors.add(Color.rgb(158, 219, 208));
 
         PieData pieData = new PieData(getDespesasTipoDataSet());
         List<String> labels = getDespesaLabels();
@@ -639,9 +640,9 @@ public class HistoricoFragment extends Fragment implements AdapterView.OnItemSel
         for(Gasto g : gastos){ gastoSubtotal = gastoSubtotal + g.getValorTotal(); }
         for(Manutencao m : manutencoes){ manutencaoSubtotal = manutencaoSubtotal + m.getValor(); }
 
-        colors.add(Color.rgb(202,97,48));
-        colors.add(Color.rgb(218,116,185));
-        colors.add(Color.rgb(116,218,199));
+        colors.add(Color.rgb(201, 133, 101));
+        colors.add(Color.rgb(214, 159, 196));
+        colors.add(Color.rgb(158, 219, 208));
 
         total = abastecimentoSubtotal + gastoSubtotal + manutencaoSubtotal;
 
@@ -680,9 +681,13 @@ public class HistoricoFragment extends Fragment implements AdapterView.OnItemSel
 
         LineDataSet lineDataSet = new LineDataSet(lineEntries, "Consumo");
         lineDataSet.setAxisDependency(YAxis.AxisDependency.LEFT);
-        lineDataSet.setColor(Color.rgb(21,48,97));
+        lineDataSet.setColor(Color.rgb(201, 133, 101));
         lineDataSet.setValueTextColor(Color.rgb(64,6,6));
         lineDataSet.setValueTextSize(11f);
+
+        lineDataSet.setCircleColor(Color.rgb(133, 82, 58));
+        lineDataSet.setLineWidth(5);
+        lineDataSet.setCircleHoleColor(Color.rgb(133, 82, 58));
 
         lineDataSet.setHighlightEnabled(false);
 
@@ -703,7 +708,7 @@ public class HistoricoFragment extends Fragment implements AdapterView.OnItemSel
 
         BarDataSet barDataSet = new BarDataSet(barEntries, "Gastos");
         barDataSet.setAxisDependency(YAxis.AxisDependency.LEFT);
-        barDataSet.setColor(Color.rgb(21,48,97));
+        barDataSet.setColor(Color.rgb(214, 159, 196));
         barDataSet.setValueTextColor(Color.rgb(64,6,6));
         barDataSet.setValueTextSize(11f);
 
@@ -726,7 +731,7 @@ public class HistoricoFragment extends Fragment implements AdapterView.OnItemSel
 
         BarDataSet barDataSet = new BarDataSet(barEntries, "Gastos");
         barDataSet.setAxisDependency(YAxis.AxisDependency.LEFT);
-        barDataSet.setColor(Color.rgb(21,48,97));
+        barDataSet.setColor(Color.rgb(214, 159, 196));
         barDataSet.setValueTextColor(Color.rgb(64,6,6));
         barDataSet.setValueTextSize(11f);
 
@@ -780,7 +785,7 @@ public class HistoricoFragment extends Fragment implements AdapterView.OnItemSel
             //Date.from(g.getLocalDateTime().atZone(ZoneId.systemDefault()).toInstant())
             yearMonth = s.format(Date.from(g.getLocalDateTime().atZone(ZoneId.systemDefault()).toInstant()));
             gastoYearMonthTotalValueMap.put(yearMonth, gastoYearMonthTotalValueMap.get(yearMonth) + g.getValorTotal());
-            Log.d(TAG, "##### Mes: " + yearMonth + " #### ValorTotal: " + g.getValorTotal() + " #### ListIndex: " + labels.indexOf(yearMonth));
+            //Log.d(TAG, "##### Mes: " + yearMonth + " #### ValorTotal: " + g.getValorTotal() + " #### ListIndex: " + labels.indexOf(yearMonth));
             //map.put(key, map.get(key) + valueToAdd);
         }
 

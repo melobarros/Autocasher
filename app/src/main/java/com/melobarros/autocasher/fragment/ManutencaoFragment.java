@@ -100,6 +100,8 @@ public class ManutencaoFragment extends Fragment implements AdapterView.OnItemSe
 
         initToolbar();
         initSpinners();
+        periodo_spinner.setSelection(1);
+        ordenarPor_spinner.setSelection(1);
         initManutencoesBetweenDates(null, null);
 
         fab.setOnClickListener(new View.OnClickListener() {
@@ -154,7 +156,7 @@ public class ManutencaoFragment extends Fragment implements AdapterView.OnItemSe
 
 
     public void initToolbar(){
-        toolbar.setTitle("");
+        toolbar.setTitle("Manutenção");
         ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
 
         //getSupportActionBar().setDisplayHomeAsUpEnabled(true);

@@ -112,6 +112,8 @@ public class GastoFragment extends Fragment implements AdapterView.OnItemSelecte
 
         initToolbar();
         initSpinners();
+        periodo_spinner.setSelection(1);
+        ordenarPor_spinner.setSelection(1);
         initGastosBetweenDates(null, null);
 
         fab.setOnClickListener(new View.OnClickListener() {
@@ -174,7 +176,7 @@ public class GastoFragment extends Fragment implements AdapterView.OnItemSelecte
     }
 
     public void initToolbar(){
-        toolbar.setTitle("");
+        toolbar.setTitle("Gasto");
         ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
 
         //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
