@@ -82,13 +82,12 @@
             </LinearLayout>
 
             <TextView
-                android:id="@+id/lembrete_repeatEvery_textView"
+                android:id="@+id/lembrete_local_textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:drawableLeft="@drawable/ic_autorenew_black_24dp"
+                android:drawableLeft="@drawable/ic_location_on_black_24dp"
                 android:drawablePadding="2dp"
-                android:text="Repetir a cada" />
+                android:text="Local" />
 
             <LinearLayout
                 android:id="@+id/lembrete_sub_item"
@@ -110,14 +109,6 @@
                         android:drawableLeft="@drawable/ic_attach_money_black_24dp"
                         android:drawablePadding="2dp"
                         android:text="Valor previsto" />
-
-                    <TextView
-                        android:id="@+id/lembrete_local_textView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:drawableLeft="@drawable/ic_location_on_black_24dp"
-                        android:drawablePadding="2dp"
-                        android:text="Local" />
 
                     <TextView
                         android:id="@+id/lembrete_observacao_textView"

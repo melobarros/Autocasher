@@ -70,7 +70,7 @@ public class AdapterLembrete extends RecyclerView.Adapter<AdapterLembrete.Lembre
         holder.observacao.setText(lembrete.getObservacao());
         holder.valorPrevisto.setText("R$ " + String.format("%.02f", lembrete.getValorPrevisto()));
         holder.descricao.setText(lembrete.getDescricao());
-        holder.repetirCada.setText("Repetir a cada " + String.valueOf(lembrete.getRepetirCada()) + " meses");
+        //holder.repetirCada.setText("Repetir a cada " + String.valueOf(lembrete.getRepetirCada()) + " meses");
         holder.local.setText(lembrete.getLocal());
         holder.subItem.setVisibility(lembrete.isExpanded() ? View.VISIBLE : View.GONE);
 
@@ -120,7 +120,6 @@ public class AdapterLembrete extends RecyclerView.Adapter<AdapterLembrete.Lembre
 
     public class LembreteViewHolder extends RecyclerView.ViewHolder {
         TextView descricao;
-        TextView repetirCada;
         TextView dateTime;
         TextView valorPrevisto;
         TextView tipo;
@@ -136,7 +135,7 @@ public class AdapterLembrete extends RecyclerView.Adapter<AdapterLembrete.Lembre
             super(itemView);
 
             descricao = itemView.findViewById(R.id.lembrete_descricao_textView);
-            repetirCada = itemView.findViewById(R.id.lembrete_repeatEvery_textView);
+            //repetirCada = itemView.findViewById(R.id.lembrete_repeatEvery_textView);
             dateTime = itemView.findViewById(R.id.lembrete_data_textView);
             valorPrevisto = itemView.findViewById(R.id.lembrete_valorPrevisto_textView);
             tipo = itemView.findViewById(R.id.lembrete_tipoRegistro_textView);

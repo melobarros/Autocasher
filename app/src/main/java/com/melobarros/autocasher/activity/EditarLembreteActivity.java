@@ -40,7 +40,7 @@ public class EditarLembreteActivity extends AppCompatActivity implements DatePic
 
     private static final String TAG = "EditarLembreteActivity";
 
-    public TextInputEditText descricaoLembrete, valorLembrete, dataLembrete, localLembrete, observacaoLembrete, repetirCadaLembrete;
+    public TextInputEditText descricaoLembrete, valorLembrete, dataLembrete, localLembrete, observacaoLembrete;
     public Button btnSalvar, btnDescartar;
     public ImageButton btnDataPicker;
 
@@ -110,7 +110,6 @@ public class EditarLembreteActivity extends AppCompatActivity implements DatePic
         final Lembrete l = new Lembrete();
         LocalDateTime dt = LocalDate.parse(dataLembrete.getText().toString(), formatter).atStartOfDay();
 
-        tempRepetirCada = verificaNulo(repetirCadaLembrete.getText().toString());
         tempValorPrevisto = verificaNuloFloat(valorLembrete.getText().toString());
 
         l.setDescricao(descricaoLembrete.getText().toString());
@@ -118,7 +117,7 @@ public class EditarLembreteActivity extends AppCompatActivity implements DatePic
         l.setDateTime(dt.toString());
         l.setLocal(localLembrete.getText().toString());
         l.setObservacao(observacaoLembrete.getText().toString());
-        l.setRepetirCada(tempRepetirCada);
+        l.setRepetirCada(0);
         l.setTipo("lembrete");
 
         Call<Lembrete> requestInsert = autocasherAPI.insertLembrete(l);
@@ -152,7 +151,6 @@ public class EditarLembreteActivity extends AppCompatActivity implements DatePic
         final Lembrete l = (Lembrete) getIntent().getSerializableExtra("Lembrete");
         LocalDateTime dt = LocalDate.parse(dataLembrete.getText().toString(), formatter).atStartOfDay();
 
-        tempRepetirCada = verificaNulo(repetirCadaLembrete.getText().toString());
         tempValorPrevisto = verificaNuloFloat(valorLembrete.getText().toString());
 
         l.setDescricao(descricaoLembrete.getText().toString());
@@ -160,7 +158,7 @@ public class EditarLembreteActivity extends AppCompatActivity implements DatePic
         l.setDateTime(dt.toString());
         l.setLocal(localLembrete.getText().toString());
         l.setObservacao(observacaoLembrete.getText().toString());
-        l.setRepetirCada(tempRepetirCada);
+        l.setRepetirCada(0);
         l.setTipo("lembrete");
 
         Call<Lembrete> requestUpdate = autocasherAPI.updateLembrete(l);
@@ -203,13 +201,13 @@ public class EditarLembreteActivity extends AppCompatActivity implements DatePic
         dataLembrete.setText(lembrete.getLocalDateTime().format(formatter));
         localLembrete.setText(lembrete.getLocal());
         observacaoLembrete.setText(lembrete.getObservacao());
-        repetirCadaLembrete.setText(String.valueOf(lembrete.getRepetirCada()));
+        //repetirCadaLembrete.setText(String.valueOf(lembrete.getRepetirCada()));
     }
 
     public void setInitNumbers(){
         valorLembrete.setText("0.0");
         dataLembrete.setText(LocalDateTime.now().format(formatter));
-        repetirCadaLembrete.setText("0");
+        //repetirCadaLembrete.setText("0");
     }
 
     public void initService(){
@@ -249,7 +247,7 @@ public class EditarLembreteActivity extends AppCompatActivity implements DatePic
         dataLembrete = findViewById(R.id.dataLembrete_input);
         dataLembrete.setFocusable(false);
         localLembrete = findViewById(R.id.localLembrete_input);
-        repetirCadaLembrete = findViewById(R.id.repetirCadaLembrete_input);
+        //repetirCadaLembrete = findViewById(R.id.repetirCadaLembrete_input);
         observacaoLembrete = findViewById(R.id.observacaoLembrete_input);
         btnDescartar = findViewById(R.id.descartarLembrete_button);
         btnSalvar = findViewById(R.id.salvarLembrete_button);

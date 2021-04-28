@@ -143,7 +143,7 @@ public class HistoricoFragment extends Fragment implements AdapterView.OnItemSel
         initStatsElements(view);
         initToolbar();
         initService();
-        initService_scalar();
+        initService_scalar(); 
         initSpinners();
         //initRegistrosBetweenDates(null, null);
         Log.d(TAG, "initRegistros: onCreateView");

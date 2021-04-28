@@ -83,21 +83,6 @@
             android:padding="10dp">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/repetirCadaLembrete_input"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_autorenew_black_24dp"
-                android:drawablePadding="10dp"
-                android:hint="Repetir a cada x meses"
-                android:inputType="number" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="10dp">
-
-            <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/localLembrete_input"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
