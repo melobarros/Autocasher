@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "737588774123",
+    "project_id": "autocasher-b1232",
+    "storage_bucket": "autocasher-b1232.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:737588774123:android:178654c6e9879eeaa7aaae",
+        "android_client_info": {
+          "package_name": "com.melobarros.autocasher"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "737588774123-3il633m5jh259dtssn1b5ps91c7uqdm9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAV2HjZUhaCNYEy4Q0qKYh5YqUrvN4qsOc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "737588774123-3il633m5jh259dtssn1b5ps91c7uqdm9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
