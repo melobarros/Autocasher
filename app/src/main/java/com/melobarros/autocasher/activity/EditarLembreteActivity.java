@@ -22,12 +22,18 @@ import com.melobarros.autocasher.fragment.DatePickerFragment;
 import com.melobarros.autocasher.model.Lembrete;
 import com.melobarros.autocasher.model.Manutencao;
 import com.melobarros.autocasher.services.autocasherAPI;
+import com.melobarros.autocasher.utils.GoogleFormLembrete;
 
+import org.jetbrains.annotations.NotNull;
+
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
+import okhttp3.Request;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -49,6 +55,7 @@ public class EditarLembreteActivity extends AppCompatActivity implements DatePic
     autocasherAPI autocasherAPI;
 
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MMM/yyyy");
+    DateTimeFormatter formatterShort = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     Integer tempRepetirCada;
     Float tempValorPrevisto;
 
@@ -106,6 +113,58 @@ public class EditarLembreteActivity extends AppCompatActivity implements DatePic
         dataLembrete.setText(date);
     }
 
+    private GoogleFormLembrete setupFormLembrete(Lembrete lembrete, String acao){
+        GoogleFormLembrete form = new GoogleFormLembrete();
+        form.setId(String.valueOf(lembrete.getId()));
+        form.setDescricao(lembrete.getDescricao());
+        form.setValorPrevisto("R$ " + String.format("%.02f", lembrete.getValorPrevisto()));
+        form.setDataLembrete(lembrete.getLocalDateTime().format(formatterShort));
+        form.setLocal(lembrete.getLocal());
+        form.setObservacao(lembrete.getObservacao());
+        form.setAcao(acao);
+
+        return form;
+    }
+
+    private void postFormLembrete(GoogleFormLembrete form){
+        try {
+            OkHttpClient client = new OkHttpClient();
+            FormBody body = new FormBody.Builder()
+                    .add( "entry.1656527820", form.getId() )
+                    .add( "entry.396537152", form.getDescricao() )
+                    .add( "entry.424100007", form.getValorPrevisto() )
+                    .add( "entry.1516873583", form.getDataLembrete() )
+                    .add( "entry.1930651737", form.getLocal() )
+                    .add( "entry.2077132507", form.getObservacao() )
+                    .add( "entry.1165123994", form.getAcao() )
+                    .build();
+            Request request = new Request.Builder()
+                    .url( "https://docs.google.com/forms/d/e/1FAIpQLSesVzR68prhsHdaJa_eIWzV2dZlgyqsiZN1pGRqdzY-o19hiA/formResponse" )
+                    .post( body )
+                    .build();
+            client.newCall( request ).enqueue(new okhttp3.Callback() {
+                @Override
+                public void onFailure(@NotNull okhttp3.Call call, @NotNull IOException e) {
+                    Log.v(TAG, "Erro Google Form Post: " + e.getMessage());
+                }
+
+                @Override
+                public void onResponse(@NotNull okhttp3.Call call, @NotNull okhttp3.Response response) throws IOException {
+                    if(!response.isSuccessful()){
+                        Log.v(TAG, "Erro ao postar no Google Form! [" + response.toString() + "]");
+                    } else{
+                        Log.v(TAG, "Sucesso ao postar no Google Form!");
+                    }
+                }
+            });
+
+
+        }
+        catch ( Exception e ) {
+            e.printStackTrace();
+        }
+    }
+
     private void createLembrete(final Context c){
         final Lembrete l = new Lembrete();
         LocalDateTime dt = LocalDate.parse(dataLembrete.getText().toString(), formatter).atStartOfDay();
@@ -131,6 +190,9 @@ public class EditarLembreteActivity extends AppCompatActivity implements DatePic
                     return;
                 } else{
                     if (response.body().getId() > 0) {
+                        GoogleFormLembrete form = setupFormLembrete(response.body(), "CREATE");
+                        postFormLembrete(form);
+
                         Toast.makeText(c, "LEMBRETE INSERIDO COM SUCESSO",Toast.LENGTH_SHORT).show();
                         finish();
                     } else{
@@ -171,6 +233,9 @@ public class EditarLembreteActivity extends AppCompatActivity implements DatePic
                     return;
                 } else{
                     if (l.getId() == response.body().getId()) {
+                        GoogleFormLembrete form = setupFormLembrete(response.body(), "UPDATE");
+                        postFormLembrete(form);
+
                         Toast.makeText(c, "LEMBRETE ATUALIZADO COM SUCESSO",Toast.LENGTH_SHORT).show();
                         finish();
                     } else{
