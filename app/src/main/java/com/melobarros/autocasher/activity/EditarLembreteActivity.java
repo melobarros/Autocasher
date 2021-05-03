@@ -131,7 +131,7 @@ public class EditarLembreteActivity extends AppCompatActivity implements DatePic
                     return;
                 } else{
                     if (response.body().getId() > 0) {
-                        Toast.makeText(c, "LEMBRETE INSERIDA COM SUCESSO",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(c, "LEMBRETE INSERIDO COM SUCESSO",Toast.LENGTH_SHORT).show();
                         finish();
                     } else{
                         Toast.makeText(c, "FALHA AO INSERIR LEMBRETE",Toast.LENGTH_SHORT).show();
@@ -171,7 +171,7 @@ public class EditarLembreteActivity extends AppCompatActivity implements DatePic
                     return;
                 } else{
                     if (l.getId() == response.body().getId()) {
-                        Toast.makeText(c, "LEMBRETE ATUALIZADA COM SUCESSO",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(c, "LEMBRETE ATUALIZADO COM SUCESSO",Toast.LENGTH_SHORT).show();
                         finish();
                     } else{
                         Toast.makeText(c, "FALHA AO ATUALIZAR LEMBRETE",Toast.LENGTH_SHORT).show();
